@@ -4,7 +4,7 @@ export const profile = {
   company: "Locale",
   companyUrl: "https://www.shoplocale.com",
   about: [
-    "I'm a product-forward designer passionate about 0→1 problems. As the team's solo creative since 2020, I've owned design across three iterations and two pivotsof Locale including: UX, UI, branding, design systems, and front-end dev. Whatever I'm building starts with talking to customers, and ends with me shipping it in code.",
+    "I'm a product-forward designer passionate about 0→1 problems. As the team's solo creative since 2020, I've owned design across two pivots of Locale including: UX, UI, branding, design systems, and front-end dev. Everything I build starts with customer conversations, and ends with shipped code",
   ],
   email: "hello@avto.design",
   linkedin: "https://www.linkedin.com/in/avto",
