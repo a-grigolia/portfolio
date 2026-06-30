@@ -4,7 +4,7 @@ export default function Hero({ eyebrow, title, subtitle, stats }) {
   return (
     <header>
       {eyebrow ? (
-        <p className="font-sans text-[16px] font-medium uppercase tracking-[0.22em] text-accent">
+        <p className="font-sans text-[14px] font-medium normal-case tracking-normal text-accent">
           {eyebrow}
         </p>
       ) : null}

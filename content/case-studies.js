@@ -316,7 +316,14 @@ export const caseStudies = {
   "locale-3": {
     eyebrow: "Scale",
     title: "Locale 3.0",
-    subtitle: "Meals designed for Longevity.",
+    subtitle: (
+      <>
+        Meals designed for Longevity. This is the most recent iteration of the company — check it out at{" "}
+        <a href="https://www.shoplocale.com" target="_blank" rel="noopener noreferrer">
+          shoplocale.com →
+        </a>
+      </>
+    ),
     stats: [
       { label: "Run rate", value: "$40M" },
       { label: "W1 retention", value: "70%" },

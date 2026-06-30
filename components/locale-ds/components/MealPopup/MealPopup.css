@@ -178,7 +178,7 @@ font-size: 24px;
 line-height: 32px; /* 133.333% */
 }
 
-p {
+.popup-panel p {
 color: var(--Neutrals-900, #1e1e20);
 /* Paragraph/01/Normal */
 font-family: Figtree;

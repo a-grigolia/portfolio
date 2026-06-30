@@ -16,7 +16,7 @@
   --muted: #8b8780;
   --subtle: #6b6862;
   --border: #e7e3da;
-  --card: #f0ede6;
+  --card: rgba(0, 0, 0, 0.025);
   --accent: #b1502b;
 }
 
@@ -26,7 +26,7 @@
   --muted: #7d7a73;
   --subtle: #a6a29a;
   --border: #262420;
-  --card: #1a1916;
+  --card: rgba(255, 255, 255, 0.025);
   --accent: #e07a4f;
 }
 
