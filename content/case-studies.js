@@ -175,7 +175,7 @@ export const caseStudies = {
             type: "prose",
             heading: "Context",
             paragraphs: [
-              "Long-term retention dropped from 15% to 8% when covid ended. We were burning more than $600K a month trying to grow a marketplace that didn’t have a real PMF once people could leave their homes again.",
+              "Long-term retention dropped from 15% to 8% when covid ended. We were burning more than $600K a month trying to grow a marketplace that didn’t have a real PMF.",
               "After digging through our data, we learned that our best customers were ordering prepared meals over one-off items like baked goods and flowers. It made perfect sense: how often are you going to order a croissant in a month versus a meal you can actually eat for dinner?",
               "We moved toward an opt-out subscription model built around prepared meals. Recurring revenue, recurring customers, and a reason to come back every week instead of every once in a while.",
             ],
