@@ -1,10 +1,10 @@
 function MetricCard({ value, label }) {
   return (
     <div className="rounded-2xl bg-card p-6">
-      <p className="font-serif text-3xl tracking-tight text-foreground">
+      <p className="font-sans text-[16px] tracking-tight text-foreground">
         {value}
       </p>
-      <p className="mt-2 text-sm text-subtle">{label}</p>
+      <p className="mt-2 font-sans text-[16px] text-subtle">{label}</p>
     </div>
   );
 }

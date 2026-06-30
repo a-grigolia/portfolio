@@ -104,7 +104,7 @@ export default function Gallery({ items = [], caption, layout = "cols-3" }) {
               </div>
             )}
             {active.label ? (
-              <p className="mt-4 text-center text-sm text-white/70">
+              <p className="mt-4 text-center font-sans text-[16px] text-white/70">
                 {active.label}
               </p>
             ) : null}

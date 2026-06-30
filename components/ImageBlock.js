@@ -50,7 +50,7 @@ export default function ImageBlock({
           </div>
         )}
         {caption ? (
-          <p className="mt-4 text-center text-sm text-white/70">{caption}</p>
+          <p className="mt-4 text-center font-sans text-[16px] text-white/70">{caption}</p>
         ) : null}
       </Lightbox>
     </figure>

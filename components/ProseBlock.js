@@ -19,11 +19,11 @@ export default function ProseBlock({ heading, paragraphs = [], children }) {
   return (
     <div>
       {heading ? (
-        <h3 className="font-serif text-2xl tracking-tight text-foreground">
+        <h2 className="font-sans text-[18px] font-semibold tracking-tight text-foreground">
           {heading}
-        </h3>
+        </h2>
       ) : null}
-      <div className="mt-4 space-y-5 text-[16px] leading-relaxed text-subtle">
+      <div className="mt-4 space-y-5 font-sans text-[16px] leading-relaxed text-subtle">
         {paragraphs.map((paragraph, i) => (
           <p key={i}>{renderInline(paragraph)}</p>
         ))}
