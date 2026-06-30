@@ -1,0 +1,238 @@
+/* ─── Shared base ─── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  box-sizing: border-box;
+  line-height: 1;
+}
+
+/* ─── Primary CTA ─── */
+
+.btn-primary {
+  height: 44px;
+  padding: 0 var(--space-6);
+  border-radius: var(--radius-pill);
+  background: var(--color-cta-bg);
+  color: var(--color-cta-text);
+}
+
+.btn-primary:hover {
+  background: var(--color-cta-hover-bg);
+}
+
+/* ─── Secondary ─── */
+
+.btn-secondary {
+  height: 44px;
+  padding: 0 var(--space-6);
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-25);
+  color: var(--color-neutral-900);
+}
+
+.btn-secondary:hover {
+  background: var(--color-hover-bg);
+  color: var(--color-hover-text);
+}
+
+/* ─── Ghost (for dark backgrounds) ─── */
+
+.btn-ghost {
+  height: 36px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text-inverse);
+  border: 1px solid var(--color-text-inverse);
+}
+
+.btn-ghost:hover {
+  background: var(--color-text-inverse);
+  color: var(--color-neutral-900);
+}
+
+/* ─── Checkout (full-width primary CTA) ─── */
+
+.btn-checkout {
+  width: 100%;
+  padding: var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-cta-bg);
+  color: var(--color-cta-text);
+  font-size: var(--text-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+.btn-checkout:hover:not(:disabled) {
+  background: var(--color-cta-hover-bg);
+}
+
+.btn-checkout:disabled {
+  background: var(--color-border-light);
+  color: var(--color-text);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ─── Cart ─── */
+
+.btn-cart {
+  height: 36px;
+  padding: var(--space-2) var(--space-4) var(--space-2) var(--space-3);
+  gap: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-100);
+  color: var(--color-brand-green);
+  font-weight: var(--font-weight-bold);
+}
+
+.btn-cart:hover {
+  background: var(--color-brand-green);
+  color: var(--color-neutral-100);
+}
+
+/* ─── Add-to-cart / Qty toggle ─── */
+
+.btn-add-to-cart-wrap {
+  position: relative;
+  width: 100%;
+  height: 40px;
+}
+
+.btn-add-to-cart {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: var(--radius-pill);
+  background: var(--color-tint-5);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--color-neutral-900);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-body);
+  font-size: var(--text-base);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  opacity: 1;
+  transform: scale(1);
+}
+
+.btn-add-to-cart:hover {
+  background: var(--color-hover-bg);
+  color: var(--color-hover-text);
+}
+
+.btn-add-to-cart.hidden {
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+}
+
+.btn-qty-control {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+  background: var(--color-tint-70);
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.btn-qty-control.visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.btn-qty-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-inverse);
+  font-size: 20px;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.btn-qty-btn:active {
+  transform: scale(0.8);
+}
+
+.btn-qty-val {
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-md);
+  font-family: var(--font-family-body);
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ─── Compact QtyStepper (SidecartItem) ─── */
+
+.btn-qty-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+  height: 32px;
+  padding: var(--space-1);
+  box-sizing: border-box;
+  border: 1px solid var(--color-neutral-350);
+  border-radius: var(--radius-full);
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.btn-qty-stepper-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-alt);
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 0;
+  transition: all var(--transition-fast);
+}
+
+.btn-qty-stepper-btn:hover {
+  background: var(--color-hover-bg);
+  color: var(--color-hover-text);
+}
+
+.btn-qty-stepper-val {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-family-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  user-select: none;
+}

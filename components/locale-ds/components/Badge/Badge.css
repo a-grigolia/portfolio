@@ -1,0 +1,36 @@
+.badge {
+  display: inline-flex;
+  height: 24px;
+  padding: 0 var(--space-4);
+  border-radius: 24px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  font-family: var(--font-family-body);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--color-text-inverse);
+  background: var(--color-highlight-default);
+}
+
+.badge-icon {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.badge-icon-only {
+  width: 24px;
+  padding: 0;
+}
+
+.badge-default     { background: var(--color-highlight-default); }
+.badge-new         { background: var(--color-highlight-new); }
+.badge-new-recipe  { background: var(--color-highlight-new-recipe); }
+.badge-premium     { background: var(--color-highlight-premium); }
+.badge-early-access{ background: var(--color-highlight-beta); }
+.badge-vegetarian  { background: var(--color-highlight-vegetarian); padding: 0 16px 0 8px; }
+.badge-spicy       { background: var(--color-highlight-spicy); }
+.badge-signature   { background: var(--color-highlight-signature); }

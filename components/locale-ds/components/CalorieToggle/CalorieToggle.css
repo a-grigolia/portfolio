@@ -1,0 +1,40 @@
+.calorie-toggle {
+  position: relative;
+  display: flex;
+  width: 100%;
+  background: var(--color-toggle-bg);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-family-body);
+}
+
+.calorie-toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 50%;
+  background: var(--color-tint-50);
+  border-radius: var(--radius-full);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.calorie-toggle-option {
+  flex: 1;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  position: relative;
+  z-index: 1;
+  transition: color 0.25s ease;
+}
+
+.calorie-toggle-option.active {
+  color: var(--color-text-inverse);
+}
