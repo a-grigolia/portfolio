@@ -2,7 +2,7 @@ import RichText from "./RichText";
 
 export default function ProseBlock({ heading, paragraphs = [], children }) {
   return (
-    <div className="px-0 pb-12 m-0 lg:px-12">
+    <div className="mb-12 px-0 lg:px-12">
       {heading ? (
         <h2 className="font-sans text-[18px] font-semibold tracking-tight text-foreground">
           {heading}

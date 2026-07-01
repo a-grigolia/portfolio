@@ -1,13 +1,13 @@
 export const profile = {
   name: "Avto Grigolia",
   role: "Founding Designer",
-  company: "Locale →",
+  company: "Locale",
   companyUrl: "https://www.shoplocale.com",
   about: [
     "I'm a product-forward designer passionate about 0→1 problems. As the team's solo creative since 2020, I've owned design across two pivots of Locale including: UX, UI, branding, design systems, and front-end dev. Everything I build starts with the customer and ends with shipped code. Lifelong learner.",
   ],
-  email: "hello@avto.design",
-  linkedin: "https://www.linkedin.com/in/avto",
+  email: "a.grigolia123@gmail.com",
+  linkedin: "https://www.linkedin.com/in/avto-grigolia/",
   linkedinLabel: "LinkedIn",
 };
 

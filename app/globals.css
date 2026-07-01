@@ -17,7 +17,7 @@
   --subtle: #6b6862;
   --border: #e7e3da;
   --card: rgba(0, 0, 0, 0.025);
-  --accent: #b1502b;
+  --accent: #ba3939;
 }
 
 .dark {
@@ -26,8 +26,8 @@
   --muted: #7d7a73;
   --subtle: #a6a29a;
   --border: #262420;
-  --card: rgba(255, 255, 255, 0.025);
-  --accent: #e07a4f;
+  --card: rgba(255, 255, 255, 0.05);
+  --accent: #ba3939;
 }
 
 @theme inline {

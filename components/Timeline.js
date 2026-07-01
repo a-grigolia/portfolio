@@ -11,9 +11,9 @@ function Dot({ className }) {
 
 function TimelineRow({ slug, title, subtitle, stats, year, yearTop, isFirst }) {
   return (
-    <div className="flex gap-6">
+    <div className="flex min-h-[144px] gap-6 sm:min-h-0">
       {/* Year rail + connecting line */}
-      <div className="flex w-24 shrink-0 items-stretch justify-end gap-[26px]">
+      <div className="flex w-16 shrink-0 items-stretch justify-end gap-[16px]">
         <div
           className={`flex w-16 flex-col text-right mb-[-10px] text-sm leading-[22px] text-subtle ${
             yearTop ? "justify-between" : "justify-end"
@@ -30,7 +30,7 @@ function TimelineRow({ slug, title, subtitle, stats, year, yearTop, isFirst }) {
       {/* Entry */}
       <Link
         href={`/work/${slug}`}
-        className="group flex flex-1 flex-col gap-2 py-4"
+        className="group flex flex-1 flex-col justify-center gap-2 py-4 sm:min-h-0"
       >
         <h3 className="text-lg font-semibold leading-tight text-foreground transition-colors group-hover:text-accent">
           {title}

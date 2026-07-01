@@ -4,12 +4,12 @@ import { profile, work } from "@/content/site";
 export default function HomePage() {
   return (
     <div className="mx-auto max-w-[720px] px-6 py-16 sm:py-24">
-      <div className="space-y-16">
+      <div className="space-y-12">
         <section className="space-y-6">
-          <h1 className="text-4xl font-bold leading-tight text-foreground">
+          <h1 className="text-4xl mb-4 font-bold leading-tight text-foreground">
             {profile.name}
           </h1>
-          <p className="text-base leading-6 text-foreground">
+          <p className="text-base mb-8 leading-6 text-foreground">
             Currently {profile.role} at{" "}
             <a
               href={profile.companyUrl}
@@ -30,12 +30,12 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="space-y-8">
+        <section className="space-y-6 mb-16">
           <h2 className="text-lg font-semibold text-foreground">Work</h2>
           <Timeline items={work} />
         </section>
 
-        <section className="space-y-4">
+        <section className="space-y-6 mb-12">
           <h2 className="text-lg font-semibold text-foreground">Connect</h2>
           <div className="flex flex-col text-base leading-6">
             <a

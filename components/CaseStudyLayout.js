@@ -65,11 +65,11 @@ export default function CaseStudyLayout({
         </div>
 
         <div className="mt-20">
-          {sections.map((section) => (
+          {sections.map((section, i) => (
             <section
               key={section.id}
               id={section.id}
-              className="scroll-mt-24 border-t border-border/60 py-12 first:border-t-0 first:pt-0"
+              className={`scroll-mt-24 ${i === 0 ? "" : "py-6"}`}
             >
               <div className="space-y-12">
                 {section.blocks.map((block, i) => (

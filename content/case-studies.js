@@ -155,7 +155,7 @@ export const caseStudies = {
             ],
             quote: {
               text: "“Locale, a curated food delivery start-up, has raised $14 million in a round led by Andreessen Horowitz.”",
-              attribution: "[**Forbes 2022 →**](https://www.forbes.com/sites/jonathankeane/2022/05/17/locale-raises-14-million-for-its-curated-food-delivery-platform/)",
+              attribution: "[**Forbes 2022**](https://www.forbes.com/sites/jonathankeane/2022/05/17/locale-raises-14-million-for-its-curated-food-delivery-platform/)",
             },
           },
         ],
@@ -300,7 +300,6 @@ export const caseStudies = {
               "By the end, I was designing and shipping my own work on the front end. The thing that started as a crisis became one of the most important skills I picked up at Locale.",
               "But the product never fully found its footing. Locale 2.0 was always searching for a better PMF, and our only real edge was being the cheapest way to get good prepared meals from restaurants. We told ourselves the convenient truth that “margins will get better with scale” — and they didn’t.",
               "We had $1M left in the bank and 4 months of runway. We knew we needed to drastically change something to turn the company around.",
-              "So we made the biggest bet of the company’s life →",
             ],
           },
           {
@@ -329,9 +328,9 @@ export const caseStudies = {
           href="https://www.shoplocale.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-bold underline underline-offset-2 transition-colors hover:text-accent"
+          className="font-semibold underline underline-offset-2 transition-colors hover:text-accent"
         >
-          shoplocale.com →
+          shoplocale.com
         </a>
       </>
     ),
