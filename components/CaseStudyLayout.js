@@ -20,6 +20,9 @@ function Block({ block }) {
           caption={block.caption}
           ratio={block.ratio}
           fit={block.fit}
+          shadow={block.shadow}
+          border={block.border}
+          radius={block.radius}
         />
       );
     case "gallery":
@@ -52,7 +55,7 @@ export default function CaseStudyLayout({
       <div className="mx-auto max-w-[720px]">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-foreground"
+          className="inline-flex items-center gap-1.5 px-12 text-sm text-muted transition-colors hover:text-foreground"
         >
           <span aria-hidden="true">←</span> Back
         </Link>
@@ -66,7 +69,7 @@ export default function CaseStudyLayout({
             <section
               key={section.id}
               id={section.id}
-              className="scroll-mt-24 border-t border-border/60 py-16 first:border-t-0 first:pt-0"
+              className="scroll-mt-24 border-t border-border/60 py-12 first:border-t-0 first:pt-0"
             >
               <div className="space-y-12">
                 {section.blocks.map((block, i) => (

@@ -1,3 +1,5 @@
+import RichText from "./RichText";
+
 function MetricCard({ value, label }) {
   return (
     <div className="rounded-2xl bg-card p-6">
@@ -39,7 +41,7 @@ export default function Metrics({ cards = [], quote, layout }) {
           </blockquote>
           {quote.attribution ? (
             <figcaption className="text-sm text-subtle">
-              {quote.attribution}
+              <RichText>{quote.attribution}</RichText>
             </figcaption>
           ) : null}
         </figure>

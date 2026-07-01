@@ -20,7 +20,7 @@ export const caseStudies = {
             type: "prose",
             heading: "Context",
             paragraphs: [
-              "When I joined Locale, it was called Organic on the Go — a Google Form collecting orders from the local farmers market for family and friends in Los Gatos, CA. I was originally contacted to make a quick logo for the form, but I was onboarded as a co-founder to own the entire design function: building out the platform, the user experience, and establishing the brand.",
+              "When I joined Locale, it was called Organic on the Go — a Google Form collecting orders from family and friends for the local farmers market in Los Gatos, CA. I was originally contacted to make a quick logo for the form, but ended up on the founding team to own the entire design function: building out the platform, user experience, and conceptualizing the brand.",
               "Locale went on to become a full-blown marketplace, go through YC (S21), raise $14MM from a16z at a $74MM valuation, and expand nationwide — until we were forced to pivot after losing PMF.",
             ],
           },
@@ -43,12 +43,12 @@ export const caseStudies = {
             type: "prose",
             heading: "Establishing PMF & Brand",
             paragraphs: [
-              "Due to covid restrictions people were weary to leave their homes, but still wanted access to the neighborhood bakery and local farmers market; even if they left their house to access these services, they were forced to wait in lines that would sometimes wrap around the block. Because of this, we began gaining a very healthy amount of momentum through the form.",
-              "The name “Organic on the Go” was descriptive and not going to scale.",
-              "We decided a name change was necessary, so I ran a branding exercise with the rest of the founding team that landed on **Locale** — the word for your local community, which was exactly who we were serving. We wanted Locale to be like a family friend who shows you all of the best spots to eat in the area, one that makes you feel like a local when you visit for the first time.",
-              "The ethos of the brand was to put our vendors first, because we were nothing without them, accessible to as many people as possible, and selective of what we put on the platform so we were curating only the best products.",
+              "Due to COVID-19 restrictions, people were wary of leaving their homes but still wanted access to their neighborhood bakery and local farmer’s market.  If they did end up stepping out, they were forced to wait in lines that would sometimes wrap around the block. Because of this, the form began to gain healthy momentum.",
+              "But, the name “Organic on the Go” was too literal to ever feel like a unicorn.",
+              "We decided a name change was necessary, so I ran a branding exercise with the rest of the founding team that landed on Locale — the word for your local community, which was exactly who we were serving. We wanted Locale to be like a family friend who shows you all of the best eateries in the area, one that makes you feel like a local when you visit for the first time.",
               "Our tagline became “Eat Local, Shop Locale.”",
-              "Everything you see below was made by me, done before AI could generate images.",
+              "The brand's ethos rested on three things: put vendors first; stay accessible to as many people as possible; and be selective about what we put on the platform, curating only the best products.",
+              "Several logo iterations, color palettes, and packaging designs later, I translated that identity into a complete visual system.",
             ],
           },
           {
@@ -64,6 +64,9 @@ export const caseStudies = {
             label: "Brand graphics and iconography",
             caption: "Colors, Graphics, and Iconography",
             ratio: "3220 / 1620",
+            shadow: false,
+            border: false,
+            radius: false,
           },
           {
             type: "image",
@@ -82,13 +85,14 @@ export const caseStudies = {
             type: "prose",
             heading: "The build",
             paragraphs: [
-              "We needed to move off the Google Form fast, and it was up to me to decide how. With no prior coding knowledge and no technical co-founder, Webflow gave me the best ability to ship and iterate quickly without waiting on anyone.",
-              "What resulted was a front end built entirely in Webflow, with Airtable acting as a working backend and a handful of third-party apps glued together to make it hum.",
+              "As momentum grew we needed to move off the Google Form fast, and it was up to me to decide how. With no prior coding knowledge and no technical co-founder, Webflow gave me the best ability to ship and iterate quickly without waiting on anyone.",
+              "What resulted was a front end built entirely in Webflow, with Airtable acting as a working backend, glued together by a handful of third-party apps to make it hum.",
               "It wasn’t elegant, but that was the point. I could change anything on the site in an afternoon — test a layout, reorder a category, redesign a page — and see how customers responded by the weekend.",
-              "Working without engineers meant I got to solve problems I had no business solving alone: geotagging subdomains so each region had its own storefront, building checkout around delivery dates instead of instant carts, designing every product, vendor, and category page on the platform.",
-              "That speed, more than any single decision, is what got us through Y Combinator, helped us raise from a16z, and let us go nationwide.",
-              "Over three years, the same stack carried the marketplace from a scrappy first launch to a polished storefront — every page designed and shipped by me.",
+              "Working without engineers meant I got to solve problems I had no business solving alone: geotagging subdomains so each region had its own storefront; building filters for better discoverability; implementing overengineered search engines.",
+              "Having speed as a core tenet of our team, more than any single decision, is what got us through Y Combinator, helped us raise from a16z, and allowed us to go nationwide.",
+              "Over three years, I designed and shipped every page in that same stack, carrying the marketplace from a scrappy first launch to a polished storefront.",
             ],
+       
           },
           {
             type: "image",
@@ -97,6 +101,8 @@ export const caseStudies = {
             caption: "The system that made the marketplace work",
             ratio: "2580 / 928",
             fit: "contain",
+            shadow: false,
+            border: false,
           },
           {
             type: "image",
@@ -104,16 +110,16 @@ export const caseStudies = {
             label: "Webflow dashboard",
             caption: "Webflow dashboard, where the magic happened",
             ratio: "720 / 451",
-            fit: "contain",
+            fit: "cover",
           },
           {
             type: "gallery",
             layout: "cols-3",
             caption: "Home, Product & Vendor pages",
             items: [
-              { src: `${IMG}/build-socal.png`, label: "SoCal regional storefront", ratio: "865 / 4096" },
-              { src: `${IMG}/build-bibimbap.png`, label: "Product page — bibimbap", ratio: "1335 / 4096" },
-              { src: `${IMG}/build-pizzana.png`, label: "Vendor page — La Pizzana", ratio: "1355 / 4096", fit: "contain" },
+              { src: `${IMG}/build-socal.jpg`, label: "SoCal regional homepage", ratio: "865 / 4096" },
+              { src: `${IMG}/build-bibimbap.jpg`, label: "Product page for some bibimbap", ratio: "1335 / 4096" },
+              { src: `${IMG}/build-pizzana.jpg`, label: "Vendor page for Pizzana, a restaurant in LA", ratio: "1355 / 4096", fit: "contain" },
             ],
           },
           {
@@ -121,8 +127,8 @@ export const caseStudies = {
             layout: "grid-2x2",
             caption: "Category & Utility pages",
             items: [
-              { src: `${IMG}/build-all-products.png`, label: "All products", ratio: "1726 / 1302" },
-              { src: `${IMG}/build-bakery.png`, label: "Bakery category", ratio: "1726 / 1323" },
+              { src: `${IMG}/build-all-products.png`, label: "All products page", ratio: "1726 / 1302" },
+              { src: `${IMG}/build-bakery.png`, label: "One of many category pages", ratio: "1726 / 1323" },
               { src: `${IMG}/build-search.png`, label: "Search", ratio: "1726 / 1323" },
               { src: `${IMG}/build-region-selector.png`, label: "Region selector", ratio: "1726 / 1323" },
             ],
@@ -137,8 +143,8 @@ export const caseStudies = {
             type: "prose",
             heading: "Impact",
             paragraphs: [
-              "Locale positively impacted tens of thousands of families and individuals, and hundreds of small businesses in California. The platform allowed our users to discover the best businesses and farms in their local community and across California. From sending gifts to friends and family, to regularly enjoying what we had to offer, the feedback on the product was extremely positive. Every piece of the experience was thought through.",
-              "Being the only designer onboard taught me how to think, make decisions, build, and iterate quickly.",
+              "Locale positively impacted tens of thousands of families and individuals, along with hundreds of small businesses in California. The platform made it easy for users to discover the best local businesses and farms in their own community and across the state. Whether people were sending gifts to friends and family or coming back regularly to enjoy what we offered, the feedback was overwhelmingly positive. Every piece of the experience was thoughtfully designed.",
+              "Being the only designer on board taught me how to think, make decisions, build, and iterate quickly.",
             ],
           },
           {
@@ -149,7 +155,7 @@ export const caseStudies = {
             ],
             quote: {
               text: "“Locale, a curated food delivery start-up, has raised $14 million in a round led by Andreessen Horowitz.”",
-              attribution: "Forbes 2022 →",
+              attribution: "[**Forbes 2022 →**](https://www.forbes.com/sites/jonathankeane/2022/05/17/locale-raises-14-million-for-its-curated-food-delivery-platform/)",
             },
           },
         ],
@@ -193,7 +199,7 @@ export const caseStudies = {
               "Before committing, we had to figure out and understand what we were actually pivoting into. So we conducted a PMF survey and talked to over 100 existing customers who were ordering prepared meals.",
               "What we heard over and over was that people were tired of how much they were spending on DoorDash.",
               "We already knew how to deliver from multiple vendors in a single order — it was the core of the original marketplace. If we applied the same model to restaurants, but bundled it into one weekly delivery of prepared meals, we thought we could undercut on-demand delivery on pricing.",
-              "The logistics actually worked in the restaurant’s favor too. Batching everything into one weekly order meant restaurants had time to accept orders, cook in bulk, and operate efficiently instead of cooking on demand.",
+              "The logistics also worked in the restaurant’s favor. Batching everything into one weekly order meant they had time to prep, cook in bulk, and schedule efficiently instead of cooking on demand.",
             ],
           },
           {
@@ -215,10 +221,10 @@ export const caseStudies = {
             type: "prose",
             heading: "Rebuilding the platform",
             paragraphs: [
-              "This pivot snapped the Webflow camel’s back, because it couldn’t do two things (cleanly) that the new model required: native user accounts and recurring billing. We needed a better solution.",
-              "We moved to Shopify for accounts and subscriptions, and due to Shopify’s lack of customization for non-technical users, we had to bring on a contractor who knew Shopify’s Liquid language to help us customize the front-end functionality.",
-              "This let me step back into Figma for the first time in 3 years. I’d never actually used it on Locale 1.0 — that whole site was designed in the browser. Now I could design proper flows, document them carefully, and hand them off for implementation.",
-              "Unfortunately the contractor didn’t end up as a viable long-term solution for us. Output was slow and the code kept breaking. Waiting on them became the bottleneck for the entire front end, so we eventually let him go, which left a gap I had to fill myself.",
+              "This pivot snapped the Webflow camel’s back because it couldn’t do two things (cleanly) that the new model required: native user accounts and robust order management. We needed a better solution.",
+              "We settled on Shopify; however, due to their lack of customization for non-technical users, we had to bring on a contractor who knew Shopify’s templating language to help us customize the front-end functionality.",
+              "This let me step back into Figma for the first time in 3 years. It was sparingly used for 1.0 due to the speed we needed to ship at — most of that site was designed in the browser. It allowed for clean documentation of the design system, flows, and let me sharpen my hand off skills.",
+              "Unfortunately the contractor didn’t end up as a viable long-term solution for us. Output was slow and the code was unmaintainable. Waiting on them became the bottleneck for the entire front end, so we eventually let him go, which left a gap I had to fill myself.",
             ],
           },
           {
@@ -227,7 +233,7 @@ export const caseStudies = {
             caption: "Various flows from Figma that were handed off to our developer",
             items: [
               { src: "/work/locale-2/rebuild-flow-1.png", label: "Subscription flow", ratio: "720 / 218" },
-              { src: "/work/locale-2/rebuild-flow-2.png", label: "Account & billing flows", ratio: "720 / 364", fit: "contain" },
+              { src: "/work/locale-2/rebuild-flow-2.png", label: "Onboarding & checkout flows", ratio: "720 / 364", fit: "contain" },
             ],
           },
         ],
@@ -319,7 +325,12 @@ export const caseStudies = {
     subtitle: (
       <>
         Meals designed for Longevity. This is the most recent iteration of the company — check it out at{" "}
-        <a href="https://www.shoplocale.com" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://www.shoplocale.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-bold underline underline-offset-2 transition-colors hover:text-accent"
+        >
           shoplocale.com →
         </a>
       </>
@@ -338,7 +349,7 @@ export const caseStudies = {
             type: "prose",
             heading: "Context",
             paragraphs: [
-              "Locale 2.0 worked better than the original iteration, but it wasn't going to survive. Retention wasn't where it needed to be, and acquiring customers was slow and expensive. High CAC + low LTV = you're gonna have a bad time. At the prices we were charging, there was no clear path to profitability, and raising prices on the existing model would only have made growth worse.",
+              "Locale 2.0 had better unit economics than the original iteration, but it wasn't going to survive. Retention wasn't where it needed to be, and acquiring customers was slow and expensive. High CAC + low LTV = you're gonna have a bad time. At the prices we were charging, there was no clear path to profitability, and raising prices on the existing model would only have made growth worse.",
               "We had about a year of runway left and small changes weren't going to save us. We needed to figure out what we should actually be, and we needed to do it fast.",
             ],
           },
@@ -352,10 +363,14 @@ export const caseStudies = {
             type: "prose",
             heading: "The final pivot",
             paragraphs: [
-              "We ran a UX research exercise designed by Michael Margolis. It was roughly 20-30 in-depth conversations over three week sprint with the people we thought would be our ideal customers. The aim was to understand what product would be so valuable in their lives that picking us would be a no brainer.",
-              "To make the conversations concrete, I helped design the interview questionnaire and made three website prototypes, each with unique value props. We put all three in front of people and observed which ones they reacted to.",
-              "We took all of the data gathered from this conversation, and synthesized them into insights, principles, and value props that resonated most. We learned that people valued fully organic, high protein, no pesticides, seed oils, and food that didn't make the feel heavy. Food designed for longevity. So that became Locale, a version that was the complete opposite of 2.0 in price and value props. The highest quality, healthiest meal service on earth.",
+              "We ran a UX research exercise designed by Michael Margolis. It involved 20-30 in-depth conversations with the people we thought would be our ideal or “bullseye” customers. The aim was to understand what type of product would be valuable enough in their lives that whatever we built would be a no brainer.",
+              "To make the conversations concrete, I helped design the interview questionnaire and made three website prototypes, each with unique value props. We put all three in front of people and observed how they reacted to each one.",
+              "We took all of the data gathered from these conversations and synthesized them into insights, principles, and value props that we thought would resonate most. We learned that people valued fully organic meals high in protein, no pesticides, seed oils; ingredients that didn't make them feel groggy and spike blood sugar, something you could eat every day.",
+              "Meals designed for longevity.",
+              "So that became Locale, a version that was a complete opposite of 2.0 in price and value props. The highest quality, healthiest meal service.",
             ],
+       
+              
           },
           {
             type: "gallery",
@@ -406,11 +421,9 @@ export const caseStudies = {
             type: "prose",
             heading: "Rebranding",
             paragraphs: [
-              "I rebranded around the new model and we rebuilt the site in two weeks to start testing.",
-              "We wanted this to have nothing to do with 2.0, so I created a new logo, packaging, and we started putting meals in glass jars instead of microplastic containers. We deliberately pushed the new identity far from the old one because we wanted an honest read on whether the product worked, not whether our existing brand could carry it.",
-              "We ran the new model as a separate service for a few months, and the numbers told the story fast!",
-              "Retention, LTV, acquisition cost, and day to day operations were night and day. So we shut down 2.0 completely and never looked back.",
-              "Everything you see on **shoplocale.com** was designed and implemented by me. Including the photography.",
+              "I rebranded Locale around the new value props, redesigned the website experience, and we rebuilt the site in two weeks to start testing for viability.",
+              "We wanted this to have nothing to do with 2.0, so I created a new logo and packaging, and we started putting meals in glass jars instead of plastic-sealed containers. We pushed the new identity deliberately far from the old one — we wanted an honest read on whether the product worked, not whether our existing brand or users could carry it.",
+              "We ran the new model as a separate service for a few months, and the numbers told the story fast. Retention, LTV, acquisition cost, even kitchen and warehouse operations were night and day. So we shut down 2.0 completely and never looked back.",
             ],
           },
           {
@@ -440,20 +453,51 @@ export const caseStudies = {
         ],
       },
       {
-        id: "design-implementation",
-        label: "Design & Implementation",
+        id: "shipping",
+        label: "Shipping",
         blocks: [
           {
             type: "prose",
-            heading: "Design & Implementation",
+            heading: "Shipping",
             paragraphs: [
-              "This is the part I care about most.",
-              "Everything on shoplocale.com, I designed and helped build. The handoff step that bottlenecked all of Locale 2.0 virtually disappeared. The product cards, the meal popup, the cart and side-cart, the toggles and buttons, the onboarding flow that turns a first time visitor into a subscriber. It all runs on a design system I made and maintain.",
-              "I've recently started moving the design system into Storybook and having it live in the repo instead of Figma, where it goes stale after it's built and iterated on. That's the part of my workflow I believe is the future. I rationalize in Figma, then implement in the actual repo using Cursor, iterating live, and refining components in the place they'll actually ship. I've come to think design systems belong in the repo and not outside of it.",
+              "By the time we built this site, the design-handoff step that bottlenecked Locale 2.0 was gone. The user dashboard, product cards, popups, toggles and buttons, the onboarding flow that turns a first-time visitor into a subscriber — I designed and built all of it, and maintain it as one design system.",
+              "The hardest part of shipping your own designs is how fast Figma goes stale once you've iterated on the product live in code. You end up in a back-and-forth between Figma artifacts and the real thing, which feels like a waste of time.",
+              "Lately I've been moving the design system into Storybook so it lives in the repo instead of Figma. That's the part of my workflow I think might be the future: I explore in Figma, then implement in the actual repo with Cursor, iterating live and refining components in the place they'll actually ship. I've started to believe design systems belong in the repo, not outside it.",
             ],
           },
           {
-            type: "demo",
+            type: "image",
+            src: "/work/locale-3/shipping-homepage.png",
+            label: "Locale 3.0 design system",
+            caption: "Homepage",
+            ratio: "3456 / 2166",
+          },
+          {
+            type: "gallery",
+            layout: "grid-2x2",
+            caption: "Explore, product, dashboard, reviews",
+            items: [
+              {
+                src: "/work/locale-3/shipping-explore.png",
+                label: "Explore",
+                ratio: "3456 / 2166",
+              },
+              {
+                src: "/work/locale-3/shipping-popup.png",
+                label: "Product popup",
+                ratio: "3454 / 2168",
+              },
+              {
+                src: "/work/locale-3/shipping-dashboard.png",
+                label: "Dashboard",
+                ratio: "3456 / 2166",
+              },
+              {
+                src: "/work/locale-3/shipping-reviews.png",
+                label: "Reviews",
+                ratio: "3456 / 2166",
+              },
+            ],
           },
         ],
       },
@@ -465,7 +509,8 @@ export const caseStudies = {
             type: "prose",
             heading: "Impact & retrospect",
             paragraphs: [
-              "My product design and branding brought the company to $40M ARR, and we're profitable now",
+              "My branding, UX, and packaging design helped grow Locale to $40M ARR. For a year I ran operations alongside design — scaling pick-and-pack to 5,000 orders and 35,000 meals a week, growing our LA deliveries, and writing the playbook for how we expand into new regions.",
+              "The current version of Locale has changed how thousands of people eat. The feedback has been overwhelmingly positive: people come to us to lose weight, build muscle, steady their energy, improve gut health, find perimenopausal support, or just eat clean, toxin-free food every day. It's still growing, and fast.",
             ],
           },
           {

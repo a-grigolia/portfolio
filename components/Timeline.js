@@ -4,7 +4,7 @@ function Dot({ className }) {
   return (
     <span
       aria-hidden="true"
-      className={`absolute left-1/2 size-[7px] -translate-x-1/2 rounded-full bg-foreground ${className}`}
+      className={`absolute left-1/2 size-[6px] -translate-x-1/2 rounded-full bg-foreground ${className}`}
     />
   );
 }
@@ -15,15 +15,14 @@ function TimelineRow({ slug, title, subtitle, stats, year, yearTop, isFirst }) {
       {/* Year rail + connecting line */}
       <div className="flex w-24 shrink-0 items-stretch justify-end gap-[26px]">
         <div
-          className={`flex w-16 flex-col text-right text-sm leading-[22px] text-subtle ${
+          className={`flex w-16 flex-col text-right mb-[-10px] text-sm leading-[22px] text-subtle ${
             yearTop ? "justify-between" : "justify-end"
           }`}
         >
           {yearTop ? <span>{yearTop}</span> : null}
           <span>{year}</span>
         </div>
-        <div className="relative w-0.5 self-stretch bg-foreground">
-          {isFirst ? <Dot className="top-0 -translate-y-1/2" /> : null}
+        <div className="relative w-px self-stretch rounded-t-full bg-foreground">
           <Dot className="bottom-0 translate-y-1/2" />
         </div>
       </div>

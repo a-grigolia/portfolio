@@ -12,6 +12,9 @@ export default function ImageBlock({
   caption,
   ratio = "16 / 10",
   fit = "cover",
+  shadow = true,
+  border = true,
+  radius = true,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -22,10 +25,16 @@ export default function ImageBlock({
           type="button"
           onClick={() => setOpen(true)}
           aria-label={caption ? `Enlarge: ${caption}` : "Enlarge image"}
-          className="group block w-full cursor-zoom-in overflow-hidden rounded-xl shadow-sm ring-1 ring-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 dark:ring-white/5"
+          className={`group block w-full cursor-zoom-in overflow-hidden transition-transform duration-500 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
+            radius ? "rounded-xl" : ""
+          } ${
+            border ? "ring-1 ring-black/5 dark:ring-white/5" : ""
+          } ${
+            shadow ? "shadow-sm" : ""
+          }`}
         >
           <div style={{ aspectRatio: ratio }} className="w-full overflow-hidden">
-            <div className="h-full w-full transition-transform duration-500 group-hover:scale-[1.02]">
+            <div className="h-full w-full">
               <Visual src={src} color={color} label={label} fit={fit} />
             </div>
           </div>

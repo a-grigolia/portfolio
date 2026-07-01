@@ -2,7 +2,7 @@ import StatsStrip from "./StatsStrip";
 
 export default function Hero({ eyebrow, title, subtitle, stats }) {
   return (
-    <header>
+    <header className="px-0 m-0 lg:px-12">
       {eyebrow ? (
         <p className="font-sans text-[14px] font-medium normal-case tracking-normal text-accent">
           {eyebrow}
