@@ -303,14 +303,12 @@ export const caseStudies = {
           },
           {
             type: "metrics",
+            layout: "grid-3",
             cards: [
               { value: "$6M", label: "ARR" },
               { value: "50+", label: "Restaurants" },
+              { value: "$200K+", label: "Monthly burn" },
             ],
-            quote: {
-              text: "“Locale, a curated food delivery start-up, has raised $14 million in a round led by Andreessen Horowitz.”",
-              attribution: "Forbes 2022",
-            },
           },
         ],
       },
