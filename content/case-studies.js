@@ -458,9 +458,9 @@ export const caseStudies = {
             type: "prose",
             heading: "Shipping",
             paragraphs: [
-              "By the time we built this site, the design-handoff step that bottlenecked Locale 2.0 was gone. The user dashboard, product cards, popups, toggles and buttons, the onboarding flow that turns a first-time visitor into a subscriber — I designed and built all of it, and maintain it as one design system.",
+              "By the time we built this site, the design-handoff step that bottlenecked Locale 2.0 was gone. The user dashboard, product cards, popups, toggles and buttons, the onboarding flow that turns a first-time visitor into a subscriber — I designed and helped ship, and maintain it as one design system.",
               "The hardest part of shipping your own designs is how fast Figma goes stale once you've iterated on the product live in code. You end up in a back-and-forth between Figma artifacts and the real thing, which feels like a waste of time.",
-              "Lately I've been moving the design system into Storybook so it lives in the repo instead of Figma. That's the part of my workflow I think might be the future: I explore in Figma, then implement in the actual repo with Cursor, iterating live and refining components in the place they'll actually ship. I've started to believe design systems belong in the repo, not outside it.",
+              "Lately I've been moving the design system into Storybook so it lives in the repo instead of Figma. That's the part of my workflow I think might be the future: I explore in Figma, then implement in the actual repo with Cursor, iterating live and refining components in the place they'll tangibly exist. I've started to believe design systems belong in the repo, not outside it.",
             ],
           },
           {
