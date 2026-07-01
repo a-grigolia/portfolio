@@ -10,14 +10,14 @@ export default function HomePage() {
             {profile.name}
           </h1>
           <p className="text-base mb-8 leading-6 text-foreground">
-            Currently {profile.role} at{" "}
+            Currently Founding Designer at{" "}
             <a
-              href={profile.companyUrl}
+              href="https://www.shoplocale.com"
               target="_blank"
               rel="noopener noreferrer"
               className="font-bold underline underline-offset-2 transition-colors hover:text-accent"
             >
-              {profile.company}
+              Locale 
             </a>
           </p>
           <div className="space-y-4">

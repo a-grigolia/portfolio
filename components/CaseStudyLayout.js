@@ -55,7 +55,7 @@ export default function CaseStudyLayout({
       <div className="mx-auto max-w-[720px]">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 px-12 text-sm text-muted transition-colors hover:text-foreground"
+          className="ml-[-16px] inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-foreground lg:px-12"
         >
           <span aria-hidden="true">←</span> Back
         </Link>

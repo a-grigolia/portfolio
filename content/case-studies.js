@@ -168,8 +168,8 @@ export const caseStudies = {
     title: "Locale 2.0",
     subtitle: "Pivoting to prepared meals to save the business.",
     stats: [
-      { label: "Run rate", value: "$6M" },
-      { label: "Orders", value: "100k+" },
+      { label: "ARR", value: "$6M" },
+      { label: "Restaurants", value: "50+" },
       { label: "Model", value: "Subscription" },
     ],
     sections: [
@@ -299,18 +299,17 @@ export const caseStudies = {
             paragraphs: [
               "By the end, I was designing and shipping my own work on the front end. The thing that started as a crisis became one of the most important skills I picked up at Locale.",
               "But the product never fully found its footing. Locale 2.0 was always searching for a better PMF, and our only real edge was being the cheapest way to get good prepared meals from restaurants. We told ourselves the convenient truth that “margins will get better with scale” — and they didn’t.",
-              "We had $1M left in the bank and 4 months of runway. We knew we needed to drastically change something to turn the company around.",
             ],
           },
           {
             type: "metrics",
             cards: [
-              { value: "$6M", label: "Run rate" },
-              { value: "100k+", label: "Orders delivered" },
+              { value: "$6M", label: "ARR" },
+              { value: "50+", label: "Restaurants" },
             ],
             quote: {
               text: "“Locale, a curated food delivery start-up, has raised $14 million in a round led by Andreessen Horowitz.”",
-              attribution: "Forbes 2022 →",
+              attribution: "Forbes 2022",
             },
           },
         ],
@@ -335,7 +334,7 @@ export const caseStudies = {
       </>
     ),
     stats: [
-      { label: "Run rate", value: "$40M" },
+      { label: "ARR", value: "$40M" },
       { label: "W1 retention", value: "70%" },
       { label: "Weekly subscribers", value: "8K+" },
     ],
@@ -516,7 +515,7 @@ export const caseStudies = {
             type: "metrics",
             layout: "grid-3",
             cards: [
-              { value: "$40M", label: "Run rate" },
+              { value: "$40M", label: "ARR" },
               { value: "150K+", label: "Monthly site visitors" },
               { value: "24%", label: "Onboarding conversion" },
               { value: "70%", label: "W1 retention" },
