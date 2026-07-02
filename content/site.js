@@ -1,7 +1,7 @@
 export const profile = {
   name: "Avto Grigolia",
   about: [
-    "I'm a product-forward designer passionate about 0→1 problems. As the team's solo creative since 2020, I've owned design across three iterations of Locale including: UX, UI, branding, design systems, and front-end dev. Everything I build starts with the customer and ends with shipped code.",
+    "I'm a product-forward designer drawn to 0→1 problems. As the team's solo creative since 2020, I've owned design across three iterations of Locale including: UX, UI, branding, design systems, and front-end dev. Everything I build starts with the customer and ends with shipped code.",
   ],
   email: "a.grigolia123@gmail.com",
   linkedin: "https://www.linkedin.com/in/avto-grigolia/",
@@ -20,7 +20,7 @@ export const work = [
     slug: "locale-2",
     title: "Locale 2.0",
     subtitle: "Pivoting to prepared meals",
-    stats: "$6M ARR • 1yr runway",
+    stats: "$6M ARR • learned to code",
     year: "2023",
   },
   {

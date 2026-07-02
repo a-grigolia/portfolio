@@ -21,7 +21,7 @@ export const caseStudies = {
             heading: "Context",
             paragraphs: [
               "When I joined Locale, it was called Organic on the Go — a Google Form collecting orders from family and friends for the local farmers market in Los Gatos, CA. I was originally contacted to make a quick logo for the form, but ended up on the founding team to own the entire design function: building out the platform, user experience, and conceptualizing the brand.",
-              "Locale went on to become a full-blown marketplace, go through YC (S21), raise $14MM from a16z at a $74MM valuation, and expand nationwide — until we were forced to pivot after losing PMF.",
+              "Locale went on to become a full-blown marketplace, go through YC (S21), raise $14M from a16z at a $74M valuation, and expand nationwide — until we were forced to pivot after losing PMF.",
             ],
           },
           {
@@ -181,7 +181,7 @@ export const caseStudies = {
             type: "prose",
             heading: "Context",
             paragraphs: [
-              "Long-term retention dropped from 15% to 8% when covid ended. We were burning more than $600K a month trying to grow a marketplace that didn’t have a real PMF.",
+              "Long-term retention dropped from 15% to 8% when COVID-19 restrictions ended. We were burning more than $600K a month trying to grow a marketplace that didn’t have a real PMF.",
               "After digging through our data, we learned that our best customers were ordering prepared meals over one-off items like baked goods and flowers. It made perfect sense: how often are you going to order a croissant in a month versus a meal you can actually eat for dinner?",
               "We moved toward an opt-out subscription model built around prepared meals. Recurring revenue, recurring customers, and a reason to come back every week instead of every once in a while.",
             ],
@@ -223,7 +223,7 @@ export const caseStudies = {
             paragraphs: [
               "This pivot snapped the Webflow camel’s back because it couldn’t do two things (cleanly) that the new model required: native user accounts and robust order management. We needed a better solution.",
               "We settled on Shopify; however, due to their lack of customization for non-technical users, we had to bring on a contractor who knew Shopify’s templating language to help us customize the front-end functionality.",
-              "This let me step back into Figma for the first time in 3 years. It was sparingly used for 1.0 due to the speed we needed to ship at — most of that site was designed in the browser. It allowed for clean documentation of the design system, flows, and let me sharpen my hand off skills.",
+              "This let me step back into Figma for the first time in 3 years. It was sparingly used for 1.0 due to the speed we needed to ship at — most of that site was designed in the browser. It allowed for clean documentation of the design system, flows, and let me sharpen my handoff skills.",
               "Unfortunately the contractor didn’t end up as a viable long-term solution for us. Output was slow and the code was unmaintainable. Waiting on them became the bottleneck for the entire front end, so we eventually let him go, which left a gap I had to fill myself.",
             ],
           },
@@ -318,9 +318,11 @@ export const caseStudies = {
   "locale-3": {
     eyebrow: "Scale",
     title: "Locale 3.0",
+    metaDescription:
+      "Locale's final pivot: rebranding and rebuilding a prepared meal service that grew to $40M ARR with 70% W1 retention.",
     subtitle: (
       <>
-        Meals designed for Longevity. This is the most recent iteration of the company — check it out at{" "}
+        Meals designed for longevity. This is the most recent iteration of the company — check it out at{" "}
         <a
           href="https://www.shoplocale.com"
           target="_blank"
@@ -505,7 +507,7 @@ export const caseStudies = {
             type: "prose",
             heading: "Impact & retrospect",
             paragraphs: [
-              "My branding, UX, and packaging design helped grow Locale to $40M ARR. For a year I ran operations alongside design — scaling pick-and-pack to 5,000 orders and 35,000 meals a week, growing our LA deliveries, and writing the playbook for how we expand into new regions.",
+              "My branding, UX, and packaging design were part of growing Locale to $40M ARR. For a year I ran operations alongside design — scaling pick-and-pack to 5,000 orders and 35,000 meals a week, growing our LA deliveries, and writing the playbook for how we expand into new regions.",
               "The current version of Locale has changed how thousands of people eat. The feedback has been overwhelmingly positive: people come to us to lose weight, build muscle, steady their energy, improve gut health, find perimenopausal support, or just eat clean, toxin-free food every day. It's still growing, and fast.",
             ],
           },

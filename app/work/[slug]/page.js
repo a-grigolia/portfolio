@@ -12,7 +12,7 @@ export async function generateMetadata({ params }) {
   if (!study) return {};
   return {
     title: `${study.title} — Avto`,
-    description: study.subtitle,
+    description: study.metaDescription ?? study.subtitle,
   };
 }
 
