@@ -14,7 +14,6 @@ export const work = [
     title: "Locale 3.0",
     subtitle: "Final pivot & finding PMF",
     stats: "$40M ARR • 70% W1 retention",
-    yearTop: " ",
     year: "2025",
   },
   {
@@ -30,5 +29,24 @@ export const work = [
     subtitle: "Building a marketplace without engineers",
     stats: "$14M raised • $74M valuation",
     year: "2020",
+  },
+  {
+    slug: "d-ford",
+    title: "D-Ford",
+    subtitle: "Exploring the future of mobility",
+    stats: "4 projects • UX research",
+    year: "2019",
+    wip: true,
+  },
+];
+
+export const sideProjects = [
+  {
+    slug: "amya-agency",
+    title: "AMYA Agency",
+    subtitle: "Branding & Website",
+    stats: "",
+    year: "2025",
+    wip: true,
   },
 ];

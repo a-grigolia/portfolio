@@ -12,20 +12,20 @@
 
 :root {
   --background: #fff;
-  --foreground: #1c1b18;
-  --muted: #8b8780;
-  --subtle: #6b6862;
-  --border: #e7e3da;
-  --card: rgba(0, 0, 0, 0.025);
+  --foreground: #1e1e20;
+  --muted: #9c9ca3;
+  --subtle: #77777e;
+  --border: #e7e7e7;
+  --card: rgba(0, 0, 0, 0.03);
   --accent: #ba3939;
 }
 
 .dark {
-  --background: #0f0f0e;
-  --foreground: #ece9e3;
-  --muted: #7d7a73;
-  --subtle: #a6a29a;
-  --border: #262420;
+  --background: #121214;
+  --foreground: #e7e7e7;
+  --muted: #6e6e75;
+  --subtle: #9c9ca3;
+  --border: #2a2a2e;
   --card: rgba(255, 255, 255, 0.05);
   --accent: #ba3939;
 }

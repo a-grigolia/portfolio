@@ -11,13 +11,13 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className="transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+      className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
     >
-      [
-      <span className={isDark ? "" : "text-foreground"}>light</span>
-      /
-      <span className={isDark ? "text-foreground" : ""}>dark</span>
-      ]
+      {"[ "}
+      <span className={isDark ? "text-border transition-colors" : "text-foreground transition-colors"}>light</span>
+      {" / "}
+      <span className={isDark ? "text-foreground transition-colors" : "text-border transition-colors"}>dark</span>
+      {" ]"}
     </button>
   );
 }
