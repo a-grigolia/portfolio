@@ -1,5 +1,5 @@
 import Timeline from "@/components/Timeline";
-import { profile, work, sideProjects } from "@/content/site";
+import { profile, work } from "@/content/site";
 
 export default function HomePage() {
   return (
@@ -38,12 +38,14 @@ export default function HomePage() {
           <Timeline items={work} />
         </section>
 
+        {/* Side Projects section temporarily hidden
         <section className="flex flex-col gap-6">
           <h2 className="text-base font-semibold text-foreground">
             Side Projects
           </h2>
           <Timeline items={sideProjects} />
         </section>
+        */}
 
         <section className="flex flex-col gap-2">
           <h2 className="text-base font-semibold text-foreground">Connect</h2>

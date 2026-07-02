@@ -34,7 +34,7 @@ export const work = [
     slug: "d-ford",
     title: "D-Ford",
     subtitle: "Exploring the future of mobility",
-    stats: "4 projects • UX research",
+    stats: "4 explorations • field research",
     year: "2019",
     wip: true,
   },
