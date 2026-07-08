@@ -362,7 +362,7 @@ export const caseStudies = {
             heading: "The final pivot",
             paragraphs: [
               "We ran a UX research exercise designed by Michael Margolis. It involved 20-30 in-depth conversations with the people we thought would be our ideal or “bullseye” customers. The aim was to understand what type of product would be valuable enough in their lives that whatever we built would be a no brainer.",
-              "To make the conversations concrete, I helped design the interview questionnaire and made three website prototypes, each with unique value props. We put all three in front of people and observed how they reacted to each one.",
+              "To make the conversations concrete, we had a guided interview questionnaire and I made three website prototypes, each with unique value props. We put all three in front of people and observed how they reacted to each one.",
               "We took all of the data gathered from these conversations and synthesized them into insights, principles, and value props that we thought would resonate most. We learned that people valued fully organic meals high in protein, no pesticides, seed oils; ingredients that didn't make them feel groggy and spike blood sugar, something you could eat every day.",
               "Meals designed for longevity.",
               "So that became Locale, a version that was a complete opposite of 2.0 in price and value props. The highest quality, healthiest meal service.",
