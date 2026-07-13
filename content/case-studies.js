@@ -155,7 +155,7 @@ export const caseStudies = {
             ],
             quote: {
               text: "“Locale, a curated food delivery start-up, has raised $14 million in a round led by Andreessen Horowitz.”",
-              attribution: "[**Forbes 2022**](https://www.forbes.com/sites/jonathankeane/2022/05/17/locale-raises-14-million-for-its-curated-food-delivery-platform/)",
+              attribution: "[Forbes 2022](https://www.forbes.com/sites/jonathankeane/2022/05/17/locale-raises-14-million-for-its-curated-food-delivery-platform/)",
             },
           },
         ],
@@ -319,7 +319,7 @@ export const caseStudies = {
     eyebrow: "Scale",
     title: "Locale 3.0",
     metaDescription:
-      "Locale's final pivot: rebranding and rebuilding a prepared meal service that grew to $40M ARR with 70% W1 retention.",
+      "Locale's final pivot: rebranding and rebuilding a prepared meal service that grew to $40M ARR with 70% M1 retention.",
     subtitle: (
       <>
         Meals designed for longevity. This is the most recent iteration of the company — check it out at{" "}
@@ -335,7 +335,7 @@ export const caseStudies = {
     ),
     stats: [
       { label: "ARR", value: "$40M" },
-      { label: "W1 retention", value: "70%" },
+      { label: "M1 retention", value: "70%" },
       { label: "Weekly subscribers", value: "8K+" },
     ],
     sections: [
@@ -518,7 +518,7 @@ export const caseStudies = {
               { value: "$40M", label: "ARR" },
               { value: "150K+", label: "Monthly site visitors" },
               { value: "24%", label: "Onboarding conversion" },
-              { value: "70%", label: "W1 retention" },
+              { value: "70%", label: "M1 retention" },
               { value: "8K+", label: "Weekly subscribers" },
               { value: "700K+", label: "Meals made in 1 year" },
             ],

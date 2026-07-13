@@ -2,11 +2,11 @@ import RichText from "./RichText";
 
 function MetricCard({ value, label }) {
   return (
-    <div className="rounded-2xl bg-card p-6">
-      <p className="font-sans text-[16px] tracking-tight text-foreground">
+    <div className="flex h-full flex-col justify-between rounded-2xl bg-card p-6">
+      <p className="font-sans text-[20px] font-medium tracking-tight text-foreground">
         {value}
       </p>
-      <p className="mt-2 font-sans text-[16px] text-subtle">{label}</p>
+      <p className="mt-2 font-sans text-[14px] text-subtle">{label}</p>
     </div>
   );
 }
