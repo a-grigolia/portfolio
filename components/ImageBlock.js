@@ -7,6 +7,7 @@ import Placeholder from "./Placeholder";
 
 export default function ImageBlock({
   src,
+  srcDark,
   color = "#d8d2c6",
   label,
   caption,
@@ -17,6 +18,8 @@ export default function ImageBlock({
   radius = true,
 }) {
   const [open, setOpen] = useState(false);
+  // Lightbox backdrop is dark — prefer the light-stroke variant when available.
+  const lightboxSrc = srcDark || src;
 
   return (
     <figure>
@@ -35,7 +38,7 @@ export default function ImageBlock({
         >
           <div style={{ aspectRatio: ratio }} className="w-full overflow-hidden">
             <div className="h-full w-full">
-              <Visual src={src} color={color} label={label} fit={fit} />
+              <Visual src={src} srcDark={srcDark} color={color} label={label} fit={fit} />
             </div>
           </div>
         </button>
@@ -47,9 +50,9 @@ export default function ImageBlock({
       ) : null}
 
       <Lightbox open={open} onClose={() => setOpen(false)}>
-        {src ? (
+        {lightboxSrc ? (
           <img
-            src={src}
+            src={lightboxSrc}
             alt={caption || label || ""}
             className="mx-auto max-h-[85vh] w-auto rounded-xl object-contain"
           />

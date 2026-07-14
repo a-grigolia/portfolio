@@ -8,7 +8,7 @@ export default function Hero({ eyebrow, title, subtitle, stats }) {
           {eyebrow}
         </p>
       ) : null}
-      <h1 className="mt-5 font-sans text-[36px] font-bold leading-[1.05] tracking-tight text-foreground">
+      <h1 className="mt-5 font-sans text-[36px] font-semibold leading-[1.05] tracking-tight text-foreground">
         {title}
       </h1>
       {subtitle ? (

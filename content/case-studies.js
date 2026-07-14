@@ -8,7 +8,7 @@ export const caseStudies = {
     stats: [
       { label: "Raised", value: "$14M" },
       { label: "Valuation", value: "$74M" },
-      { label: "Backed by", value: "YC" },
+      { label: "Backed by", value: "a16z" },
       { label: "Markets", value: "3" },
     ],
     sections: [
@@ -97,6 +97,7 @@ export const caseStudies = {
           {
             type: "image",
             src: `${IMG}/build-system-diagram.png`,
+            srcDark: `${IMG}/build-system-diagram-dark.png`,
             label: "System diagram",
             caption: "The system that made the marketplace work",
             ratio: "2580 / 928",

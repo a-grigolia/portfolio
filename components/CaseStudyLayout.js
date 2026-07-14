@@ -15,6 +15,7 @@ function Block({ block }) {
       return (
         <ImageBlock
           src={block.src}
+          srcDark={block.srcDark}
           color={block.color}
           label={block.label}
           caption={block.caption}
