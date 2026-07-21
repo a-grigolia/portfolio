@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+const ROW_HEIGHT = 20;
+const ROW_GAP = 8;
+
 export default function SectionNav({ sections = [] }) {
   const [activeId, setActiveId] = useState(sections[0]?.id ?? null);
 
@@ -27,19 +30,36 @@ export default function SectionNav({ sections = [] }) {
 
   if (!sections.length) return null;
 
+  const activeIndex = Math.max(
+    0,
+    sections.findIndex((s) => s.id === activeId)
+  );
+
   return (
-    <nav aria-label="Sections" className="text-sm">
-      <ul className="space-y-3 border-l border-border">
+    <nav aria-label="Sections" className="relative text-sm">
+      {/* Continuous track with a sliding active indicator */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 left-0 w-[2px] rounded-[3px] bg-border"
+      >
+        <div
+          className="absolute left-0 top-0 h-5 w-[2px] rounded-[4px] bg-accent transition-transform duration-300 ease-out"
+          style={{
+            transform: `translateY(${activeIndex * (ROW_HEIGHT + ROW_GAP)}px)`,
+          }}
+        />
+      </div>
+      <ul className="flex flex-col gap-2">
         {sections.map((section) => {
           const isActive = section.id === activeId;
           return (
-            <li key={section.id} className="-ml-px">
+            <li key={section.id}>
               <a
                 href={`#${section.id}`}
-                className={`block border-l-2 pl-4 transition-colors ${
+                className={`flex h-5 items-center whitespace-nowrap pl-4 leading-5 transition-colors ${
                   isActive
-                    ? "border-accent text-foreground"
-                    : "border-transparent text-muted hover:text-foreground"
+                    ? "text-foreground"
+                    : "text-muted hover:text-foreground"
                 }`}
               >
                 {section.label}

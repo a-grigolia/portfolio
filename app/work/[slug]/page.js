@@ -23,7 +23,6 @@ export default async function CaseStudyPage({ params }) {
 
   return (
     <CaseStudyLayout
-      eyebrow={study.eyebrow}
       title={study.title}
       subtitle={study.subtitle}
       stats={study.stats}

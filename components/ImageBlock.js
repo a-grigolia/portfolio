@@ -23,7 +23,7 @@ export default function ImageBlock({
 
   return (
     <figure>
-      <div className="rounded-2xl bg-card p-4 sm:p-8">
+      <div className="rounded-2xl bg-card p-4 sm:p-12">
         <button
           type="button"
           onClick={() => setOpen(true)}

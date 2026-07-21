@@ -15,6 +15,8 @@ export const work = [
     subtitle: "Final pivot & finding PMF",
     stats: "$40M ARR • 70% M1 retention",
     year: "2025",
+    media: "/work/locale-3/cover.png",
+    mediaFit: "cover",
   },
   {
     slug: "locale-2",
@@ -22,6 +24,8 @@ export const work = [
     subtitle: "Pivoting to prepared meals",
     stats: "$6M ARR • learned to code",
     year: "2023",
+    media: "/work/locale-2/cover.png",
+    mediaFit: "cover",
   },
   {
     slug: "locale-1",
@@ -29,6 +33,8 @@ export const work = [
     subtitle: "Building a marketplace without engineers",
     stats: "$14M raised • $74M valuation",
     year: "2020",
+    media: "/work/locale-1/cover.png",
+    mediaFit: "cover",
   },
   {
     slug: "d-ford",
@@ -43,10 +49,11 @@ export const work = [
 export const sideProjects = [
   {
     slug: "amya-agency",
-    title: "AMYA Agency",
-    subtitle: "Branding & Website",
-    stats: "",
+    title: "Amya Agency",
+    subtitle: "Headhunting agency for tech companies",
+    stats: "Branding • Website",
     year: "2025",
-    wip: true,
+    media: "/work/amya-agency/cover.png",
+    mediaFit: "cover",
   },
 ];

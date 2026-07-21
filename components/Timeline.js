@@ -34,8 +34,8 @@ function EntryBody({ title, subtitle, stats, wip }) {
     <>
       <div className="flex items-start justify-between gap-4">
         <h3
-          className={`text-lg font-semibold leading-tight text-foreground transition-colors ${
-            wip ? "opacity-30" : "group-hover:text-accent"
+          className={`text-lg font-semibold leading-tight text-foreground ${
+            wip ? "opacity-30" : ""
           }`}
         >
           {title}
@@ -43,7 +43,7 @@ function EntryBody({ title, subtitle, stats, wip }) {
         {wip ? (
           <span className="text-xs leading-5 text-foreground">WIP</span>
         ) : (
-          <span className="flex size-6 shrink-0 items-center justify-center rounded-full text-foreground transition-colors group-hover:bg-card group-hover:text-accent">
+          <span className="flex size-6 shrink-0 items-center justify-center rounded-full text-foreground transition-colors delay-[250ms] group-hover:bg-card group-hover:delay-0">
             <ArrowIcon />
           </span>
         )}
@@ -62,7 +62,52 @@ function EntryBody({ title, subtitle, stats, wip }) {
   );
 }
 
-function TimelineRow({ slug, title, subtitle, stats, year, wip, lineClass }) {
+function isVideo(src) {
+  return /\.(mov|mp4|webm)$/i.test(src);
+}
+
+function HoverMedia({ media, mediaFit }) {
+  return (
+    <div className="pointer-events-none relative h-full w-0 shrink-0 overflow-hidden rounded-[22px] bg-[#fdf8f2] opacity-0 transition-[width,margin,opacity] delay-[250ms] duration-300 ease-out will-change-[width] group-hover:mr-2 group-hover:w-[147px] group-hover:opacity-100 group-hover:delay-0">
+      {media ? (
+        isVideo(media) ? (
+          <video
+            src={media}
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-[147px] max-w-none object-cover"
+          />
+        ) : mediaFit === "marquee" ? (
+          <div className="absolute inset-0 flex w-max animate-[timeline-marquee_20s_linear_infinite] motion-reduce:animate-none">
+            <img src={media} alt="" className="h-full w-auto max-w-none shrink-0" />
+            <img
+              src={media}
+              alt=""
+              aria-hidden="true"
+              className="h-full w-auto max-w-none shrink-0"
+            />
+          </div>
+        ) : mediaFit === "cover" ? (
+          <img
+            src={media}
+            alt=""
+            className="absolute inset-0 h-full w-[147px] max-w-none object-cover"
+          />
+        ) : (
+          <div className="absolute inset-y-0 left-0 flex w-[147px] items-center justify-center px-6">
+            <img src={media} alt="" className="h-[88px] w-full object-cover" />
+          </div>
+        )
+      ) : null}
+    </div>
+  );
+}
+
+function TimelineRow({ slug, title, subtitle, stats, year, wip, media, mediaFit, lineClass, isLast }) {
+  const gapClass = isLast ? "" : "mb-2";
   return (
     <div className="flex gap-6">
       {/* Year rail + connecting line */}
@@ -77,15 +122,19 @@ function TimelineRow({ slug, title, subtitle, stats, year, wip, lineClass }) {
 
       {/* Entry */}
       {wip ? (
-        <div className="flex min-w-0 flex-1 flex-col gap-2 p-4">
+        <div className={`flex min-w-0 flex-1 flex-col gap-2 p-4 ${gapClass}`}>
           <EntryBody title={title} subtitle={subtitle} stats={stats} wip />
         </div>
       ) : (
         <Link
           href={`/work/${slug}`}
-          className="group flex min-w-0 flex-1 flex-col gap-2 rounded-xl p-4 transition-colors hover:bg-card"
+          draggable={false}
+          className={`group flex min-w-0 flex-1 select-none items-stretch rounded-[30px] p-2 transition-[background-color,box-shadow] delay-[250ms] duration-300 ease-out hover:bg-white hover:shadow-[0px_2px_6px_rgba(0,0,0,0.15)] hover:delay-0 dark:hover:bg-card dark:hover:shadow-none ${gapClass}`}
         >
-          <EntryBody title={title} subtitle={subtitle} stats={stats} />
+          <HoverMedia media={media} mediaFit={mediaFit} />
+          <div className="flex min-w-0 flex-1 flex-col gap-2 p-2">
+            <EntryBody title={title} subtitle={subtitle} stats={stats} />
+          </div>
         </Link>
       )}
     </div>
@@ -115,6 +164,7 @@ export default function Timeline({ items = [] }) {
           key={item.slug}
           {...item}
           lineClass={lineClassFor(i, items.length)}
+          isLast={i === items.length - 1}
         />
       ))}
     </div>

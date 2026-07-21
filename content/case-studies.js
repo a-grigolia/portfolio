@@ -2,7 +2,6 @@ const IMG = "/work/locale-1";
 
 export const caseStudies = {
   "locale-1": {
-    eyebrow: "0 → 1",
     title: "Locale 1.0",
     subtitle: "Building a $74M marketplace without engineers.",
     stats: [
@@ -165,7 +164,6 @@ export const caseStudies = {
   },
 
   "locale-2": {
-    eyebrow: "Pivot",
     title: "Locale 2.0",
     subtitle: "Pivoting to prepared meals to save the business.",
     stats: [
@@ -317,13 +315,12 @@ export const caseStudies = {
   },
 
   "locale-3": {
-    eyebrow: "Scale",
     title: "Locale 3.0",
     metaDescription:
       "Locale's final pivot: rebranding and rebuilding a prepared meal service that grew to $40M ARR with 70% M1 retention.",
     subtitle: (
       <>
-        Meals designed for longevity. This is the most recent iteration of the company — check it out at{" "}
+        The latest iteration of Locale is a premium, high-protein meal service for health optimizers; extremely transparent, lab-tested, and built around meals made with the highest-quality ingredients. Check it out at{" "}
         <a
           href="https://www.shoplocale.com"
           target="_blank"
@@ -344,6 +341,12 @@ export const caseStudies = {
         id: "context",
         label: "Context",
         blocks: [
+          {
+            type: "banner",
+            src: "/work/locale-3/spinny-jar.gif",
+            alt: "Locale jar spinning",
+            color: "#f8f4f1",
+          },
           {
             type: "prose",
             heading: "Context",
@@ -522,6 +525,92 @@ export const caseStudies = {
               { value: "70%", label: "M1 retention" },
               { value: "8K+", label: "Weekly subscribers" },
               { value: "700K+", label: "Meals made in 1 year" },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+
+  "amya-agency": {
+    title: "Amya Agency",
+    metaDescription:
+      "Brand and website for Amya Agency, a recruiting agency in San Francisco representing world-class engineers, operators, and creatives.",
+    subtitle: (
+      <>
+        Created the brand and website for Amya Agency, a recruiting agency
+        based in San Francisco that represents world-class engineers,
+        operators, and creatives building the next generation of technology
+        companies.
+        <br />
+        <br />
+        Check them out at{" "}
+        <a
+          href="https://amya.agency"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold underline underline-offset-2 transition-colors hover:text-accent"
+        >
+          amya.agency
+        </a>
+      </>
+    ),
+    stats: [],
+    sections: [
+      {
+        id: "plus-grid",
+        label: "Plus Grid",
+        blocks: [{ type: "plusGrid" }],
+      },
+      {
+        id: "logo-assets",
+        label: "Logo + Assets",
+        className: "pt-18 pb-6",
+        blocks: [
+          {
+            type: "gallery",
+            layout: "brand",
+            caption: "Logo + assets",
+            items: [
+              { src: "/work/amya-agency/square-black.png", label: "Amya square lockup — black", ratio: "1 / 1" },
+              { src: "/work/amya-agency/square-white.png", label: "Amya square lockup — white", ratio: "1 / 1" },
+              { src: "/work/amya-agency/vert-black.png", label: "Vertical lockup — black", ratio: "1 / 1" },
+              { src: "/work/amya-agency/symbol-black.png", label: "Symbol — black", ratio: "1 / 1" },
+              { src: "/work/amya-agency/hor-text-black.png", label: "Horizontal wordmark — black", ratio: "137 / 80" },
+              { src: "/work/amya-agency/vert-white.png", label: "Vertical lockup — white", ratio: "1 / 1" },
+              { src: "/work/amya-agency/symbol-white.png", label: "Symbol — white", ratio: "1 / 1" },
+              { src: "/work/amya-agency/hor-text-white.png", label: "Horizontal wordmark — white", ratio: "137 / 80" },
+            ],
+          },
+        ],
+      },
+      {
+        id: "website",
+        label: "Website",
+        blocks: [
+          {
+            type: "gallery",
+            layout: "stack",
+            caption: "Website",
+            items: [
+              { src: "/work/amya-agency/website-dark.png", label: "amya.agency — dark mode", ratio: "3456 / 2166" },
+              { src: "/work/amya-agency/website-light.png", label: "amya.agency — light mode", ratio: "3456 / 2166" },
+            ],
+          },
+        ],
+      },
+      {
+        id: "marketing",
+        label: "Marketing",
+        blocks: [
+          {
+            type: "gallery",
+            layout: "cols-3",
+            caption: "Experimental Marketing",
+            items: [
+              { src: "/work/amya-agency/marketing-1.png", label: "", ratio: "3067 / 3834" },
+              { src: "/work/amya-agency/marketing-2.png", label: "", ratio: "3067 / 3834" },
+              { src: "/work/amya-agency/marketing-3.png", label: "", ratio: "3067 / 3834" },
             ],
           },
         ],

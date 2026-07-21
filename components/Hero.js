@@ -1,18 +1,13 @@
 import StatsStrip from "./StatsStrip";
 
-export default function Hero({ eyebrow, title, subtitle, stats }) {
+export default function Hero({ title, subtitle, stats }) {
   return (
-    <header className="px-0 m-0 lg:px-12">
-      {eyebrow ? (
-        <p className="font-sans text-[14px] font-medium normal-case tracking-normal text-accent">
-          {eyebrow}
-        </p>
-      ) : null}
-      <h1 className="mt-5 font-sans text-[36px] font-semibold leading-[1.05] tracking-tight text-foreground">
+    <header className="px-0 sm:px-12">
+      <h1 className="font-sans text-[30px] font-semibold leading-tight tracking-tight text-foreground">
         {title}
       </h1>
       {subtitle ? (
-        <p className="mt-5 max-w-2xl font-sans text-[16px] leading-relaxed text-subtle">
+        <p className="mt-4 font-sans text-[16px] leading-6 text-subtle">
           {subtitle}
         </p>
       ) : null}

@@ -43,6 +43,56 @@
   --font-serif: "Figtree", ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Plus grid (Amya Agency) */
+.plus-grid {
+  --pg-fill: #1e1e20;
+  --pg-glow1: rgba(0, 0, 0, 0.28);
+  --pg-glow2: rgba(0, 0, 0, 0.14);
+
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  justify-content: center;
+  touch-action: pan-y;
+}
+
+.dark .plus-grid {
+  --pg-fill: #ffffff;
+  --pg-glow1: rgba(255, 255, 255, 0.45);
+  --pg-glow2: rgba(255, 255, 255, 0.18);
+}
+
+.plus-grid .pg-cell {
+  display: grid;
+  place-items: center;
+}
+
+.plus-grid .pg-cell svg {
+  width: 100%;
+  height: 100%;
+  transition: opacity 200ms ease, filter 200ms ease, transform 200ms ease;
+  will-change: opacity, filter, transform;
+}
+
+.plus-grid .pg-cell svg path {
+  fill: var(--pg-fill);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plus-grid .pg-cell svg {
+    transition: none;
+  }
+}
+
+@keyframes timeline-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
