@@ -564,13 +564,13 @@ export const caseStudies = {
       },
       {
         id: "logo-assets",
-        label: "Logo + Assets",
+        label: "Logo",
         className: "pt-18 pb-6",
         blocks: [
           {
             type: "gallery",
             layout: "brand",
-            caption: "Logo + assets",
+            caption: "Logo",
             items: [
               { src: "/work/amya-agency/square-black.png", label: "Amya square lockup — black", ratio: "1 / 1" },
               { src: "/work/amya-agency/square-white.png", label: "Amya square lockup — white", ratio: "1 / 1" },
@@ -605,12 +605,14 @@ export const caseStudies = {
         blocks: [
           {
             type: "gallery",
-            layout: "cols-3",
-            caption: "Experimental Marketing",
+            layout: "cols-3-stack",
+            caption: "Marketing + banners",
             items: [
               { src: "/work/amya-agency/marketing-1.png", label: "", ratio: "3067 / 3834" },
               { src: "/work/amya-agency/marketing-2.png", label: "", ratio: "3067 / 3834" },
               { src: "/work/amya-agency/marketing-3.png", label: "", ratio: "3067 / 3834" },
+              { src: "/work/amya-agency/banner-dark.png", label: "", ratio: "1024 / 256" },
+              { src: "/work/amya-agency/banner-light.png", label: "", ratio: "1024 / 256" },
             ],
           },
         ],

@@ -49,7 +49,29 @@ export default function Gallery({ items = [], caption, layout = "cols-3" }) {
   return (
     <figure>
       <div className="rounded-2xl bg-card p-4 sm:p-12">
-        {layout === "brand" ? (
+        {layout === "cols-3-stack" ? (
+          // First three items as a row, the rest stacked full width.
+          <div className="flex flex-col gap-4 sm:gap-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
+              {items.slice(0, 3).map((item, i) => (
+                <Tile
+                  key={i}
+                  item={item}
+                  onClick={() => setActiveIndex(i)}
+                  className="w-full sm:flex-1 sm:basis-0 sm:min-w-0"
+                />
+              ))}
+            </div>
+            {items.slice(3).map((item, i) => (
+              <Tile
+                key={i + 3}
+                item={item}
+                onClick={() => setActiveIndex(i + 3)}
+                className="w-full"
+              />
+            ))}
+          </div>
+        ) : layout === "brand" ? (
           // First two items side by side, the rest as a centered logo row.
           <div className="flex flex-col gap-4 sm:gap-6">
             <div className="flex gap-4 sm:gap-6">

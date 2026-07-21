@@ -1,4 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { useRef } from "react";
+
+// Must match the duration-300 used on the hover transitions below.
+const EXPAND_DURATION_MS = 300;
 
 function ArrowIcon() {
   return (
@@ -43,7 +49,7 @@ function EntryBody({ title, subtitle, stats, wip }) {
         {wip ? (
           <span className="text-xs leading-5 text-foreground">WIP</span>
         ) : (
-          <span className="flex size-6 shrink-0 items-center justify-center rounded-full text-foreground transition-colors delay-[250ms] group-hover:bg-card group-hover:delay-0">
+          <span className="flex size-6 shrink-0 items-center justify-center rounded-full text-foreground transition-colors delay-[var(--exit-delay,0ms)] group-hover:bg-card group-hover:delay-0">
             <ArrowIcon />
           </span>
         )}
@@ -68,7 +74,7 @@ function isVideo(src) {
 
 function HoverMedia({ media, mediaFit }) {
   return (
-    <div className="pointer-events-none relative h-full w-0 shrink-0 overflow-hidden rounded-[22px] bg-[#fdf8f2] opacity-0 transition-[width,margin,opacity] delay-[250ms] duration-300 ease-out will-change-[width] group-hover:mr-2 group-hover:w-[147px] group-hover:opacity-100 group-hover:delay-0">
+    <div className="pointer-events-none relative h-full w-0 shrink-0 overflow-hidden rounded-[22px] bg-[#fdf8f2] opacity-0 transition-[width,margin,opacity] delay-[var(--exit-delay,0ms)] duration-300 ease-out will-change-[width] group-hover:mr-2 group-hover:w-[147px] group-hover:opacity-100 group-hover:delay-0">
       {media ? (
         isVideo(media) ? (
           <video
@@ -108,6 +114,23 @@ function HoverMedia({ media, mediaFit }) {
 
 function TimelineRow({ slug, title, subtitle, stats, year, wip, media, mediaFit, lineClass, isLast }) {
   const gapClass = isLast ? "" : "mb-2";
+  const hoverStartRef = useRef(0);
+  const linkRef = useRef(null);
+
+  // The 250ms exit delay (which keeps the row expanded while the mouse briefly
+  // dips out) only applies once the expansion has fully finished. If the mouse
+  // leaves mid-animation, collapse immediately so fast passes don't freeze.
+  const handleMouseEnter = () => {
+    hoverStartRef.current = performance.now();
+  };
+  const handleMouseLeave = () => {
+    const hoveredLongEnough =
+      performance.now() - hoverStartRef.current >= EXPAND_DURATION_MS;
+    linkRef.current?.style.setProperty(
+      "--exit-delay",
+      hoveredLongEnough ? "250ms" : "0ms"
+    );
+  };
   return (
     <div className="flex gap-6">
       {/* Year rail + connecting line */}
@@ -127,9 +150,12 @@ function TimelineRow({ slug, title, subtitle, stats, year, wip, media, mediaFit,
         </div>
       ) : (
         <Link
+          ref={linkRef}
           href={`/work/${slug}`}
           draggable={false}
-          className={`group flex min-w-0 flex-1 select-none items-stretch rounded-[30px] p-2 transition-[background-color,box-shadow] delay-[250ms] duration-300 ease-out hover:bg-white hover:shadow-[0px_2px_6px_rgba(0,0,0,0.15)] hover:delay-0 dark:hover:bg-card dark:hover:shadow-none ${gapClass}`}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className={`group flex min-w-0 flex-1 select-none items-stretch rounded-[30px] p-2 transition-[background-color,box-shadow] delay-[var(--exit-delay,0ms)] duration-300 ease-out hover:bg-white hover:shadow-[0px_2px_6px_rgba(0,0,0,0.15)] hover:delay-0 dark:hover:bg-card dark:hover:shadow-none ${gapClass}`}
         >
           <HoverMedia media={media} mediaFit={mediaFit} />
           <div className="flex min-w-0 flex-1 flex-col gap-2 p-2">
