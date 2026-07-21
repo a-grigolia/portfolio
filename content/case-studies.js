@@ -165,7 +165,7 @@ export const caseStudies = {
 
   "locale-2": {
     title: "Locale 2.0",
-    subtitle: "Pivoting to prepared meals to save the business.",
+    subtitle: "Locale 2.0 was a weekly subscription service that consolidated prepared meals from multiple local restaurants into a single delivery; think Factor meets DoorDash. Cheaper than ordering delivery every night, with the variety of eating out.",
     stats: [
       { label: "ARR", value: "$6M" },
       { label: "Restaurants", value: "50+" },
@@ -247,7 +247,7 @@ export const caseStudies = {
             paragraphs: [
               "So I learned to code!",
               "With the contractor gone and a front end that still needed building and iterating, I taught myself enough to start shipping — with help from one of my co-founders who took on the backend. Everything I’m showing on this page is my own work on the front end.",
-              "Over the last year of Locale 2.0, I built and rebuilt landing pages, ran A/B tests, and shipped systems that made the subscription product work: the filtering system for meal discovery, the meal review system for returning customers, the accounts experience, and a dashboard for managing orders across different delivery days.",
+              "Over the last year of Locale 2.0, I built and rebuilt landing pages, ran A/B tests, and shipped features that made the subscription product work: the filtering system for meal discovery, the meal review system for returning customers, the accounts experience, and a dashboard for managing orders across different delivery days.",
               "It was the moment the design-engineer path stopped being a distant dream and started being something I could see myself executing on.",
             ],
           },
