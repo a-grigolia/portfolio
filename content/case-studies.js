@@ -177,6 +177,14 @@ export const caseStudies = {
         label: "Context",
         blocks: [
           {
+            type: "banner",
+            src: "/work/locale-2/context-marketing.jpg",
+            alt: "Locale 2.0 marketing material — prepared meals from local restaurants",
+            color: "#fbf6f0",
+            fit: "cover",
+            caption: "Marketing material",
+          },
+          {
             type: "prose",
             heading: "Context",
             paragraphs: [
@@ -346,6 +354,7 @@ export const caseStudies = {
             src: "/work/locale-3/spinny-jar.gif",
             alt: "Locale jar spinning",
             color: "#f8f4f1",
+            caption: "Loading animation",
           },
           {
             type: "prose",

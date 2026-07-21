@@ -21,6 +21,8 @@ function Block({ block }) {
           alt={block.alt}
           color={block.color}
           imageWidth={block.imageWidth}
+          fit={block.fit}
+          caption={block.caption}
         />
       );
     case "image":
