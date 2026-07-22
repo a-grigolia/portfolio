@@ -19,8 +19,8 @@ export const caseStudies = {
             type: "prose",
             heading: "Context",
             paragraphs: [
-              "When I joined Locale, it was called Organic on the Go — a Google Form collecting orders from family and friends for the local farmers market in Los Gatos, CA. I was originally contacted to make a quick logo for the form, but ended up on the founding team to own the entire design function: building out the platform, user experience, and conceptualizing the brand.",
-              "Locale went on to become a full-blown marketplace, go through YC (S21), raise $14M from a16z at a $74M valuation, and expand nationwide — until we were forced to pivot after losing PMF.",
+              "When I joined Locale, it was called Organic on the Go, a Google Form collecting orders from family and friends for the local farmers market in Los Gatos, CA. I was originally contacted to make a quick logo for the form, but ended up on the founding team to own the entire design function: building out the platform, user experience, and conceptualizing the brand.",
+              "Locale went on to become a full-blown marketplace, go through YC (S21), raise $14M from a16z at a $74M valuation, and expand nationwide until we were forced to pivot after losing PMF.",
             ],
           },
           {
@@ -86,7 +86,7 @@ export const caseStudies = {
             paragraphs: [
               "As momentum grew we needed to move off the Google Form fast, and it was up to me to decide how. With no prior coding knowledge and no technical co-founder, Webflow gave me the best ability to ship and iterate quickly without waiting on anyone.",
               "What resulted was a front end built entirely in Webflow, with Airtable acting as a working backend, glued together by a handful of third-party apps to make it hum.",
-              "It wasn’t elegant, but that was the point. I could change anything on the site in an afternoon — test a layout, reorder a category, redesign a page — and see how customers responded by the weekend.",
+              "It wasn’t elegant, but that was the point. I could change anything on the site in an afternoon: test a layout, reorder a category, redesign a page, and see how customers responded by the weekend.",
               "Working without engineers meant I got to solve problems I had no business solving alone: geotagging subdomains so each region had its own storefront; building filters for better discoverability; implementing overengineered search engines.",
               "Having speed as a core tenet of our team, more than any single decision, is what got us through Y Combinator, helped us raise from a16z, and allowed us to go nationwide.",
               "Over three years, I designed and shipped every page in that same stack, carrying the marketplace from a scrappy first launch to a polished storefront.",
@@ -188,9 +188,9 @@ export const caseStudies = {
             type: "prose",
             heading: "Context",
             paragraphs: [
-              "Long-term retention dropped from 15% to 8% when COVID-19 restrictions ended. We were burning more than $600K a month trying to grow a marketplace that didn’t have a real PMF.",
+              "Long-term retention plummeted when COVID-19 restrictions ended. We were burning more than $600K a month trying to grow a marketplace that didn’t have a real PMF.",
               "After digging through our data, we learned that our best customers were ordering prepared meals over one-off items like baked goods and flowers. It made perfect sense: how often are you going to order a croissant in a month versus a meal you can actually eat for dinner?",
-              "We moved toward an opt-out subscription model built around prepared meals. Recurring revenue, recurring customers, and a reason to come back every week instead of every once in a while.",
+              "We moved toward an opt-out subscription model built around prepared meals. It gave the company truly recurring revenue for the first time, and gave customers a reason to come back every week instead of every once in a while.",
             ],
           },
         ],
@@ -230,7 +230,7 @@ export const caseStudies = {
             paragraphs: [
               "This pivot snapped the Webflow camel’s back because it couldn’t do two things (cleanly) that the new model required: native user accounts and robust order management. We needed a better solution.",
               "We settled on Shopify; however, due to their lack of customization for non-technical users, we had to bring on a contractor who knew Shopify’s templating language to help us customize the front-end functionality.",
-              "This let me step back into Figma for the first time in 3 years. It was sparingly used for 1.0 due to the speed we needed to ship at — most of that site was designed in the browser. It allowed for clean documentation of the design system, flows, and let me sharpen my handoff skills.",
+              "This let me step back into Figma for the first time in 3 years. It was sparingly used for 1.0 due to the speed we needed to ship at — most of Locale 1.0 was designed in the browser. It allowed for clean documentation of the design system, flows, and let me sharpen my handoff skills.",
               "Unfortunately the contractor didn’t end up as a viable long-term solution for us. Output was slow and the code was unmaintainable. Waiting on them became the bottleneck for the entire front end, so we eventually let him go, which left a gap I had to fill myself.",
             ],
           },
@@ -314,7 +314,7 @@ export const caseStudies = {
             cards: [
               { value: "$6M", label: "ARR" },
               { value: "50+", label: "Restaurants" },
-              { value: "$200K+", label: "Monthly burn" },
+              { value: "Coding", label: "New skills learned" },
             ],
           },
         ],
@@ -360,8 +360,8 @@ export const caseStudies = {
             type: "prose",
             heading: "Context",
             paragraphs: [
-              "Locale 2.0 had better unit economics than the original iteration, but it wasn't going to survive. Retention wasn't where it needed to be, and acquiring customers was slow and expensive. High CAC + low LTV = you're gonna have a bad time. At the prices we were charging, there was no clear path to profitability, and raising prices on the existing model would only have made growth worse.",
-              "We had about a year of runway left and small changes weren't going to save us. We needed to figure out what we should actually be, and we needed to do it fast.",
+              "By the end of 2024, Locale 2.0 was on its last legs; retention wasn't where it needed to be, and acquiring customers was slow and expensive. At the prices we were charging, there was no clear path to profitability, and raising prices on the existing model would only have worsened growth.",
+              "Locale had about a year of runway left, and small changes weren't going to work. We needed to figure out what we should actually be, and we needed to do it fast.",
             ],
           },
         ],
