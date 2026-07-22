@@ -49,7 +49,14 @@ function Block({ block }) {
         <Metrics cards={block.cards} quote={block.quote} layout={block.layout} />
       );
     case "demo":
-      return <LocaleDemo />;
+      return (
+        <figure>
+          <LocaleDemo />
+          <figcaption className="mt-3 text-center text-sm text-muted">
+            Live demo
+          </figcaption>
+        </figure>
+      );
     case "plusGrid":
       return (
         <div className="flex flex-col items-center gap-12">

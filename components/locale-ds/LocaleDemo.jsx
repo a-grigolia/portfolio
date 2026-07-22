@@ -1,224 +1,391 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './styles/tokens.css';
-import Button, { CartButton } from './buttons/Button.jsx';
-import MealCard from './components/MealCard/MealCard.jsx';
-import MealPopup from './components/MealPopup/MealPopup.jsx';
-import Sidecart from './components/Sidecart/Sidecart.jsx';
+import {
+  IconMinus,
+  IconPlus,
+  IconTrash,
+  IconSoldOut,
+  IconCart,
+} from './buttons/Button.jsx';
 import './LocaleDemo.css';
 
-const STEAK =
-  'https://www.shoplocale.com/cdn/shop/files/steak-shawarma-reg_e3664688-b187-42ef-90e9-739383035c73.png';
-const LOMO =
-  'https://www.shoplocale.com/cdn/shop/files/lomo-saltado_afc86f13-ba2a-413b-87ed-78ca15d13fe8.png';
-const GLOWBOWL = 'https://www.shoplocale.com/cdn/shop/files/glow_bowl_chicken.png';
+const ASSETS = '/work/locale-3/demo';
 
-// Sample meals drawn from the design-system stories. Each object carries both the
-// MealCard fields and the richer MealPopup fields; the components read what they need.
-const MEALS = [
-  {
-    id: 'steak',
-    title: 'Grass Fed Steak Shawarma',
-    subtitle: 'with Turmeric Rice and Spiced Chickpeas',
-    image: STEAK,
-    calories: 833,
-    protein: 50,
-    carbs: 75,
-    fat: 37,
-    fiber: 11,
-    totalSugars: 7,
-    addedSugars: 0,
-    saturatedFat: 7,
-    omega3: { value: '0.25g', dvPercent: 25 },
-    magnesium: { value: '140mg', dvPercent: 35 },
-    vitaminB12: { value: '2.4mcg', dvPercent: 71 },
-    vitaminD: { value: '40IU', dvPercent: 7 },
-    calcium: { value: '140mg', dvPercent: 14 },
-    iron: { value: '4.2mg', dvPercent: 24 },
-    potassium: { value: '1050mg', dvPercent: 23 },
-    sodium: { value: '900mg', dvPercent: 40 },
-    macroHighlight: 'protein',
-    badges: ['signature'],
-    spiceLevel: 'spice 0',
-    heatingInstructions:
-      'Remove sauce and pickled onions. Microwave: add 1 tsp water to rice, heat for 3 min.',
-    ingredients:
-      'Grass-fed flank steak, EVOO/avocado oil blend, lemon juice, garlic, turmeric rice, spiced chickpeas, pickled onions, tahini sauce.',
-    allergens: ['Beef', 'Dairy'],
-    highlights: [],
-    suppliers: [
-      {
-        name: 'Creekstone Organic Farms',
-        role: 'Our grass fed beef supplier',
-        logo: '',
-        description:
-          'Creekstone Farms is a renowned producer known for premium Black Angus beef raised with a focus on animal welfare and nutrition.',
-      },
-      {
-        name: 'Lakeside Organic Farms',
-        role: 'Our organic produce supplier',
-        logo: '',
-        description:
-          'Lakeside Organic Gardens is a family-owned farm dedicated to 100% organic, pesticide-free produce for over 25 years.',
-      },
-    ],
-  },
-  {
-    id: 'lomo',
-    title: 'Peruvian Lomo Saltado',
-    subtitle: 'with Jasmine Rice and Crispy Potatoes',
-    image: LOMO,
-    calories: 620,
-    protein: 44,
-    carbs: 58,
-    fat: 24,
-    fiber: 6,
-    totalSugars: 8,
-    addedSugars: 2,
-    saturatedFat: 6,
-    omega3: { value: '0.2g', dvPercent: 18 },
-    magnesium: { value: '85mg', dvPercent: 20 },
-    macroHighlight: 'protein',
-    badges: ['new'],
-    spiceLevel: 'spice 0',
-    heatingInstructions: 'Microwave: 3 min, stirring halfway through.',
-    ingredients:
-      'Grass-fed sirloin, red onion, tomato, soy-vinegar sauce, crispy potatoes, jasmine rice, cilantro.',
-    allergens: ['Beef', 'Soy'],
-    highlights: [],
-    suppliers: [],
-  },
-  {
-    id: 'glowbowl',
-    title: 'Chicken Glow Bowl',
-    subtitle: 'with Quinoa, Greens and Tahini',
-    image: GLOWBOWL,
-    calories: 480,
-    protein: 40,
-    carbs: 42,
-    fat: 16,
-    fiber: 9,
-    totalSugars: 6,
-    addedSugars: 0,
-    saturatedFat: 3,
-    macroHighlight: 'calories',
-    badges: ['spicy'],
-    spiceLevel: 'spice 2',
-    heatingInstructions: 'Microwave: 2.5 min.',
-    ingredients:
-      'Free-range chicken, quinoa, kale, roasted sweet potato, chickpeas, tahini-lemon dressing.',
-    allergens: ['Sesame'],
-    highlights: [],
-    suppliers: [],
-  },
-];
+// Regular / Light variants for the bulgogi bowl. The right-panel DV rings and
+// the card macros both read from here so the toggle drives everything at once.
+const VARIANTS = {
+  regular: { calories: 841, protein: 45, carbs: 64, fat: 45, caloriesDV: 43, proteinDV: 33 },
+  light: { calories: 662, protein: 42, carbs: 29, fat: 42, caloriesDV: 34, proteinDV: 30 },
+};
 
-const MEALS_BY_ID = Object.fromEntries(MEALS.map((m) => [m.id, m]));
-const sum = (obj) => Object.values(obj).reduce((a, b) => a + b, 0);
+const MEAL_GOAL = 4;
 
-export default function LocaleDemo() {
-  const [quantities, setQuantities] = useState({});
-  const [popupId, setPopupId] = useState(null);
-  const [cartOpen, setCartOpen] = useState(false);
+/* DV ring — same geometry as the Figma export (r24 / 5px stroke in a 53 viewBox).
+ * Draws from 0 on mount, then eases to the new value whenever percent changes. */
+function Ring({ percent, color }) {
+  const R = 24;
+  const C = 2 * Math.PI * R;
+  const [drawn, setDrawn] = useState(0);
 
-  const totalQty = useMemo(() => sum(quantities), [quantities]);
-
-  // Open the cart the first time something is added, then leave the user in control.
-  const prevTotal = useRef(0);
   useEffect(() => {
-    if (prevTotal.current === 0 && totalQty > 0) setCartOpen(true);
-    prevTotal.current = totalQty;
-  }, [totalQty]);
-
-  const setQty = (id, nextVal) =>
-    setQuantities((prev) => {
-      const next = { ...prev };
-      const v = Math.max(0, nextVal);
-      if (v === 0) delete next[id];
-      else next[id] = v;
-      return next;
+    let raf2;
+    // Double rAF so the initial 0-state paints before the transition kicks in.
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setDrawn(percent));
     });
-
-  const adjustQty = (id, delta) =>
-    setQuantities((prev) => {
-      const next = { ...prev };
-      const v = Math.max(0, (prev[id] || 0) + delta);
-      if (v === 0) delete next[id];
-      else next[id] = v;
-      return next;
-    });
-
-  const items = MEALS.filter((m) => quantities[m.id] > 0).map((m) => ({
-    id: m.id,
-    image: m.image,
-    title: m.title,
-    calories: m.calories,
-    protein: m.protein,
-    quantity: quantities[m.id],
-    onQuantityChange: (next) => setQty(m.id, next),
-  }));
-
-  const popupMeal = popupId ? MEALS_BY_ID[popupId] : null;
-  const popupQty = popupId ? quantities[popupId] || 0 : 0;
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, [percent]);
 
   return (
-    <div className="locale-ds locale-demo-bleed">
-      <div className="locale-demo">
-        <div className="locale-demo-bar">
-          <div className="locale-demo-bar-left">
-            <Button variant="primary">Browse meals</Button>
-            <Button variant="secondary">Our story</Button>
+    <span className="ld3-ring">
+      <svg viewBox="0 0 53 53" fill="none">
+        <circle cx="26.5" cy="26.5" r={R} stroke="rgba(0,0,0,0.05)" strokeWidth="5" />
+        <circle
+          className="ld3-ring-progress"
+          cx="26.5"
+          cy="26.5"
+          r={R}
+          stroke={color}
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeDasharray={C}
+          strokeDashoffset={C * (1 - drawn / 100)}
+          transform="rotate(-90 26.5 26.5)"
+        />
+      </svg>
+      <span className="ld3-ring-label">
+        <span className="ld3-ring-value">{percent}%</span>
+        <span className="ld3-ring-unit">DV</span>
+      </span>
+    </span>
+  );
+}
+
+/* Pill stepper — decrement swaps to a trash can at qty 1 and the increment
+ * swaps to the "stop" glyph at max, matching the three states in the Figma. */
+function Stepper({ initial, max = 8 }) {
+  const [qty, setQty] = useState(initial);
+  const atMax = qty >= max;
+
+  return (
+    <div className="ld3-stepper">
+      <button
+        type="button"
+        className="ld3-stepper-btn"
+        disabled={qty === 0}
+        onClick={() => setQty((q) => Math.max(0, q - 1))}
+        aria-label={qty <= 1 ? 'Remove' : 'Decrease quantity'}
+      >
+        {qty <= 1 ? <IconTrash /> : <IconMinus />}
+      </button>
+      <span className="ld3-stepper-count">{qty}</span>
+      <button
+        type="button"
+        className={`ld3-stepper-btn${atMax ? ' is-max' : ''}`}
+        onClick={() => !atMax && setQty((q) => q + 1)}
+        aria-label={atMax ? 'Maximum reached' : 'Increase quantity'}
+      >
+        {atMax ? <IconSoldOut /> : <IconPlus />}
+      </button>
+    </div>
+  );
+}
+
+/* Button that plays a spinner for a moment on every click. */
+function LoaderButton({ className, disabled, onClick, children }) {
+  const [loading, setLoading] = useState(false);
+  const timer = useRef(null);
+
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  const handleClick = (e) => {
+    if (loading) return;
+    setLoading(true);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setLoading(false), 1200);
+    onClick?.(e);
+  };
+
+  return (
+    <button
+      type="button"
+      className={`${className}${loading ? ' is-loading' : ''}`}
+      disabled={disabled}
+      onClick={handleClick}
+    >
+      <span className="ld3-btn-label">{children}</span>
+      <span className="ld3-loader" aria-hidden="true" />
+    </button>
+  );
+}
+
+function VariantToggle({ value, counts, onChange }) {
+  const isLight = value === 'light';
+  return (
+    <div className="ld3-toggle">
+      <span
+        className="ld3-toggle-thumb"
+        style={{ transform: `translateX(${isLight ? '100%' : '0%'})` }}
+        aria-hidden="true"
+      />
+      {/* The count only shows on the inactive option — the active variant's
+          quantity is already visible in the add-to-cart control below. */}
+      <button
+        type="button"
+        className={`ld3-toggle-option${!isLight ? ' is-active' : ''}`}
+        onClick={() => onChange('regular')}
+      >
+        {isLight && counts.regular > 0 && (
+          <span className="ld3-toggle-count">{counts.regular}</span>
+        )}
+        Regular
+      </button>
+      <button
+        type="button"
+        className={`ld3-toggle-option${isLight ? ' is-active' : ''}`}
+        onClick={() => onChange('light')}
+      >
+        {!isLight && counts.light > 0 && (
+          <span className="ld3-toggle-count">{counts.light}</span>
+        )}
+        Light
+      </button>
+    </div>
+  );
+}
+
+export default function LocaleDemo() {
+  const [variant, setVariant] = useState('regular');
+  // Regular and Light are separate products, each with its own quantity.
+  const [quantities, setQuantities] = useState({ regular: 0, light: 0 });
+  const [note, setNote] = useState('');
+  const [thanks, setThanks] = useState(false);
+  // Remount key so uncontrolled children (the pill steppers) reset too.
+  const [resetKey, setResetKey] = useState(0);
+  const thanksTimer = useRef(null);
+  const noteTimer = useRef(null);
+
+  useEffect(
+    () => () => {
+      clearTimeout(thanksTimer.current);
+      clearTimeout(noteTimer.current);
+    },
+    []
+  );
+
+  const handleSubmitNote = () => {
+    const text = note.trim();
+    if (!text) return;
+    // No backend yet — stash submissions in localStorage (and the console)
+    // so they can be inspected. Swap for a real endpoint when one exists.
+    try {
+      const key = 'locale-demo-submissions';
+      const prev = JSON.parse(localStorage.getItem(key) || '[]');
+      prev.push({ text, at: new Date().toISOString() });
+      localStorage.setItem(key, JSON.stringify(prev));
+      console.log('[locale-demo] submission:', text);
+    } catch {
+      /* storage unavailable — ignore */
+    }
+    // Clear once the button's loader finishes.
+    clearTimeout(noteTimer.current);
+    noteTimer.current = setTimeout(() => setNote(''), 1200);
+  };
+
+  const handleSave = () => {
+    setThanks(true);
+    // Reset the demo behind the overlay so it's fresh when the overlay clears.
+    setVariant('regular');
+    setQuantities({ regular: 0, light: 0 });
+    setNote('');
+    setResetKey((k) => k + 1);
+    clearTimeout(thanksTimer.current);
+    thanksTimer.current = setTimeout(() => setThanks(false), 3000);
+  };
+
+  const m = VARIANTS[variant];
+  const cardQty = quantities[variant];
+  const setCardQty = (next) =>
+    setQuantities((prev) => ({
+      ...prev,
+      [variant]: Math.max(0, typeof next === 'function' ? next(prev[variant]) : next),
+    }));
+
+  const mealCount = quantities.regular + quantities.light;
+  const fillPct = Math.min(mealCount / MEAL_GOAL, 1) * 100;
+  const inCart = cardQty > 0;
+  const cartFull = mealCount >= MEAL_GOAL;
+
+  return (
+    <div className="locale-ds">
+      <div className="ld3-frame" key={resetKey}>
+        {thanks && (
+          <div className="ld3-thanks" role="status">
+            <img
+              className="ld3-thanks-jar"
+              src="/work/locale-3/spinny-jar.gif"
+              alt="Locale jar spinning"
+            />
+            <p className="ld3-thanks-text">Thanks for trying out the demo!</p>
           </div>
-          <CartButton count={totalQty} onClick={() => setCartOpen(true)} />
+        )}
+        {/* ── Meal card ── */}
+        <div className="ld3-card">
+          <div className="ld3-card-media">
+            <img
+              className="ld3-card-img"
+              src={`${ASSETS}/${variant === 'light' ? 'bulgogi-bowl-light.png' : 'bulgogi-bowl.png'}`}
+              alt="Grass-Fed Ground Beef Bulgogi Bowl"
+            />
+            <span className="ld3-badge-spicy">
+              <img
+                className="ld3-badge-chili"
+                src={`${ASSETS}/icon-chili.svg`}
+                alt=""
+                aria-hidden="true"
+              />
+              Spicy
+            </span>
+          </div>
+
+          <div className="ld3-card-meta">
+            <p className="ld3-shelf">Eat within 6 days</p>
+            <VariantToggle value={variant} counts={quantities} onChange={setVariant} />
+          </div>
+
+          <div className="ld3-card-titles">
+            <p className="ld3-card-title">Grass-Fed Ground Beef Bulgogi Bowl</p>
+            <p className="ld3-card-subtitle">
+              With Bone Broth Brown Rice, Shiitake Mushrooms, Spinach, and Kimchi
+            </p>
+          </div>
+
+          <div className="ld3-macros">
+            <div className="ld3-macro">
+              <p className="ld3-macro-value">{m.calories}</p>
+              <p className="ld3-macro-label">Cal</p>
+            </div>
+            <div className="ld3-macro">
+              <p className="ld3-macro-value">{m.protein}g</p>
+              <p className="ld3-macro-label">Protein</p>
+            </div>
+            <div className="ld3-macro">
+              <p className="ld3-macro-value">{m.carbs}g</p>
+              <p className="ld3-macro-label">Carbs</p>
+            </div>
+            <div className="ld3-macro">
+              <p className="ld3-macro-value">{m.fat}g</p>
+              <p className="ld3-macro-label">Fat</p>
+            </div>
+          </div>
+
+          {/* Add Meal morphs into the design-system qty control once added */}
+          <div className="ld3-add-wrap">
+            <button
+              type="button"
+              className={`ld3-add-btn${inCart ? ' is-hidden' : ''}`}
+              onClick={() => setCardQty(1)}
+            >
+              Add Meal
+            </button>
+            <div className={`ld3-add-qty${inCart ? ' is-visible' : ''}`}>
+              <button
+                type="button"
+                className="ld3-add-qty-btn"
+                onClick={() => setCardQty((q) => Math.max(0, q - 1))}
+                aria-label="Decrease quantity"
+              >
+                <IconMinus />
+              </button>
+              <span className="ld3-add-qty-val">{cardQty}</span>
+              <button
+                type="button"
+                className="ld3-add-qty-btn"
+                onClick={() => setCardQty((q) => q + 1)}
+                aria-label="Increase quantity"
+              >
+                <IconPlus />
+              </button>
+            </div>
+          </div>
         </div>
 
-        <p className="locale-demo-hint">
-          Live components from the production design system — click a meal to open its detail
-          popup, add meals, and open the cart.
-        </p>
+        {/* ── Right panel ── */}
+        <div className="ld3-panel">
+          <div className="ld3-btn-row">
+            <LoaderButton className="ld3-btn ld3-btn-primary">Edit order</LoaderButton>
+            <LoaderButton className="ld3-btn ld3-btn-text">Skip delivery</LoaderButton>
+          </div>
 
-        <div className="locale-demo-grid">
-          {MEALS.map((m) => (
-            <MealCard
-              key={m.id}
-              title={m.title}
-              subtitle={m.subtitle}
-              image={m.image}
-              calories={m.calories}
-              protein={m.protein}
-              carbs={m.carbs}
-              fat={m.fat}
-              macroHighlight={m.macroHighlight}
-              badges={m.badges}
-              initialQuantity={quantities[m.id] || 0}
-              onQuantityChange={(qty) => setQty(m.id, qty)}
-              onClick={() => setPopupId(m.id)}
-            />
-          ))}
+          <div className="ld3-stepper-row">
+            <Stepper initial={1} />
+            <Stepper initial={4} />
+            <Stepper initial={8} />
+          </div>
+
+          <button
+            type="button"
+            className={`ld3-progress${cartFull ? ' is-full' : ''}`}
+            onClick={() => cartFull && handleSave()}
+            tabIndex={cartFull ? 0 : -1}
+          >
+            {cartFull ? (
+              <span className="ld3-progress-save">Save {mealCount} meals</span>
+            ) : (
+              <>
+                <span className="ld3-progress-top">
+                  <span className="ld3-progress-cart">
+                    <IconCart size={24} />
+                  </span>
+                  <span className="ld3-progress-label">
+                    {mealCount}/{MEAL_GOAL} meals
+                  </span>
+                </span>
+                <span className="ld3-progress-track">
+                  <span className="ld3-progress-fill" style={{ width: `${fillPct}%` }} />
+                </span>
+              </>
+            )}
+          </button>
+
+          <div className="ld3-stat">
+            <p className="ld3-stat-label">Calories</p>
+            <div className="ld3-stat-right">
+              <p className="ld3-stat-value">{m.calories}cal</p>
+              <Ring percent={m.caloriesDV} color="#5DA5D5" />
+            </div>
+          </div>
+
+          <div className="ld3-stat">
+            <p className="ld3-stat-label">Protein</p>
+            <div className="ld3-stat-right">
+              <p className="ld3-stat-value">{m.protein}g</p>
+              <Ring percent={m.proteinDV} color="#FF7F66" />
+            </div>
+          </div>
+
+          <textarea
+            className="ld3-note"
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="What type of meals would you like us to add?"
+            aria-label="What type of meals would you like us to add?"
+          />
+
+          <LoaderButton
+            className="ld3-btn ld3-btn-submit"
+            disabled={!note.trim()}
+            onClick={handleSubmitNote}
+          >
+            Submit
+          </LoaderButton>
         </div>
       </div>
-
-      <MealPopup
-        {...(popupMeal || {})}
-        isOpen={!!popupMeal}
-        addToCart
-        isInCart={popupQty > 0}
-        cartQuantity={popupQty}
-        onClose={() => setPopupId(null)}
-        onAddToCart={() => popupId && adjustQty(popupId, 1)}
-        onRemove={() => popupId && adjustQty(popupId, -1)}
-      />
-
-      <Sidecart
-        isOpen={cartOpen}
-        deliveryDate="Tue, 10/28"
-        items={items}
-        emptyMessage="Your cart is empty — add a meal to see it here."
-        onClose={() => setCartOpen(false)}
-        onClear={() => setQuantities({})}
-        onContinue={() => setCartOpen(false)}
-      />
     </div>
   );
 }

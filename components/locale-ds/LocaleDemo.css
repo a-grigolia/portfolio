@@ -1,72 +1,808 @@
-/* Full-bleed wrapper so the 3-up meal grid escapes the 720px case-study column. */
-.locale-demo-bleed {
-  position: relative;
-  left: 50%;
-  right: 50%;
-  width: 100vw;
-  max-width: 100vw;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
+/*
+ * Locale live demo — built 1:1 from the Figma frame (node 23391:149690).
+ * Layout/dimensions come straight from the design; hover, press, and morph
+ * transitions are borrowed from the production design-system CSS
+ * (Button.css, MealCard.css, CalorieToggle.css).
+ */
 
-/* The light "product canvas". Uses design-system tokens (inherited from .locale-ds),
- * so it stays light/on-brand even when the portfolio is in dark mode. */
-.locale-demo {
+/* ─── Frame ─── */
+
+.ld3-frame {
+  position: relative;
   box-sizing: border-box;
-  max-width: 1040px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  max-width: 816px;
   margin: 0 auto;
-  padding: var(--space-8) var(--space-6);
+  padding: 48px;
   background: var(--color-bg);
-  border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   font-family: var(--font-family-body);
   color: var(--color-text);
 }
 
-.locale-demo-bar {
+.ld3-frame p {
+  margin: 0;
+}
+
+/* ─── Meal card ─── */
+
+.ld3-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 331px;
+  flex-shrink: 0;
+  padding: 16px;
+  background: var(--color-neutral-150);
+  border-radius: 20px;
+  /* hover treatment from MealCard.css */
+  transition: background var(--transition-slow);
+}
+
+.ld3-card:hover {
+  background: var(--color-bg-card-hover);
+}
+
+.ld3-card-media {
+  position: relative;
+  width: 100%;
+  height: 272px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ld3-card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ld3-badge-spicy {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 16px;
+  padding: 0 8px 1px 4px;
+  border-radius: 24px;
+  background: var(--color-highlight-spicy);
+  color: #fff;
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 10px;
+}
+
+.ld3-badge-chili {
+  display: block;
+  width: 8px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+.ld3-card-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-4);
-}
-
-.locale-demo-bar-left {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
-.locale-demo-hint {
-  margin: var(--space-4) 0 var(--space-6);
-  font-size: var(--text-base);
-  line-height: var(--leading-normal);
-  color: var(--color-text-light);
-  max-width: 60ch;
-}
-
-.locale-demo-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-5);
-  align-items: start;
-}
-
-/* Let cards fill their grid track instead of the fixed 320px design width. */
-.locale-demo .meal-card {
+  gap: 8px;
   width: 100%;
 }
 
-@media (max-width: 900px) {
-  .locale-demo-grid {
-    grid-template-columns: repeat(2, 1fr);
+.ld3-shelf {
+  flex: 1;
+  min-width: 0;
+  color: var(--color-success-bg);
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 16.4px;
+}
+
+/* ── Regular/Light toggle (slider animation from CalorieToggle.css) ── */
+
+.ld3-toggle {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  background: var(--color-toggle-bg);
+  border-radius: 32px;
+}
+
+.ld3-toggle-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: var(--color-tint-60);
+  opacity: 0.9;
+  border-radius: 32px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ld3-toggle-option {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  border-radius: 32px;
+  cursor: pointer;
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 16.4px;
+  color: var(--color-neutral-900);
+  transition: color 0.25s ease;
+}
+
+.ld3-toggle-option.is-active {
+  color: #fff;
+}
+
+/* Per-variant quantity badge (Figma 23460:12531) */
+.ld3-toggle-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--color-tint-60);
+  color: var(--color-neutral-50);
+  font-size: 8px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 1px;
+  text-indent: 1px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ── Card copy ── */
+
+.ld3-card-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.ld3-card-title {
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  line-height: 24px;
+  color: var(--color-neutral-900);
+}
+
+.ld3-card-subtitle {
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+  line-height: 20px;
+  color: var(--color-neutral-900);
+}
+
+/* ── Macro chips ── */
+
+.ld3-macros {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.ld3-macro {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px;
+  background: var(--color-tint-5);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.ld3-macro-value {
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  line-height: 24px;
+  color: var(--color-neutral-900);
+}
+
+.ld3-macro-label {
+  font-size: 12px;
+  font-weight: var(--font-weight-regular);
+  line-height: 22px;
+  color: var(--color-neutral-900);
+}
+
+/* ── Add Meal → qty morph (pattern + transitions from Button.css) ── */
+
+.ld3-add-wrap {
+  position: relative;
+  width: 100%;
+  height: 40px;
+}
+
+.ld3-add-btn {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  border-radius: 40px;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-neutral-350);
+  color: var(--color-neutral-900);
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 22px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ld3-add-btn:hover {
+  background: var(--color-hover-bg);
+  border-color: var(--color-hover-bg);
+  color: var(--color-hover-text);
+}
+
+.ld3-add-btn.is-hidden {
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+}
+
+.ld3-add-qty {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 1px;
+  background: var(--color-tint-70);
+  border: 1px solid var(--color-neutral-350);
+  border-radius: 40px;
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.ld3-add-qty.is-visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* Wide pill-shaped hit areas with a darker fill on hover (Figma 23405:151009) */
+.ld3-add-qty-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 36px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 48px;
+  background: transparent;
+  color: var(--color-text-inverse);
+  cursor: pointer;
+  transition: background var(--transition-fast), transform 0.15s ease;
+}
+
+.ld3-add-qty-btn:hover {
+  background: var(--color-neutral-900);
+}
+
+.ld3-add-qty-btn:active {
+  transform: scale(0.92);
+}
+
+.ld3-add-qty-val {
+  color: var(--color-text-inverse);
+  font-family: var(--font-family-body);
+  font-size: var(--text-md);
+  font-weight: var(--font-weight-bold);
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ─── Right panel ─── */
+
+.ld3-panel {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  width: 341px;
+  flex-shrink: 0;
+}
+
+/* ── Buttons (hover states from Button.css) ── */
+
+.ld3-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.ld3-btn {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 48px;
+  cursor: pointer;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 22px;
+  transition: all var(--transition-fast);
+}
+
+.ld3-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* ── Click loader ── */
+
+.ld3-btn .ld3-loader {
+  display: none;
+  position: absolute;
+  top: calc(50% - 10px);
+  left: calc(50% - 10px);
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: ld3-spin 0.8s linear infinite;
+}
+
+.ld3-btn.is-loading .ld3-loader {
+  display: block;
+}
+
+.ld3-btn.is-loading .ld3-btn-label {
+  opacity: 0;
+}
+
+@keyframes ld3-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
-@media (max-width: 600px) {
-  .locale-demo {
-    padding: var(--space-5) var(--space-4);
+/* The base is a gradient, which CSS can't transition to a solid color —
+ * so the hover color lives on a pseudo-element that fades in above the
+ * gradient (kept below the label via negative z-index + isolation). */
+.ld3-btn-primary {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(109deg, #245b50 0%, #1e5045 100%);
+  color: #fff;
+}
+
+.ld3-btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--color-cta-hover-bg);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.ld3-btn-primary:hover::before {
+  opacity: 1;
+}
+
+.ld3-btn-submit {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--color-neutral-900);
+  color: var(--color-neutral-900);
+}
+
+.ld3-btn-submit:hover:not(:disabled) {
+  background: var(--color-hover-bg);
+  color: var(--color-hover-text);
+}
+
+.ld3-btn-submit:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.ld3-btn-text {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--color-neutral-900);
+}
+
+.ld3-btn-text:hover {
+  background-color: #ece4e3;
+  color: #bd6b6c;
+  border-color: #bd6b6c;
+}
+
+/* ── Pill steppers (button hovers from Button.css .btn-qty-stepper-btn) ── */
+
+.ld3-stepper-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ld3-stepper {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+  padding: 4px;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-neutral-350);
+  border-radius: 40px;
+  flex-shrink: 0;
+}
+
+.ld3-stepper-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 40px;
+  background: transparent;
+  color: var(--color-neutral-900);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ld3-stepper-btn:hover:not(:disabled):not(.is-max) {
+  background: var(--color-hover-bg);
+  color: var(--color-hover-text);
+}
+
+.ld3-stepper-btn:active:not(:disabled):not(.is-max) {
+  transform: scale(0.8);
+}
+
+.ld3-stepper-btn:disabled,
+.ld3-stepper-btn.is-max {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.ld3-stepper-count {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 22px;
+  color: var(--color-neutral-900);
+  user-select: none;
+}
+
+/* ── Cart progress pill ── */
+
+.ld3-progress {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  height: 64px;
+  padding: 16px 24px;
+  background: var(--color-tint-5);
+  border: 1px solid #fff;
+  border-radius: 82px;
+  overflow: hidden;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background var(--transition-base);
+  font-family: var(--font-family-body);
+  cursor: default;
+}
+
+/* Full-cart state (Figma 23460:11903) */
+.ld3-progress.is-full {
+  background: var(--color-neutral-900);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.ld3-progress-save {
+  color: #f5f5f5;
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 22px;
+}
+
+/* Diagonal white shine that sweeps across once on hover (Figma 23465:147096) */
+.ld3-progress.is-full::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-140%) skewX(-20deg);
+  pointer-events: none;
+}
+
+.ld3-progress.is-full:hover::after {
+  animation: ld3-shine 0.9s ease-out forwards;
+}
+
+@keyframes ld3-shine {
+  from {
+    transform: translateX(-140%) skewX(-20deg);
   }
-  .locale-demo-grid {
-    grid-template-columns: 1fr;
+  to {
+    transform: translateX(340%) skewX(-20deg);
+  }
+}
+
+.ld3-progress-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ld3-progress-cart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--color-neutral-900);
+}
+
+.ld3-progress-label {
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 22px;
+  color: var(--color-neutral-900);
+}
+
+.ld3-progress-track {
+  display: block;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--color-tint-5);
+  overflow: hidden;
+}
+
+.ld3-progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: #2d7b4b;
+  transition: width var(--transition-base);
+}
+
+/* ── Thank-you overlay (Figma 23465:147101) ── */
+
+.ld3-thanks {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  padding: 48px;
+  background: var(--color-bg);
+  border-radius: 16px;
+  animation: ld3-thanks-in 0.3s ease;
+}
+
+.ld3-thanks-jar {
+  width: 330px;
+  max-width: 100%;
+  height: 236px;
+  object-fit: cover;
+}
+
+.ld3-thanks-text {
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 24px;
+  color: var(--color-neutral-900);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: ld3-thanks-text-in 0.5s ease 0.25s forwards;
+}
+
+@keyframes ld3-thanks-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ld3-thanks-text-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Textarea ── */
+
+.ld3-note {
+  box-sizing: border-box;
+  width: 100%;
+  height: 121px;
+  padding: 24px;
+  background: transparent;
+  border: 1px solid var(--color-neutral-500);
+  border-radius: 16px;
+  resize: none;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: var(--font-weight-regular);
+  line-height: 22px;
+  color: var(--color-neutral-900);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.ld3-note::placeholder {
+  color: var(--color-neutral-500);
+}
+
+.ld3-note:focus {
+  outline: none;
+  border-color: var(--color-neutral-900);
+  box-shadow: 0 0 0 1px var(--color-neutral-900);
+}
+
+/* ── DV stat rows ── */
+
+.ld3-stat {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 24px;
+  background: var(--color-tint-5);
+  border-radius: 16px;
+}
+
+.ld3-stat-label {
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 24px;
+  color: var(--color-neutral-900);
+}
+
+.ld3-stat-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+}
+
+.ld3-stat-value {
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  line-height: normal;
+  color: var(--color-neutral-900);
+}
+
+.ld3-ring {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.ld3-ring svg {
+  position: absolute;
+  inset: -5.21%;
+  width: 110.42%;
+  height: 110.42%;
+  overflow: visible;
+}
+
+.ld3-ring-progress {
+  transition: stroke-dashoffset 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ld3-ring-label {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--color-neutral-900);
+}
+
+.ld3-ring-value {
+  font-size: 12px;
+  font-weight: var(--font-weight-bold);
+  line-height: 16px;
+}
+
+.ld3-ring-unit {
+  font-size: 9px;
+  font-weight: var(--font-weight-regular);
+  line-height: 14px;
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 820px) {
+  .ld3-frame {
+    flex-direction: column;
+    gap: 32px;
+    padding: 32px 24px;
+  }
+
+  .ld3-card,
+  .ld3-panel {
+    width: 100%;
+    max-width: 341px;
   }
 }
