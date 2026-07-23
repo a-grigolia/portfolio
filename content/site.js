@@ -13,7 +13,7 @@ export const work = [
     slug: "locale-3",
     title: "Locale 3.0",
     subtitle: "Final pivot & finding PMF",
-    stats: "$40M ARR • 70% M1 retention",
+    stats: "$35M ARR • 70% M1 retention",
     year: "2025",
     media: "/work/locale-3/cover.png",
     mediaFit: "cover",

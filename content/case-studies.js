@@ -325,7 +325,7 @@ export const caseStudies = {
   "locale-3": {
     title: "Locale 3.0",
     metaDescription:
-      "Locale's final pivot: rebranding and rebuilding a prepared meal service that grew to $40M ARR with 70% M1 retention.",
+      "Locale's final pivot: rebranding and rebuilding a prepared meal service that grew to $35M ARR with 70% M1 retention.",
     subtitle: (
       <>
         The latest iteration of Locale is a premium, high-protein meal service for health optimizers; extremely transparent, lab-tested, and built around meals made with the highest-quality ingredients. Check it out at{" "}
@@ -340,7 +340,7 @@ export const caseStudies = {
       </>
     ),
     stats: [
-      { label: "ARR", value: "$40M" },
+      { label: "ARR", value: "$35M" },
       { label: "M1 retention", value: "70%" },
       { label: "Weekly subscribers", value: "8K+" },
     ],
@@ -522,7 +522,7 @@ export const caseStudies = {
             type: "prose",
             heading: "Impact & retrospect",
             paragraphs: [
-              "My branding, UX, and packaging design were part of growing Locale to $40M ARR. For a year I ran operations alongside design — scaling pick-and-pack to 5,000 orders and 35,000 meals a week, growing our LA deliveries, and writing the playbook for how we expand into new regions.",
+              "My branding, UX, and packaging design were part of growing Locale to $35M ARR. For a year I ran operations alongside design — scaling pick-and-pack to 5,000 orders and 35,000 meals a week, growing our LA deliveries, and writing the playbook for how we expand into new regions.",
               "The current version of Locale has changed how thousands of people eat. The feedback has been overwhelmingly positive: people come to us to lose weight, build muscle, steady their energy, improve gut health, find perimenopausal support, or just eat clean, toxin-free food every day. It's still growing, and fast.",
             ],
           },
@@ -530,7 +530,7 @@ export const caseStudies = {
             type: "metrics",
             layout: "grid-3",
             cards: [
-              { value: "$40M", label: "ARR" },
+              { value: "$35M", label: "ARR" },
               { value: "150K+", label: "Monthly site visitors" },
               { value: "24%", label: "Onboarding conversion" },
               { value: "70%", label: "M1 retention" },
