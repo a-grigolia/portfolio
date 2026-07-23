@@ -1,4 +1,5 @@
 import Timeline from "@/components/Timeline";
+import CopyEmail from "@/components/CopyEmail";
 import { profile, work, sideProjects } from "@/content/site";
 
 export default function HomePage() {
@@ -56,12 +57,7 @@ export default function HomePage() {
             >
               {profile.linkedinLabel}
             </a>
-            <a
-              href={`mailto:${profile.email}`}
-              className="w-fit text-foreground transition-colors hover:text-accent"
-            >
-              Email
-            </a>
+            <CopyEmail email={profile.email} />
           </div>
         </section>
       </div>
