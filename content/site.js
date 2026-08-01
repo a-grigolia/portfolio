@@ -1,7 +1,7 @@
 export const profile = {
   name: "Avto Grigolia",
   about: [
-    "I'm a product-forward designer drawn to 0→1 problems. As the team's solo creative since 2020, I've owned design across three iterations of Locale including: UX, UI, branding, design systems, and front-end dev. Everything I build starts with the customer and ends with shipped code.",
+    "I'm a product designer drawn to 0→1 problems. As the team's solo creative since 2020, I've owned design and front-end engineering throughout Locale's evolution: designing data-driven UX and UI, developing design systems, and creating the brand and visual identity from scratch. Everything I build starts with the customer and ends with shipped code.",
   ],
   email: "a.grigolia123@gmail.com",
   linkedin: "https://www.linkedin.com/in/avto-grigolia/",
