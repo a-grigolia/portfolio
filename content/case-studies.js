@@ -543,6 +543,102 @@ export const caseStudies = {
     ],
   },
 
+  "d-ford": {
+    title: "D-Ford",
+    metaDescription:
+      "Field research and concept work at D-Ford, Ford's human-centered innovation studio built with IDEO — including Spin Access, opening up scooter access for people without smartphones or credit cards.",
+    subtitle:
+      "After graduating college in 2019, I joined D-Ford, Ford's human-centered innovation studio built with IDEO (formerly Greenfield Labs).",
+    stats: [
+      { label: "Projects", value: "3" },
+      { label: "Main practice", value: "Field research" },
+    ],
+    sections: [
+      {
+        id: "context",
+        label: "Context",
+        blocks: [
+          {
+            type: "image",
+            src: "/work/d-ford/context-logo.png",
+            label: "D-Ford logo",
+            ratio: "4096 / 1402",
+          },
+          {
+            type: "prose",
+            heading: "Context",
+            paragraphs: [
+              "Most of my work at Ford sits under an NDA. I can't show the work itself, but I can talk about the process and share a few select slides. I worked on three projects, and two of them shipped:",
+              {
+                list: [
+                  "A moonshot project delivering conceptual roadmaps around brand communities.",
+                  "The D-Ford recruitment website; designed, built, and in use until D-Ford was eventually dissolved.",
+                  "Concept work delivered to Spin for future implementation. Now live as [**Spin Access**](https://www.spin.app/spin-access), which means we can finally talk about it.",
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "spin-access",
+        label: "Spin Access",
+        blocks: [
+          {
+            type: "prose",
+            heading: "Spin Access",
+            paragraphs: [
+              "After Ford bought Spin in 2018, D-Ford was pulled in to answer one question: how do people without smartphones, credit cards, or spare income get access to electric scooters?",
+              "We spent six weeks in the field with Gehl, a leading urban strategy consultancy, riding along with ops teams, interviewing riders and non-riders, and testing paper prototypes with members of the community.",
+              "Ten prototypes came out of it: app flows, pricing models, physical hardware.",
+            ],
+          },
+          {
+            type: "image",
+            src: "/work/d-ford/spin-process.png",
+            label: "Project process",
+            caption: "Project process",
+            ratio: "2212 / 1244",
+          },
+          {
+            type: "gallery",
+            layout: "grid-2x2",
+            caption: "Select slides from the final presentation",
+            items: [
+              { src: "/work/d-ford/slides-1.png", label: "Poor door to big front door", ratio: "1500 / 844" },
+              { src: "/work/d-ford/slides-2.png", label: "Design challenge & opportunity areas", ratio: "1500 / 844" },
+              { src: "/work/d-ford/slides-3.png", label: "All prototypes", ratio: "1500 / 844" },
+              { src: "/work/d-ford/slides-4.png", label: "Street testing enrollment", ratio: "1500 / 844" },
+            ],
+          },
+        ],
+      },
+      {
+        id: "impact",
+        label: "Impact",
+        blocks: [
+          {
+            type: "prose",
+            heading: "Impact",
+            paragraphs: [
+              "We handed Spin ten tested prototypes and an action plan. Some of it actually shipped: the SMS unlock, cash payments, and the Access card are still on [**their site today**](https://www.spin.app/spin-access). Most of them didn't make it however, and that's the trade off with concept work.",
+              "The most valuable thing I developed at D-Ford was the research practice. Field observation, prototype testing in the real world, conducting interviews in communities. Those methods carried into everything I've designed since.",
+            ],
+          },
+          {
+            type: "gallery",
+            layout: "stack",
+            caption: "Live site",
+            items: [
+              { src: "/work/d-ford/impact-livesite-1.png", label: "Spin Access live site", ratio: "720 / 451" },
+              { src: "/work/d-ford/impact-livesite-2.png", label: "Spin Access — In Person Visits", ratio: "3456 / 1984" },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+
   "amya-agency": {
     title: "Amya Agency",
     metaDescription:

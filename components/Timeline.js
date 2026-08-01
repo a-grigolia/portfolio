@@ -73,6 +73,7 @@ function isVideo(src) {
 }
 
 function HoverMedia({ media, mediaFit }) {
+  if (!media) return null;
   return (
     <div className="pointer-events-none relative h-full w-0 shrink-0 overflow-hidden rounded-[22px] bg-[#fdf8f2] opacity-0 transition-[width,margin,opacity] delay-[var(--exit-delay,0ms)] duration-300 ease-out will-change-[width] group-hover:mr-2 group-hover:w-[147px] group-hover:opacity-100 group-hover:delay-0">
       {media ? (

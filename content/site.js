@@ -42,7 +42,8 @@ export const work = [
     subtitle: "Exploring the future of mobility",
     stats: "3 projects • Field research",
     year: "2019",
-    wip: true,
+    media: "/work/d-ford/cover.png",
+    mediaFit: "cover",
   },
 ];
 
