@@ -3,9 +3,9 @@ import { ThemeProvider } from "./theme-provider";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "Avto — Founding Designer",
+  title: "Avto, Product Designer",
   description:
-    "Founding designer who codes. I build 0→1 products end to end.",
+    "Product designer who codes. I build 0→1 products end to end.",
 };
 
 export default function RootLayout({ children }) {
