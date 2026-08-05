@@ -2,7 +2,7 @@ import StatsStrip from "./StatsStrip";
 
 export default function Hero({ title, subtitle, stats }) {
   return (
-    <header className="px-0 sm:px-12">
+    <header className="px-2 sm:px-12">
       <h1 className="font-sans text-[30px] font-semibold leading-tight tracking-tight text-foreground">
         {title}
       </h1>

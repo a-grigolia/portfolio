@@ -78,7 +78,7 @@ export default function CaseStudyLayout({
   const navSections = sections.map((s) => ({ id: s.id, label: s.label }));
 
   return (
-    <article className="relative px-6 pb-8">
+    <article className="relative px-4 pb-8 sm:px-6">
       <Link
         href="/"
         className="absolute left-6 top-6 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground transition-colors hover:text-subtle"
