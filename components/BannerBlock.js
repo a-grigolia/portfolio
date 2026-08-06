@@ -22,7 +22,7 @@ export default function BannerBlock({
           <img
             src={src}
             alt={alt}
-            className="max-h-full"
+            className="max-h-full object-contain"
             style={{ width: imageWidth, maxWidth: "100%" }}
           />
         )}

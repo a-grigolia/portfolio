@@ -17,7 +17,7 @@ export default function HomePage() {
                 href="https://www.shoplocale.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-bold text-subtle underline underline-offset-2 transition-colors hover:text-accent"
+                className="font-semibold text-foreground underline underline-offset-2 transition-colors hover:text-accent"
               >
                 Locale
               </a>

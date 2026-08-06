@@ -81,7 +81,7 @@ export default function CaseStudyLayout({
     <article className="relative px-4 pb-8 sm:px-6">
       <Link
         href="/"
-        className="absolute left-6 top-6 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground transition-colors hover:text-subtle"
+        className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground transition-colors hover:text-subtle lg:fixed"
       >
         <span aria-hidden="true">←</span> Back
       </Link>
