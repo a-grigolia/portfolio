@@ -57,6 +57,14 @@ export default function HomePage() {
             >
               {profile.linkedinLabel}
             </a>
+            <a
+              href={profile.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-fit text-foreground transition-colors hover:text-accent"
+            >
+              {profile.resumeLabel}
+            </a>
             <CopyEmail email={profile.email} />
           </div>
         </section>

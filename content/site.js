@@ -6,6 +6,8 @@ export const profile = {
   email: "a.grigolia123@gmail.com",
   linkedin: "https://www.linkedin.com/in/avto-grigolia/",
   linkedinLabel: "LinkedIn",
+  resume: "https://drive.google.com/file/d/1EBVajb_ojo1vX_pdRh8cR09a0znDUYvH/view",
+  resumeLabel: "Resume",
 };
 
 export const work = [
