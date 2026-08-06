@@ -1,6 +1,5 @@
 import "./globals.css";
 import { ThemeProvider } from "./theme-provider";
-import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Avto, Product Designer",
@@ -14,7 +13,6 @@ export default function RootLayout({ children }) {
       <body className="font-sans antialiased">
         <ThemeProvider>
           <main>{children}</main>
-          <Footer />
         </ThemeProvider>
       </body>
     </html>

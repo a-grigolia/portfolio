@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Footer from "./Footer";
 import Hero from "./Hero";
 import SectionNav from "./SectionNav";
 import ProseBlock from "./ProseBlock";
@@ -115,6 +116,8 @@ export default function CaseStudyLayout({
           </aside>
         </div>
       </div>
+
+      <Footer />
     </article>
   );
 }

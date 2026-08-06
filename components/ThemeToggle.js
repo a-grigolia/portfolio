@@ -17,7 +17,7 @@ export default function ThemeToggle() {
       <span
         className={
           isDark
-            ? "text-border transition-colors group-hover:text-subtle"
+            ? "text-foreground/40 transition-colors group-hover:text-foreground/70"
             : "text-foreground transition-colors"
         }
       >
@@ -28,7 +28,7 @@ export default function ThemeToggle() {
         className={
           isDark
             ? "text-foreground transition-colors"
-            : "text-border transition-colors group-hover:text-subtle"
+            : "text-foreground/40 transition-colors group-hover:text-foreground/70"
         }
       >
         dark

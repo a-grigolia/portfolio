@@ -28,7 +28,7 @@ function ClipboardIcon() {
 // Phases: idle → copied (slide up to the green row) → returning (keep sliding
 // up to a duplicate email row) → snap back to idle with no transition, which
 // is invisible because rows 0 and 2 are identical.
-export default function CopyEmail({ email }) {
+export default function CopyEmail({ email, small = false }) {
   const [phase, setPhase] = useState("idle");
   const timeoutsRef = useRef([]);
 
@@ -52,17 +52,28 @@ export default function CopyEmail({ email }) {
     );
   }
 
-  // Row height is h-6 (1.5rem). translateY percentages would be relative to
-  // the full 3-row stack, so use explicit row-height offsets instead.
+  // Row height is h-6 (1.5rem), or h-5 (1.25rem) for the small variant.
+  // translateY percentages would be relative to the full 3-row stack, so use
+  // explicit row-height offsets instead.
+  const rowRem = small ? 1.25 : 1.5;
   const offset =
-    phase === "copied" ? "-1.5rem" : phase === "returning" ? "-3rem" : "0";
+    phase === "copied"
+      ? `-${rowRem}rem`
+      : phase === "returning"
+        ? `-${rowRem * 2}rem`
+        : "0";
+  const rowClass = small
+    ? "flex h-5 items-center gap-2"
+    : "flex h-6 items-center gap-2";
 
   return (
     <button
       type="button"
       onClick={handleClick}
       aria-label={`Copy email address ${email} to clipboard`}
-      className="h-6 w-fit cursor-pointer overflow-hidden text-left text-base leading-6 text-foreground transition-colors hover:text-accent"
+      className={`w-fit cursor-pointer overflow-hidden text-left text-foreground transition-colors hover:text-accent ${
+        small ? "h-5 text-[12px] leading-[20px]" : "h-6 text-base leading-6"
+      }`}
     >
       <span aria-live="polite" className="sr-only">
         {phase !== "idle" ? "Email copied to your clipboard" : ""}
@@ -75,18 +86,15 @@ export default function CopyEmail({ email }) {
           transition: phase === "idle" ? "none" : `transform ${SLIDE_MS}ms ease`,
         }}
       >
-        <span className="flex h-6 items-center gap-2">
+        <span className={rowClass}>
           {email}
           <ClipboardIcon />
         </span>
-        <span
-          className="flex h-6 items-center gap-2"
-          style={{ color: COPIED_COLOR }}
-        >
+        <span className={rowClass} style={{ color: COPIED_COLOR }}>
           Copied to your clipboard
           <ClipboardIcon />
         </span>
-        <span className="flex h-6 items-center gap-2">
+        <span className={rowClass}>
           {email}
           <ClipboardIcon />
         </span>

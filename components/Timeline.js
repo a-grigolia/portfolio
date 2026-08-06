@@ -30,7 +30,7 @@ function Dot() {
   return (
     <span
       aria-hidden="true"
-      className="absolute left-1/2 top-[25px] size-[6px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground"
+      className="absolute left-1/2 top-[28px] size-[6px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground"
     />
   );
 }
@@ -50,7 +50,7 @@ function EntryBody({ title, subtitle, stats, wip }) {
           {wip ? (
             <span className="text-xs leading-5 text-foreground">WIP</span>
           ) : (
-            <span className="flex size-6 shrink-0 items-center justify-center rounded-full text-foreground transition-colors delay-[var(--exit-delay,0ms)] group-hover:bg-card group-hover:delay-0">
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-full text-foreground transition-colors delay-[var(--exit-delay,0ms)] sm:group-hover:bg-card sm:group-hover:delay-0">
               <ArrowIcon />
             </span>
           )}
@@ -77,7 +77,10 @@ function isVideo(src) {
 function HoverMedia({ media, mediaFit }) {
   if (!media) return null;
   return (
-    <div className="pointer-events-none relative h-full w-0 shrink-0 overflow-hidden rounded-[22px] bg-[#fdf8f2] opacity-0 transition-[width,margin,opacity] delay-[var(--exit-delay,0ms)] duration-300 ease-out will-change-[width] group-hover:mr-2 group-hover:w-[147px] group-hover:opacity-100 group-hover:delay-0">
+    // The backdrop must match the hover card tone in dark mode: the image
+    // clips inside the rounded corners, and any lighter backdrop bleeds
+    // through the antialiased edge as a visible outline.
+    <div className="pointer-events-none relative h-full w-0 shrink-0 overflow-hidden rounded-[22px] bg-[#fdf8f2] opacity-0 transition-[width,margin,opacity] delay-[var(--exit-delay,0ms)] duration-300 ease-out will-change-[width] dark:bg-card sm:group-hover:mr-2 sm:group-hover:w-[147px] sm:group-hover:opacity-100 sm:group-hover:delay-0">
       {media ? (
         isVideo(media) ? (
           <video
@@ -138,7 +141,10 @@ function TimelineRow({ slug, title, subtitle, stats, year, wip, media, mediaFit,
     <div className="flex gap-6">
       {/* Year rail + connecting line */}
       <div className="relative flex w-12 shrink-0 justify-end self-stretch">
-        <span className="absolute right-[17px] top-[14px] text-sm leading-[22px] text-subtle">
+        {/* Centered on the title line: 16px content offset + half the 24px
+            line height = 28px. Year is 22px tall (28 - 11), dot self-centers
+            via translate. */}
+        <span className="absolute right-[17px] top-[17px] text-sm leading-[22px] text-subtle">
           {year}
         </span>
         <div className={`relative w-px self-stretch rounded-[1px] ${lineClass}`}>
@@ -148,7 +154,7 @@ function TimelineRow({ slug, title, subtitle, stats, year, wip, media, mediaFit,
 
       {/* Entry */}
       {wip ? (
-        <div className={`flex min-w-0 flex-1 flex-col gap-4 p-4 ${gapClass}`}>
+        <div className={`flex min-w-0 flex-1 flex-col gap-4 px-0 py-4 sm:px-4 ${gapClass}`}>
           <EntryBody title={title} subtitle={subtitle} stats={stats} wip />
         </div>
       ) : (
@@ -158,10 +164,10 @@ function TimelineRow({ slug, title, subtitle, stats, year, wip, media, mediaFit,
           draggable={false}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          className={`group flex min-w-0 flex-1 select-none items-stretch rounded-[30px] p-2 transition-[background-color,box-shadow] delay-[var(--exit-delay,0ms)] duration-300 ease-out hover:bg-white hover:shadow-[0px_2px_6px_rgba(0,0,0,0.15)] hover:delay-0 dark:hover:bg-card dark:hover:shadow-none ${gapClass}`}
+          className={`group flex min-w-0 flex-1 select-none items-stretch rounded-[30px] px-0 py-2 transition-[background-color,box-shadow] delay-[var(--exit-delay,0ms)] duration-300 ease-out sm:px-2 sm:hover:bg-white sm:hover:shadow-[0px_2px_6px_rgba(0,0,0,0.15)] sm:hover:delay-0 dark:sm:hover:bg-card dark:sm:hover:shadow-none ${gapClass}`}
         >
           <HoverMedia media={media} mediaFit={mediaFit} />
-          <div className="flex min-w-0 flex-1 flex-col gap-4 p-2">
+          <div className="flex min-w-0 flex-1 flex-col gap-4 py-2 sm:px-2">
             <EntryBody title={title} subtitle={subtitle} stats={stats} />
           </div>
         </Link>
