@@ -41,7 +41,7 @@ export default function HomePage() {
 
         <section className="flex flex-col gap-6">
           <h2 className="text-base font-semibold text-foreground">
-            Side Projects
+            Projects
           </h2>
           <Timeline items={sideProjects} />
         </section>
