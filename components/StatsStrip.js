@@ -8,7 +8,7 @@ export default function StatsStrip({ stats = [] }) {
           <dt className="font-sans text-[14px] leading-[22px] text-subtle">
             {stat.label}
           </dt>
-          <dd className="mt-1 font-sans text-[20px] font-semibold leading-7 tracking-tight text-foreground">
+          <dd className="mt-1 font-sans text-[18px] font-semibold leading-7 tracking-tight text-foreground">
             {stat.value}
           </dd>
         </div>

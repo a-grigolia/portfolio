@@ -38,29 +38,31 @@ function Dot() {
 function EntryBody({ title, subtitle, stats, wip }) {
   return (
     <>
-      <div className="flex items-start justify-between gap-4">
-        <h3
-          className={`text-lg font-semibold leading-tight text-foreground ${
-            wip ? "opacity-30" : ""
-          }`}
-        >
-          {title}
-        </h3>
-        {wip ? (
-          <span className="text-xs leading-5 text-foreground">WIP</span>
-        ) : (
-          <span className="flex size-6 shrink-0 items-center justify-center rounded-full text-foreground transition-colors delay-[var(--exit-delay,0ms)] group-hover:bg-card group-hover:delay-0">
-            <ArrowIcon />
-          </span>
-        )}
+      <div className="flex flex-col">
+        <div className="flex items-center justify-between gap-4">
+          <h3
+            className={`text-base font-semibold leading-6 text-foreground ${
+              wip ? "opacity-30" : ""
+            }`}
+          >
+            {title}
+          </h3>
+          {wip ? (
+            <span className="text-xs leading-5 text-foreground">WIP</span>
+          ) : (
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-full text-foreground transition-colors delay-[var(--exit-delay,0ms)] group-hover:bg-card group-hover:delay-0">
+              <ArrowIcon />
+            </span>
+          )}
+        </div>
+        {subtitle ? (
+          <p className={`text-base leading-6 text-subtle ${wip ? "opacity-30" : ""}`}>
+            {subtitle}
+          </p>
+        ) : null}
       </div>
-      {subtitle ? (
-        <p className={`text-base leading-6 text-subtle ${wip ? "opacity-30" : ""}`}>
-          {subtitle}
-        </p>
-      ) : null}
       {stats ? (
-        <p className={`text-base leading-6 text-muted ${wip ? "opacity-30" : ""}`}>
+        <p className={`text-sm leading-[22px] text-muted ${wip ? "opacity-30" : ""}`}>
           {stats}
         </p>
       ) : null}
@@ -146,7 +148,7 @@ function TimelineRow({ slug, title, subtitle, stats, year, wip, media, mediaFit,
 
       {/* Entry */}
       {wip ? (
-        <div className={`flex min-w-0 flex-1 flex-col gap-2 p-4 ${gapClass}`}>
+        <div className={`flex min-w-0 flex-1 flex-col gap-4 p-4 ${gapClass}`}>
           <EntryBody title={title} subtitle={subtitle} stats={stats} wip />
         </div>
       ) : (
@@ -159,7 +161,7 @@ function TimelineRow({ slug, title, subtitle, stats, year, wip, media, mediaFit,
           className={`group flex min-w-0 flex-1 select-none items-stretch rounded-[30px] p-2 transition-[background-color,box-shadow] delay-[var(--exit-delay,0ms)] duration-300 ease-out hover:bg-white hover:shadow-[0px_2px_6px_rgba(0,0,0,0.15)] hover:delay-0 dark:hover:bg-card dark:hover:shadow-none ${gapClass}`}
         >
           <HoverMedia media={media} mediaFit={mediaFit} />
-          <div className="flex min-w-0 flex-1 flex-col gap-2 p-2">
+          <div className="flex min-w-0 flex-1 flex-col gap-4 p-2">
             <EntryBody title={title} subtitle={subtitle} stats={stats} />
           </div>
         </Link>
