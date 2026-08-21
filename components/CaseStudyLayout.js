@@ -62,7 +62,7 @@ function Block({ block }) {
       return (
         <div className="flex flex-col items-center gap-12">
           <ThemePill />
-          <PlusGrid />
+          <PlusGrid className="plus-grid" />
         </div>
       );
     default:

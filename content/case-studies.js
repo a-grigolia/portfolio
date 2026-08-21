@@ -651,6 +651,9 @@ export const caseStudies = {
         companies.
         <br />
         <br />
+        Tech stack: Next.js • Tailwind CSS • TypeScript • Framer Motion • Vercel
+        <br />
+        <br />
         Check them out at{" "}
         <a
           href="https://amya.agency"

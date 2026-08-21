@@ -57,7 +57,7 @@ export default function HomePage() {
             style={{ "--reveal-delay": "240ms" }}
           >
             <h2 className="text-base font-semibold text-foreground">
-              Projects
+              Freelance
             </h2>
             <Timeline items={sideProjects} />
           </section>

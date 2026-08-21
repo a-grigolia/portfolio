@@ -54,7 +54,7 @@ export const sideProjects = [
     slug: "amya-agency",
     title: "Amya Agency",
     subtitle: "Headhunting agency for tech companies",
-    stats: "Branding • Website",
+    stats: "Next.js • Branding",
     year: "2025",
     media: "/work/amya-agency/cover.png",
     mediaFit: "cover",

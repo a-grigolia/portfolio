@@ -1,303 +1,346 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useTheme } from "@/app/theme-provider";
 
-const CONFIG = {
-  rows: 6,
-  colsDesktop: 18, // ≥ breakpoint
-  colsMobile: 12, // < breakpoint
-  breakpoint: 1080,
-  size: 28, // base px per SVG (unscaled)
-  gap: 14, // base px between cells (unscaled)
-  hoverRadiusCells: 3.0,
-  baseDim: 0.33,
-  hoverBaseDim: 0.18,
-  glow: true,
-  twinkleRate: 0.04,
-  twinkleDurMin: 1000,
-  twinkleDurMax: 2000,
-  tickMin: 400,
-  tickMax: 800,
-};
+/*
+ * Flickering plus-sign grid.
+ *
+ * One requestAnimationFrame loop drives every cell: twinkles are time-based
+ * sine envelopes, the hover halo is an eased radial falloff blended in and out
+ * through a smoothed hover amount, and per-cell opacity eases toward its
+ * target each frame (exponential smoothing, so it is frame-rate independent).
+ *
+ * Cells are created as plain DOM nodes rather than React elements so the loop
+ * can write styles directly without re-rendering. Style writes are quantized
+ * and diffed against the last written value to keep them off most frames.
+ */
+
+export const PLUS_PATH =
+  "M24 10.2005H13.8004V0H10.2005V10.2005H0V13.8004H10.2005V24H13.8004V13.8004H24V10.2005Z";
+
+// ms time constants for the exponential easing
+const OPACITY_SMOOTHING = 25;
+const HOVER_SMOOTHING = 100;
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const smooth01 = (t) => (t <= 0 ? 0 : t >= 1 ? 1 : t * t * (3 - 2 * t));
 
-export default function PlusGrid() {
+const ROOT_STYLE = {
+  display: "grid",
+  width: "100%",
+  marginInline: "auto",
+  justifyContent: "center",
+  touchAction: "none",
+  userSelect: "none",
+  WebkitUserSelect: "none",
+  WebkitTouchCallout: "none",
+};
+
+export function PlusGrid({
+  rows = 6,
+  cols = 18,
+  colsMobile = 12,
+  breakpoint = 1080,
+  size: baseSize = 24,
+  gap: baseGap = 14,
+  minScale = 0.5,
+  hoverRadius: hoverRadiusCells = 3,
+  baseOpacity = 0.33,
+  hoverBaseOpacity = 0.18,
+  twinkleRate = 0.04,
+  twinkleDurationMin = 1000,
+  twinkleDurationMax = 2000,
+  tickMin = 400,
+  tickMax = 800,
+  glowColor = "var(--pg-glow1, rgba(255, 255, 255, 0.45))",
+  glowColorSoft = "var(--pg-glow2, rgba(255, 255, 255, 0.18))",
+  className,
+  style,
+} = {}) {
   const rootRef = useRef(null);
-  const cellsRef = useRef([]);
-  const { theme } = useTheme();
 
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
 
-    const reduceMotion = window.matchMedia(
+    const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    // Collect cells rendered by React (row-major, colsDesktop per row)
-    const wraps = root.querySelectorAll(".pg-cell");
+    // Every column exists up front; the responsive ones are hidden rather
+    // than rebuilt, so a breakpoint cross is a display toggle.
     const cells = [];
-    let idx = 0;
-    for (let r = 0; r < CONFIG.rows; r++) {
-      for (let c = 0; c < CONFIG.colsDesktop; c++) {
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const wrap = document.createElement("div");
+        wrap.style.display = "grid";
+        wrap.style.placeItems = "center";
+
+        const svg = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "svg"
+        );
+        svg.setAttribute("viewBox", "0 0 24 24");
+        svg.style.width = "100%";
+        svg.style.height = "100%";
+        svg.style.opacity = String(baseOpacity);
+
+        const path = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "path"
+        );
+        path.setAttribute("d", PLUS_PATH);
+        path.setAttribute("fill", "currentColor");
+
+        svg.appendChild(path);
+        wrap.appendChild(svg);
+        root.appendChild(wrap);
+
         cells.push({
-          wrap: wraps[idx],
-          el: wraps[idx].firstElementChild,
+          wrap,
+          svg,
           r,
           c,
           cx: 0,
           cy: 0,
-          busy: false,
+          opacity: baseOpacity,
+          lastOpacity: baseOpacity,
+          lastGlow: 0,
+          twinkleStart: -1,
+          twinkleDur: 0,
         });
-        idx++;
       }
     }
-    cellsRef.current = cells;
 
-    const S = { size: CONFIG.size, gap: CONFIG.gap, pitchX: 0, pitchY: 0, rPx: 0, rSq: 0 };
-    let currentCols = CONFIG.colsDesktop;
-    let hovering = false;
-    let twTimer = null;
-    const timeouts = new Set();
-
-    const activeCells = () => cells.filter((cell) => cell.c < currentCols);
+    let currentCols = cols;
+    let active = cells;
+    let pitch = baseSize + baseGap;
+    let hoverRadius = pitch * hoverRadiusCells;
 
     function layout() {
-      const targetCols =
-        window.innerWidth >= CONFIG.breakpoint
-          ? CONFIG.colsDesktop
-          : CONFIG.colsMobile;
-
+      const targetCols = window.innerWidth >= breakpoint ? cols : colsMobile;
       if (targetCols !== currentCols) {
         currentCols = targetCols;
-        cells.forEach((cell) => {
+        for (const cell of cells) {
           cell.wrap.style.display = cell.c < currentCols ? "grid" : "none";
-        });
-      }
-
-      const avail = root.clientWidth || root.getBoundingClientRect().width;
-      const baseWidth =
-        currentCols * CONFIG.size + (currentCols - 1) * CONFIG.gap;
-      // scale down when the container is smaller; cap at 1 (no upscale)
-      const scale = Math.max(0.5, Math.min(1, avail / baseWidth));
-
-      S.size = Math.round(CONFIG.size * scale);
-      S.gap = Math.round(CONFIG.gap * scale);
-      S.pitchX = S.size + S.gap;
-      S.pitchY = S.size + S.gap;
-
-      root.style.gridTemplateColumns = `repeat(${currentCols}, ${S.size}px)`;
-      root.style.gridAutoRows = `${S.size}px`;
-      root.style.gap = `${S.gap}px`;
-
-      const active = activeCells();
-      let i = 0;
-      for (let r = 0; r < CONFIG.rows; r++) {
-        for (let c = 0; c < currentCols; c++) {
-          const item = active[i++];
-          item.wrap.style.width = `${S.size}px`;
-          item.wrap.style.height = `${S.size}px`;
-          item.cx = c * S.pitchX + S.size / 2;
-          item.cy = r * S.pitchY + S.size / 2;
         }
       }
+      active = cells.filter((cell) => cell.c < currentCols);
 
-      S.rPx = S.pitchX * CONFIG.hoverRadiusCells;
-      S.rSq = S.rPx * S.rPx;
+      const avail = root.clientWidth || root.getBoundingClientRect().width;
+      const baseWidth = currentCols * baseSize + (currentCols - 1) * baseGap;
+      const scale = Math.max(minScale, Math.min(1, avail / baseWidth));
+
+      const size = Math.round(baseSize * scale);
+      const gap = Math.round(baseGap * scale);
+      pitch = size + gap;
+      hoverRadius = pitch * hoverRadiusCells;
+
+      root.style.gridTemplateColumns = `repeat(${currentCols}, ${size}px)`;
+      root.style.gridAutoRows = `${size}px`;
+      root.style.gap = `${gap}px`;
+
+      // The tracks are narrower than the full-width root and centered by
+      // `justify-content`, so cell centers have to start at that gutter or the
+      // hover halo drifts right of the pointer.
+      const trackWidth = currentCols * size + (currentCols - 1) * gap;
+      const originX = Math.max(0, (avail - trackWidth) / 2);
+
+      for (const cell of active) {
+        cell.wrap.style.width = `${size}px`;
+        cell.wrap.style.height = `${size}px`;
+        cell.cx = originX + cell.c * pitch + size / 2;
+        cell.cy = cell.r * pitch + size / 2;
+      }
     }
 
-    function glowColors() {
-      const cs = getComputedStyle(root);
-      return {
-        g1: cs.getPropertyValue("--pg-glow1").trim() || "rgba(255,255,255,.45)",
-        g2: cs.getPropertyValue("--pg-glow2").trim() || "rgba(255,255,255,.18)",
+    layout();
+
+    const observer = new ResizeObserver(layout);
+    observer.observe(root);
+
+    if (reducedMotion) {
+      return () => {
+        observer.disconnect();
+        root.replaceChildren();
       };
     }
 
-    function brightNow(cell, ms) {
-      if (cell.busy) return;
-      cell.busy = true;
-      cell.el.style.opacity = 1;
-      if (CONFIG.glow) {
-        const { g1, g2 } = glowColors();
-        cell.el.style.filter = `drop-shadow(0 0 10px ${g1}) drop-shadow(0 0 16px ${g2})`;
-        cell.el.style.transform = "scale(1.04)";
+    let hovering = false;
+    let hoverAmount = 0; // smoothed 0..1
+    let pointerX = 0;
+    let pointerY = 0;
+    let nextTickAt = performance.now() + 200;
+    let lastTime = performance.now();
+    let rafId = 0;
+
+    function scheduleTwinkles(now) {
+      const count = Math.max(1, Math.round(active.length * twinkleRate));
+      for (let i = 0; i < count; i++) {
+        const cell = active[Math.floor(Math.random() * active.length)];
+        if (cell.twinkleStart < 0) {
+          cell.twinkleStart = now;
+          cell.twinkleDur = rand(twinkleDurationMin, twinkleDurationMax);
+        }
       }
-      const t = setTimeout(() => {
-        if (!hovering) cell.el.style.opacity = CONFIG.baseDim;
-        cell.el.style.filter = "";
-        cell.el.style.transform = "";
-        cell.busy = false;
-        timeouts.delete(t);
-      }, ms);
-      timeouts.add(t);
+      nextTickAt = now + rand(tickMin, tickMax);
     }
 
-    function twinkleTick() {
-      const active = activeCells();
-      const n = Math.max(1, Math.round(active.length * CONFIG.twinkleRate));
-      for (let i = 0; i < n; i++) {
-        brightNow(
-          active[Math.floor(Math.random() * active.length)],
-          rand(CONFIG.twinkleDurMin, CONFIG.twinkleDurMax)
-        );
+    function frame(now) {
+      // Clamped so a backgrounded tab does not resume with one huge step.
+      const dt = Math.min(100, now - lastTime);
+      lastTime = now;
+
+      const hoverTarget = hovering ? 1 : 0;
+      hoverAmount +=
+        (hoverTarget - hoverAmount) * (1 - Math.exp(-dt / HOVER_SMOOTHING));
+      if (Math.abs(hoverTarget - hoverAmount) < 0.001) {
+        hoverAmount = hoverTarget;
       }
-      twTimer = setTimeout(twinkleTick, rand(CONFIG.tickMin, CONFIG.tickMax));
-    }
 
-    function startTwinkle() {
-      if (reduceMotion) return;
-      if (!twTimer) twTimer = setTimeout(twinkleTick, 200);
-    }
+      // Twinkles keep running unless the halo is meaningfully visible.
+      if (hoverAmount < 0.5 && now >= nextTickAt) scheduleTwinkles(now);
 
-    function stopTwinkle() {
-      if (twTimer) {
-        clearTimeout(twTimer);
-        twTimer = null;
-      }
-      timeouts.forEach((id) => clearTimeout(id));
-      timeouts.clear();
-      cells.forEach((c) => {
-        c.busy = false;
-        c.el.style.filter = "";
-        c.el.style.transform = "";
-        c.el.style.opacity = hovering ? CONFIG.hoverBaseDim : CONFIG.baseDim;
-      });
-    }
+      const base = baseOpacity + (hoverBaseOpacity - baseOpacity) * hoverAmount;
+      const radiusSq = hoverRadius * hoverRadius;
 
-    function updateHalo(e) {
-      const rect = root.getBoundingClientRect();
-      const px = e.clientX - rect.left;
-      const py = e.clientY - rect.top;
-      const { g1, g2 } = glowColors();
-      const active = activeCells();
-
-      for (let i = 0; i < active.length; i++) {
-        const c = active[i];
-        const dx = px - c.cx;
-        const dy = py - c.cy;
-        const d2 = dx * dx + dy * dy;
-
-        if (d2 <= S.rSq) {
-          const d = Math.sqrt(d2);
-          const eased = smooth01(1 - d / S.rPx);
-          const target =
-            CONFIG.hoverBaseDim + eased * (1 - CONFIG.hoverBaseDim);
-          const current = parseFloat(c.el.style.opacity) || CONFIG.baseDim;
-          c.el.style.opacity = Math.max(current, target);
-          if (CONFIG.glow) {
-            c.el.style.filter = `drop-shadow(0 0 ${10 * eased}px ${g1}) drop-shadow(0 0 ${16 * eased}px ${g2})`;
-            c.el.style.transform = `scale(${1 + 0.04 * eased})`;
+      for (const cell of active) {
+        // Twinkle envelope: 0 -> 1 -> 0 sine over the twinkle duration.
+        let twinkle = 0;
+        if (cell.twinkleStart >= 0) {
+          const t = (now - cell.twinkleStart) / cell.twinkleDur;
+          if (t >= 1) {
+            cell.twinkleStart = -1;
+          } else {
+            twinkle = Math.sin(Math.PI * t);
           }
-        } else if (!c.busy) {
-          c.el.style.opacity = CONFIG.hoverBaseDim;
-          if (CONFIG.glow) {
-            c.el.style.filter = "";
-            c.el.style.transform = "";
+        }
+
+        // Hover halo: eased falloff from the pointer, scaled by hoverAmount.
+        let halo = 0;
+        if (hoverAmount > 0.001) {
+          const dx = pointerX - cell.cx;
+          const dy = pointerY - cell.cy;
+          const d2 = dx * dx + dy * dy;
+          if (d2 <= radiusSq) {
+            halo = smooth01(1 - Math.sqrt(d2) / hoverRadius) * hoverAmount;
+          }
+        }
+
+        const bright = Math.max(twinkle, halo);
+        const target = base + (1 - base) * bright;
+        cell.opacity +=
+          (target - cell.opacity) * (1 - Math.exp(-dt / OPACITY_SMOOTHING));
+
+        const opacity = Math.round(cell.opacity * 500) / 500;
+        if (opacity !== cell.lastOpacity) {
+          cell.lastOpacity = opacity;
+          cell.svg.style.opacity = String(opacity);
+        }
+
+        // Glow tracks the brightness boost; quantized to limit style writes.
+        const glow = Math.round(bright * 20) / 20;
+        if (glow !== cell.lastGlow) {
+          cell.lastGlow = glow;
+          if (glow > 0) {
+            cell.svg.style.filter =
+              `drop-shadow(0 0 ${(10 * glow).toFixed(1)}px ${glowColor}) ` +
+              `drop-shadow(0 0 ${(16 * glow).toFixed(1)}px ${glowColorSoft})`;
+            cell.svg.style.transform = `scale(${1 + 0.04 * glow})`;
+          } else {
+            cell.svg.style.filter = "";
+            cell.svg.style.transform = "";
           }
         }
       }
+
+      rafId = requestAnimationFrame(frame);
     }
 
-    const onPointerEnter = (e) => {
+    function updatePointer(e) {
+      const rect = root.getBoundingClientRect();
+      pointerX = e.clientX - rect.left;
+      pointerY = e.clientY - rect.top;
+    }
+
+    /*
+     * Mouse: the halo appears on enter and follows the cursor.
+     * Touch: it appears on finger-down, follows the drag, and fades on lift
+     * (pointerup/cancel) so a tap never freezes the hover state. The root sets
+     * touch-action:none, so touches starting on the grid drive the halo
+     * instead of scrolling the page.
+     */
+    const onEnter = (e) => {
+      if (e.pointerType === "touch") return; // touch starts on pointerdown
       hovering = true;
-      stopTwinkle();
-      cells.forEach((c) => {
-        if (!c.busy) c.el.style.opacity = CONFIG.hoverBaseDim;
-      });
-      updateHalo(e);
+      updatePointer(e);
     };
-
-    const onPointerMove = (e) => {
-      if (hovering) updateHalo(e);
+    const onDown = (e) => {
+      hovering = true;
+      updatePointer(e);
     };
-
-    const onPointerLeave = () => {
+    const onMove = (e) => {
+      hovering = true;
+      updatePointer(e);
+    };
+    const onUp = (e) => {
+      if (e.pointerType === "touch") hovering = false;
+    };
+    const onLeave = () => {
       hovering = false;
-      cells.forEach((c) => {
-        c.el.style.opacity = CONFIG.baseDim;
-        c.el.style.filter = "";
-        c.el.style.transform = "";
-      });
-      startTwinkle();
     };
 
-    root.addEventListener("pointerenter", onPointerEnter, { passive: true });
-    root.addEventListener("pointermove", onPointerMove, { passive: true });
-    root.addEventListener("pointerleave", onPointerLeave);
+    root.addEventListener("pointerenter", onEnter, { passive: true });
+    root.addEventListener("pointerdown", onDown, { passive: true });
+    root.addEventListener("pointermove", onMove, { passive: true });
+    root.addEventListener("pointerup", onUp, { passive: true });
+    root.addEventListener("pointercancel", onUp, { passive: true });
+    root.addEventListener("pointerleave", onLeave, { passive: true });
 
-    // Re-layout on container resize (covers most window resizes too)
-    let rAF = null;
-    const scheduleLayout = () => {
-      if (rAF) return;
-      rAF = requestAnimationFrame(() => {
-        rAF = null;
-        layout();
-      });
-    };
-    const ro = new ResizeObserver(scheduleLayout);
-    ro.observe(root);
-    // Column count depends on viewport width, which can cross the breakpoint
-    // without the container width changing.
-    window.addEventListener("resize", scheduleLayout);
+    window.addEventListener("resize", layout);
 
-    layout();
-    startTwinkle();
+    rafId = requestAnimationFrame(frame);
 
     return () => {
-      root.removeEventListener("pointerenter", onPointerEnter);
-      root.removeEventListener("pointermove", onPointerMove);
-      root.removeEventListener("pointerleave", onPointerLeave);
-      window.removeEventListener("resize", scheduleLayout);
-      ro.disconnect();
-      if (rAF) cancelAnimationFrame(rAF);
-      if (twTimer) clearTimeout(twTimer);
-      timeouts.forEach((id) => clearTimeout(id));
-      timeouts.clear();
+      cancelAnimationFrame(rafId);
+      observer.disconnect();
+      window.removeEventListener("resize", layout);
+      root.removeEventListener("pointerenter", onEnter);
+      root.removeEventListener("pointerdown", onDown);
+      root.removeEventListener("pointermove", onMove);
+      root.removeEventListener("pointerup", onUp);
+      root.removeEventListener("pointercancel", onUp);
+      root.removeEventListener("pointerleave", onLeave);
+      root.replaceChildren();
     };
-  }, []);
-
-  // When the theme flips, clear inline glow filters so the new colors apply.
-  useEffect(() => {
-    cellsRef.current.forEach((c) => {
-      if (!c.busy) c.el.style.filter = "";
-    });
-  }, [theme]);
-
-  const items = [];
-  for (let r = 0; r < CONFIG.rows; r++) {
-    for (let c = 0; c < CONFIG.colsDesktop; c++) {
-      items.push(
-        <div key={`${r}-${c}`} className="pg-cell">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 35 35"
-            fill="none"
-            aria-hidden="true"
-            style={{ opacity: CONFIG.baseDim }}
-          >
-            <path d="M35.0001 14.5714H20.4286V0H15.2858V14.5714H0.714355V19.7143H15.2858V34.2857H20.4286V19.7143H35.0001V14.5714Z" />
-          </svg>
-        </div>
-      );
-    }
-  }
+  }, [
+    rows,
+    cols,
+    colsMobile,
+    breakpoint,
+    baseSize,
+    baseGap,
+    minScale,
+    hoverRadiusCells,
+    baseOpacity,
+    hoverBaseOpacity,
+    twinkleRate,
+    twinkleDurationMin,
+    twinkleDurationMax,
+    tickMin,
+    tickMax,
+    glowColor,
+    glowColorSoft,
+  ]);
 
   return (
     <div
       ref={rootRef}
-      className="plus-grid"
-      style={{
-        gridTemplateColumns: `repeat(${CONFIG.colsDesktop}, ${CONFIG.size}px)`,
-        gridAutoRows: `${CONFIG.size}px`,
-        gap: `${CONFIG.gap}px`,
-      }}
+      className={className}
+      style={{ ...ROOT_STYLE, ...style }}
       aria-hidden="true"
-    >
-      {items}
-    </div>
+    />
   );
 }
+
+export default PlusGrid;
