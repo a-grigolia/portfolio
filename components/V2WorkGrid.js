@@ -140,7 +140,7 @@ function Card({ item }) {
       ref={ref}
       href={`/work/${item.slug}`}
       draggable={false}
-      className={`${cellClass} v2-work-card group select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/60`}
+      className={`${cellClass} group select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/60`}
     >
       <CardInner item={item} />
     </Link>

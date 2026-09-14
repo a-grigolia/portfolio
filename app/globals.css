@@ -94,15 +94,6 @@
   transform: none;
 }
 
-.v2-work-card {
-  transition: box-shadow 300ms ease;
-}
-
-.v2-work-card:hover {
-  box-shadow: inset 0 0 0 1px
-    color-mix(in srgb, var(--foreground) 18%, var(--border));
-}
-
 /* v2 card metadata: reveal each line in sequence on hover/focus. Details stay
    visible below the desktop grid breakpoint. */
 @media (min-width: 768px) {
