@@ -85,15 +85,8 @@ function CardInner({ item }) {
             maxWidth: item.mediaMaxWidth,
             aspectRatio: item.aspect,
             maxHeight: "100%",
-            "--media-shadow": item.shadowColor,
           }}
         >
-          {!comingSoon ? (
-            <div
-              aria-hidden="true"
-              className="v2-media-shadow absolute inset-0 rounded-2xl"
-            />
-          ) : null}
           {item.media ? (
             <div className="v2-media-image absolute inset-0 overflow-hidden rounded-2xl border border-white shadow-[0px_2px_3px_rgba(0,0,0,0.15)] dark:border-border">
               <img

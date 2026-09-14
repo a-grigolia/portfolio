@@ -102,17 +102,6 @@
     will-change: transform;
   }
 
-  .v2-media-image {
-    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform;
-  }
-
-  .v2-media-shadow {
-    background: var(--media-shadow, #505050);
-    opacity: 0;
-    transition: opacity 350ms ease-out;
-  }
-
   .v2-card-arrow {
     opacity: 0;
     transform: translate(-3px, 3px);
@@ -132,17 +121,7 @@
 
   .group:hover .v2-media-group,
   .group:focus-visible .v2-media-group {
-    transform: scale(1.01);
-  }
-
-  .group:hover .v2-media-image,
-  .group:focus-visible .v2-media-image {
-    transform: translate(10px, -10px);
-  }
-
-  .group:hover .v2-media-shadow,
-  .group:focus-visible .v2-media-shadow {
-    opacity: 1;
+    transform: scale(1.025);
   }
 
   .group:hover .v2-card-arrow,
@@ -177,13 +156,8 @@
   .v2-card-subtitle,
   .v2-card-stats,
   .v2-card-arrow,
-  .v2-media-group,
-  .v2-media-image {
+  .v2-media-group {
     transform: none;
-    transition: none;
-  }
-
-  .v2-media-shadow {
     transition: none;
   }
 }

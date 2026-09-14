@@ -19,31 +19,26 @@ const presentation = {
     mediaWidth: "51.5%",
     mediaMaxWidth: "420px",
     aspect: "420 / 302",
-    shadowColor: "#263a35",
   },
   "locale-2": {
     mediaWidth: "51.5%",
     mediaMaxWidth: "420px",
     aspect: "420 / 275",
-    shadowColor: "#704942",
   },
   "locale-1": {
     mediaWidth: "51.5%",
     mediaMaxWidth: "420px",
     aspect: "420 / 302",
-    shadowColor: "#6d573f",
   },
   "d-ford": {
     mediaWidth: "56%",
     mediaMaxWidth: "457px",
     aspect: "457 / 317",
-    shadowColor: "#394b76",
   },
   "amya-agency": {
     mediaWidth: "55%",
     mediaMaxWidth: "448px",
     aspect: "448 / 280",
-    shadowColor: "#3a3a3e",
   },
 };
 
