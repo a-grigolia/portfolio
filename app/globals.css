@@ -80,6 +80,123 @@
   }
 }
 
+/* v2 landing: cards fade/rise in as they scroll into view */
+.v2-card-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.v2-card-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.v2-work-card {
+  transition: box-shadow 300ms ease;
+}
+
+.v2-work-card:hover {
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--foreground) 18%, var(--border));
+}
+
+/* v2 card metadata: reveal each line in sequence on hover/focus. Details stay
+   visible below the desktop grid breakpoint. */
+@media (min-width: 768px) {
+  .v2-media-group {
+    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  .v2-media-image {
+    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  .v2-media-shadow {
+    background: var(--media-shadow, #505050);
+    opacity: 0;
+    transition: opacity 350ms ease-out;
+  }
+
+  .v2-card-arrow {
+    opacity: 0;
+    transform: translate(-3px, 3px);
+    transition:
+      opacity 400ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .v2-card-subtitle,
+  .v2-card-stats {
+    opacity: 0;
+    transform: translateY(5px);
+    transition:
+      opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .group:hover .v2-media-group,
+  .group:focus-visible .v2-media-group {
+    transform: scale(1.01);
+  }
+
+  .group:hover .v2-media-image,
+  .group:focus-visible .v2-media-image {
+    transform: translate(10px, -10px);
+  }
+
+  .group:hover .v2-media-shadow,
+  .group:focus-visible .v2-media-shadow {
+    opacity: 1;
+  }
+
+  .group:hover .v2-card-arrow,
+  .group:focus-visible .v2-card-arrow {
+    opacity: 1;
+    transform: none;
+    transition-delay: 80ms;
+  }
+
+  .group:hover .v2-card-subtitle,
+  .group:focus-visible .v2-card-subtitle {
+    opacity: 1;
+    transform: none;
+    transition-delay: 100ms;
+  }
+
+  .group:hover .v2-card-stats,
+  .group:focus-visible .v2-card-stats {
+    opacity: 1;
+    transform: none;
+    transition-delay: 200ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-card-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .v2-card-subtitle,
+  .v2-card-stats,
+  .v2-card-arrow,
+  .v2-media-group,
+  .v2-media-image {
+    transform: none;
+    transition: none;
+  }
+
+  .v2-media-shadow {
+    transition: none;
+  }
+}
+
 @keyframes timeline-marquee {
   from {
     transform: translateX(0);
@@ -94,6 +211,19 @@ html {
   scroll-padding-top: 6rem;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+html.v2-hide-scrollbar,
+body.v2-hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html.v2-hide-scrollbar::-webkit-scrollbar,
+body.v2-hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 body {

@@ -28,7 +28,10 @@ function ClipboardIcon() {
 // Phases: idle → copied (slide up to the green row) → returning (keep sliding
 // up to a duplicate email row) → snap back to idle with no transition, which
 // is invisible because rows 0 and 2 are identical.
-export default function CopyEmail({ email, small = false }) {
+// size: "base" (16px), "sm" (14px), or "xs" (12px). The legacy `small` prop
+// maps to "xs".
+export default function CopyEmail({ email, small = false, size }) {
+  const variant = size ?? (small ? "xs" : "base");
   const [phase, setPhase] = useState("idle");
   const timeoutsRef = useRef([]);
 
@@ -52,28 +55,40 @@ export default function CopyEmail({ email, small = false }) {
     );
   }
 
-  // Row height is h-6 (1.5rem), or h-5 (1.25rem) for the small variant.
-  // translateY percentages would be relative to the full 3-row stack, so use
-  // explicit row-height offsets instead.
-  const rowRem = small ? 1.25 : 1.5;
+  // Row heights: 24px (base), 22px (sm), 20px (xs). translateY percentages
+  // would be relative to the full 3-row stack, so use explicit row-height
+  // offsets instead.
+  const { rowRem, buttonClass, rowHeightClass } = {
+    base: {
+      rowRem: 1.5,
+      buttonClass: "h-6 text-base leading-6",
+      rowHeightClass: "h-6",
+    },
+    sm: {
+      rowRem: 1.375,
+      buttonClass: "h-[22px] text-sm leading-[22px]",
+      rowHeightClass: "h-[22px]",
+    },
+    xs: {
+      rowRem: 1.25,
+      buttonClass: "h-5 text-[12px] leading-[20px]",
+      rowHeightClass: "h-5",
+    },
+  }[variant];
   const offset =
     phase === "copied"
       ? `-${rowRem}rem`
       : phase === "returning"
         ? `-${rowRem * 2}rem`
         : "0";
-  const rowClass = small
-    ? "flex h-5 items-center gap-2"
-    : "flex h-6 items-center gap-2";
+  const rowClass = `flex ${rowHeightClass} items-center gap-2`;
 
   return (
     <button
       type="button"
       onClick={handleClick}
       aria-label={`Copy email address ${email} to clipboard`}
-      className={`w-fit cursor-pointer overflow-hidden text-left text-foreground transition-colors hover:text-accent ${
-        small ? "h-5 text-[12px] leading-[20px]" : "h-6 text-base leading-6"
-      }`}
+      className={`w-fit cursor-pointer overflow-hidden text-left text-foreground transition-colors hover:text-accent ${buttonClass}`}
     >
       <span aria-live="polite" className="sr-only">
         {phase !== "idle" ? "Email copied to your clipboard" : ""}

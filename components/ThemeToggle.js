@@ -2,7 +2,7 @@
 
 import { useTheme } from "@/app/theme-provider";
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ vertical = false }) {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === "dark";
 
@@ -11,7 +11,9 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className="group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+      className={`group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60${
+        vertical ? " leading-6 [writing-mode:vertical-rl]" : ""
+      }`}
     >
       {"[ "}
       <span

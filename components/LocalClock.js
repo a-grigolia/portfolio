@@ -26,8 +26,10 @@ export default function LocalClock({ vertical = false }) {
 
   return (
     <span
-      className={`whitespace-nowrap text-[12px] leading-[20px] text-foreground tabular-nums${
-        vertical ? " [writing-mode:vertical-rl] rotate-180" : ""
+      className={`whitespace-nowrap text-[12px] text-foreground tabular-nums${
+        vertical
+          ? " leading-6 [writing-mode:vertical-rl] rotate-180"
+          : " leading-[20px]"
       }`}
     >
       {now ? `San Francisco, ${formatter.format(now)}` : "\u00A0"}
