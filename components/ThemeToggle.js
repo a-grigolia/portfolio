@@ -12,7 +12,7 @@ export default function ThemeToggle({ vertical = false }) {
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       className={`group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60${
-        vertical ? " leading-6 [writing-mode:vertical-rl]" : ""
+        vertical ? " p-0 leading-6 [writing-mode:vertical-rl]" : ""
       }`}
     >
       {"[ "}

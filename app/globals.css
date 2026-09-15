@@ -11,6 +11,7 @@
 }
 
 :root {
+  color-scheme: light;
   --background: #fff;
   --foreground: #1e1e20;
   --muted: #9c9ca3;
@@ -20,8 +21,9 @@
   --accent: #ba3939;
 }
 
-.dark {
-  --background: #121214;
+html.dark {
+  color-scheme: dark;
+  --background: #000;
   --foreground: #e7e7e7;
   --muted: #6e6e75;
   --subtle: #9c9ca3;
@@ -94,29 +96,95 @@
   transform: none;
 }
 
-/* v2 card metadata: reveal each line in sequence on hover/focus. Details stay
-   visible below the desktop grid breakpoint. */
-@media (min-width: 768px) {
-  .v2-media-group {
-    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform;
+.v2-media-frame {
+  width: calc(100% - 48px);
+  max-width: var(--v2-media-max-width);
+}
+
+.v2-media-group {
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.v2-card-arrow {
+  transition:
+    opacity 400ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.v2-card-subtitle,
+.v2-card-stats {
+  transition:
+    opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Mobile carousel: cards settle in the stable viewport center and reveal the
+   same metadata sequence as the desktop hover treatment. */
+@media (max-width: 767px) {
+  html.v2-carousel-active {
+    scroll-snap-type: y proximity;
+    scroll-padding: 0;
+  }
+
+  .v2-work-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .v2-work-grid > .v2-card-reveal {
+    scroll-snap-align: center;
   }
 
   .v2-card-arrow {
     opacity: 0;
     transform: translate(-3px, 3px);
-    transition:
-      opacity 400ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .v2-card-subtitle,
   .v2-card-stats {
     opacity: 0;
     transform: translateY(5px);
-    transition:
-      opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .v2-card-reveal.is-active .v2-media-group {
+    transform: scale(1.025);
+  }
+
+  .v2-card-reveal.is-active .v2-card-arrow {
+    opacity: 1;
+    transform: none;
+    transition-delay: 80ms;
+  }
+
+  .v2-card-reveal.is-active .v2-card-subtitle {
+    opacity: 1;
+    transform: none;
+    transition-delay: 100ms;
+  }
+
+  .v2-card-reveal.is-active .v2-card-stats {
+    opacity: 1;
+    transform: none;
+    transition-delay: 200ms;
+  }
+}
+
+/* Desktop/tablet grid: preserve the pointer and keyboard hover treatment. */
+@media (min-width: 768px) {
+  .v2-media-frame {
+    width: var(--v2-media-width);
+  }
+
+  .v2-card-arrow {
+    opacity: 0;
+    transform: translate(-3px, 3px);
+  }
+
+  .v2-card-subtitle,
+  .v2-card-stats {
+    opacity: 0;
+    transform: translateY(5px);
   }
 
   .group:hover .v2-media-group,
@@ -146,6 +214,81 @@
   }
 }
 
+.v2-carousel-tracker {
+  position: fixed;
+  top: 50%;
+  right: env(safe-area-inset-right);
+  z-index: 30;
+  display: none;
+  width: 24px;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.v2-carousel-tracker.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.v2-connect-menu {
+  right: calc(24px + env(safe-area-inset-right));
+}
+
+.v2-carousel-dot {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0;
+  color: var(--foreground);
+  background: transparent;
+  transition: height 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.v2-carousel-dot span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.22;
+  transition:
+    height 300ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 200ms ease;
+}
+
+.v2-carousel-dot.is-active {
+  height: 40px;
+}
+
+.v2-carousel-dot.is-active span {
+  height: 24px;
+  opacity: 1;
+}
+
+.v2-carousel-dot:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  outline-offset: -2px;
+}
+
+@media (max-width: 767px) {
+  .v2-carousel-tracker {
+    display: flex;
+  }
+}
+
+@media (min-width: 768px) {
+  .v2-connect-menu {
+    right: calc(36px + env(safe-area-inset-right));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .v2-card-reveal {
     opacity: 1;
@@ -158,6 +301,12 @@
   .v2-card-arrow,
   .v2-media-group {
     transform: none;
+    transition: none;
+  }
+
+  .v2-carousel-tracker,
+  .v2-carousel-dot,
+  .v2-carousel-dot span {
     transition: none;
   }
 }
@@ -176,6 +325,7 @@ html {
   scroll-padding-top: 6rem;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  background-color: var(--background);
 }
 
 html.v2-hide-scrollbar,

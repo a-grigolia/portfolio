@@ -1,7 +1,5 @@
 import Link from "next/link";
 import CopyEmail from "@/components/CopyEmail";
-import LocalClock from "@/components/LocalClock";
-import ThemeToggle from "@/components/ThemeToggle";
 import V2Chrome from "@/components/V2Chrome";
 import V2ScrollCue from "@/components/V2ScrollCue";
 import V2WorkGrid from "@/components/V2WorkGrid";
@@ -59,23 +57,18 @@ const items = [
 
 export default function V2Page() {
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-svh flex-col">
       <V2Chrome />
 
       {/* Hero: full viewport height, intro centered between hairline rails */}
-      <section className="flex h-dvh flex-col px-6 md:px-12">
-        <div className="relative flex min-h-0 flex-1 flex-col items-center border-x border-border">
+      <section className="flex h-svh flex-col px-6 md:px-12">
+        <div className="relative flex min-h-0 flex-1 flex-col items-center border border-border">
           <div aria-hidden="true" className="relative min-h-0 flex-1 self-stretch">
             <span className="absolute inset-y-0 left-1/2 hidden border-l border-border min-[1100px]:block" />
           </div>
 
           <div className="flex w-full shrink-0 justify-center border-y border-border">
-            <div className="flex w-[576px] max-w-full flex-col gap-12 p-6 sm:p-12 min-[1100px]:border-x min-[1100px]:border-border">
-              <img
-                src="/a.svg"
-                alt="Avto logo"
-                className="reveal h-[26px] w-6 dark:invert min-[1100px]:hidden"
-              />
+            <div className="flex w-[576px] max-w-full flex-col gap-12 p-6 md:p-12 min-[1100px]:border-x min-[1100px]:border-border">
               <div className="reveal flex flex-col gap-2">
                 <h1 className="text-sm font-semibold leading-6 text-foreground">
                   {profile.name}
@@ -150,12 +143,6 @@ export default function V2Page() {
           <V2WorkGrid items={items} />
         </div>
       </section>
-
-      {/* Mobile footer, matching the homepage pattern (<1100px) */}
-      <footer className="flex w-full items-center justify-between px-6 py-6 text-[12px] leading-[20px] min-[1100px]:hidden">
-        <LocalClock />
-        <ThemeToggle />
-      </footer>
     </div>
   );
 }
