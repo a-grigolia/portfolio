@@ -15,8 +15,26 @@ type CSSVars = CSSProperties & { [key: `--${string}`]: string | undefined };
 // corresponding 24px outer gutter, with 12px vertical corner offsets.
 export default function V2Chrome() {
   const [open, setOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+  // Corner labels sit at full strength at the top of the page and dim while
+  // scrolled away from it.
+  useEffect(() => {
+    function handleScroll() {
+      setHasScrolled(window.scrollY >= 1);
+    }
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // The corner wrappers run the reveal animation, which pins their opacity,
+  // so the dim lives on an inner element.
+  const dimClass = `transition-opacity duration-500 ease-out ${
+    hasScrolled ? "opacity-50" : "opacity-100"
+  }`;
 
   // Close on outside click or Escape while the dropdown is open.
   useEffect(() => {
@@ -75,16 +93,18 @@ export default function V2Chrome() {
           } as CSSVars
         }
       >
-        <button
-          ref={buttonRef}
-          type="button"
-          onClick={() => setOpen((value) => !value)}
-          aria-expanded={open}
-          aria-haspopup="menu"
-          className="cursor-pointer p-0 text-[12px] leading-6 text-foreground transition-colors [writing-mode:vertical-rl] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
-        >
-          Connect
-        </button>
+        <div className={dimClass}>
+          <button
+            ref={buttonRef}
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            aria-expanded={open}
+            aria-haspopup="menu"
+            className="cursor-pointer p-0 text-[12px] leading-6 text-foreground transition-colors [writing-mode:vertical-rl] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+          >
+            Connect
+          </button>
+        </div>
       </div>
 
       {open ? (
@@ -131,7 +151,9 @@ export default function V2Chrome() {
           } as CSSVars
         }
       >
-        <LocalClock vertical />
+        <div className={dimClass}>
+          <LocalClock vertical />
+        </div>
       </div>
 
       {/* Bottom right: vertical theme toggle */}
@@ -144,7 +166,9 @@ export default function V2Chrome() {
           } as CSSVars
         }
       >
-        <ThemeToggle vertical />
+        <div className={dimClass}>
+          <ThemeToggle vertical />
+        </div>
       </div>
     </>
   );

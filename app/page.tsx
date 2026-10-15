@@ -75,7 +75,7 @@ export default function HomePage() {
       <V2Chrome />
 
       {/* Hero: full viewport height, intro centered between hairline rails */}
-      <section className="flex h-svh flex-col px-6 md:px-12">
+      <section className="v2-hero flex h-svh flex-col px-6 md:px-12">
         <div className="relative flex min-h-0 flex-1 flex-col items-center border border-border">
           <div aria-hidden="true" className="grid min-h-0 flex-1 grid-cols-2 self-stretch">
             <div className="border-border min-[1100px]:border-r" />
@@ -151,8 +151,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Case studies: square cells, half the rail width each on desktop */}
-      <section id="work" className="px-6 md:px-12">
+      {/* Case studies: square cells, half the rail width each on desktop. On
+          mobile the bottom space lets the last card reach its centered snap
+          point even with the browser toolbar collapsed. */}
+      <section
+        id="work"
+        className="px-6 pb-[calc(100lvh-87.5svh)] md:px-12 md:pb-0"
+      >
         <div className="border-x border-border">
           <V2WorkGrid items={items} />
         </div>

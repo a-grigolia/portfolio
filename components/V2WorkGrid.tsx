@@ -345,7 +345,6 @@ export default function V2WorkGrid({ items }: V2WorkGridProps) {
     const grid = gridRef.current;
     if (!grid) return;
 
-    const root = document.documentElement;
     const mobileQuery = window.matchMedia("(max-width: 767px)");
     let animationFrame = 0;
 
@@ -353,7 +352,6 @@ export default function V2WorkGrid({ items }: V2WorkGridProps) {
       animationFrame = 0;
 
       if (!mobileQuery.matches) {
-        root.classList.remove("v2-carousel-active");
         setTrackerVisible(false);
         return;
       }
@@ -362,19 +360,20 @@ export default function V2WorkGrid({ items }: V2WorkGridProps) {
       const gridRect = grid.getBoundingClientRect();
       const isVisible = gridRect.top < viewportHeight && gridRect.bottom > 0;
 
-      root.classList.toggle("v2-carousel-active", isVisible);
       setTrackerVisible(isVisible);
 
       if (!isVisible) return;
 
-      const viewportCenter = viewportHeight / 2;
       let nearestIndex = 0;
       let nearestDistance = Number.POSITIVE_INFINITY;
 
+      // Measured against each card's snap point (top edge + scroll margin)
+      // rather than the viewport center, which moves with the browser toolbar.
       cardRefs.current.forEach((card, index) => {
         if (!card) return;
         const rect = card.getBoundingClientRect();
-        const distance = Math.abs(rect.top + rect.height / 2 - viewportCenter);
+        const snapOffset = parseFloat(getComputedStyle(card).scrollMarginTop) || 0;
+        const distance = Math.abs(rect.top - snapOffset);
         if (distance < nearestDistance) {
           nearestDistance = distance;
           nearestIndex = index;
@@ -398,7 +397,6 @@ export default function V2WorkGrid({ items }: V2WorkGridProps) {
 
     return () => {
       if (animationFrame) cancelAnimationFrame(animationFrame);
-      root.classList.remove("v2-carousel-active");
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
       window.visualViewport?.removeEventListener("resize", scheduleUpdate);
@@ -412,7 +410,7 @@ export default function V2WorkGrid({ items }: V2WorkGridProps) {
     ).matches;
     cardRefs.current[index]?.scrollIntoView({
       behavior: reduceMotion ? "auto" : "smooth",
-      block: "center",
+      block: "start",
     });
   };
 

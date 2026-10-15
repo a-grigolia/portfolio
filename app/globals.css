@@ -112,11 +112,18 @@ html.dark {
 }
 
 /* Mobile carousel: cards settle in the stable viewport center and reveal the
-   same metadata sequence as the desktop hover treatment. */
+   same metadata sequence as the desktop hover treatment. Cards snap by their
+   top edge, offset so a 75svh card is centered in the small viewport: the
+   browser toolbar only moves the bottom edge, so center-aligned snap points
+   would shift (and re-snap) as it collapses. */
 @media (max-width: 767px) {
-  html.v2-carousel-active {
-    scroll-snap-type: y proximity;
+  html:has(.v2-work-grid) {
+    scroll-snap-type: y mandatory;
     scroll-padding: 0;
+  }
+
+  .v2-hero {
+    scroll-snap-align: start;
   }
 
   .v2-work-grid {
@@ -125,7 +132,9 @@ html.dark {
   }
 
   .v2-work-grid > .v2-card {
-    scroll-snap-align: center;
+    scroll-snap-align: start;
+    scroll-margin-top: 12.5svh;
+    scroll-snap-stop: always;
   }
 
   .v2-work-grid .plus-grid {
@@ -230,7 +239,7 @@ html.dark {
 
 .v2-carousel-tracker {
   position: fixed;
-  top: 50%;
+  top: 50svh;
   right: env(safe-area-inset-right);
   z-index: 30;
   display: none;
