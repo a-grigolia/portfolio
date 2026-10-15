@@ -31,8 +31,10 @@ export default function V2Chrome() {
   }, []);
 
   // The corner wrappers run the reveal animation, which pins their opacity,
-  // so the dim lives on an inner element.
-  const dimClass = `transition-opacity duration-500 ease-out ${
+  // so the dim lives on an inner element. Its width is explicit because iOS
+  // WebKit sizes a block around vertical text to 0px, pushing the label off
+  // the gutter's center.
+  const dimClass = `w-6 transition-opacity duration-500 ease-out ${
     hasScrolled ? "opacity-50" : "opacity-100"
   }`;
 
@@ -100,7 +102,7 @@ export default function V2Chrome() {
             onClick={() => setOpen((value) => !value)}
             aria-expanded={open}
             aria-haspopup="menu"
-            className="cursor-pointer p-0 text-[12px] leading-6 text-foreground transition-colors [writing-mode:vertical-rl] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+            className="w-6 cursor-pointer p-0 text-[12px] leading-6 text-foreground transition-colors [writing-mode:vertical-rl] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
           >
             Connect
           </button>

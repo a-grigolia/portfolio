@@ -32,7 +32,7 @@ export default function LocalClock({ vertical = false }: LocalClockProps) {
     <span
       className={`whitespace-nowrap text-[12px] text-foreground tabular-nums${
         vertical
-          ? " leading-6 [writing-mode:vertical-rl] rotate-180"
+          ? " block w-6 leading-6 [writing-mode:vertical-rl] rotate-180"
           : " leading-[20px]"
       }`}
     >
