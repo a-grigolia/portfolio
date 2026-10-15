@@ -16,7 +16,8 @@
   --foreground: #1e1e20;
   --muted: #9c9ca3;
   --subtle: #77777e;
-  --border: #e7e7e7;
+  --faint: #b6b6b6;
+  --border: #EBEAE7;
   --card: rgba(0, 0, 0, 0.03);
   --accent: #ba3939;
 }
@@ -27,6 +28,7 @@ html.dark {
   --foreground: #e7e7e7;
   --muted: #6e6e75;
   --subtle: #9c9ca3;
+  --faint: #4a4a4f;
   --border: #2a2a2e;
   --card: rgba(255, 255, 255, 0.05);
   --accent: #ba3939;
@@ -37,6 +39,7 @@ html.dark {
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
+  --color-faint: var(--faint);
   --color-border: var(--border);
   --color-card: var(--card);
   --color-accent: var(--accent);
@@ -58,7 +61,6 @@ html.dark {
   --pg-glow1: rgba(255, 255, 255, 0.45);
   --pg-glow2: rgba(255, 255, 255, 0.18);
 }
-
 /* Homepage entrance reveal */
 @keyframes reveal-rise {
   from {
@@ -82,26 +84,16 @@ html.dark {
   }
 }
 
-/* v2 landing: cards fade/rise in as they scroll into view */
-.v2-card-reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.v2-card-reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
 .v2-media-frame {
   width: calc(100% - 48px);
   max-width: var(--v2-media-max-width);
 }
 
+/* --v2-tilt-x/y are set on the card by V2WorkGrid while the cursor moves over
+   it; the transition smooths each update into a lagging follow. */
 .v2-media-group {
+  transform: perspective(1000px) rotateX(var(--v2-tilt-x, 0deg))
+    rotateY(var(--v2-tilt-y, 0deg)) scale(var(--v2-scale, 1));
   transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
@@ -132,8 +124,12 @@ html.dark {
     flex-direction: column;
   }
 
-  .v2-work-grid > .v2-card-reveal {
+  .v2-work-grid > .v2-card {
     scroll-snap-align: center;
+  }
+
+  .v2-work-grid .plus-grid {
+    max-width: 384px;
   }
 
   .v2-card-arrow {
@@ -147,23 +143,25 @@ html.dark {
     transform: translateY(5px);
   }
 
-  .v2-card-reveal.is-active .v2-media-group {
-    transform: scale(1.025);
+  .v2-card.is-active .v2-media-group {
+    --v2-scale: 1.025;
+    --v2-tilt-x: 3deg;
+    --v2-tilt-y: -3deg;
   }
 
-  .v2-card-reveal.is-active .v2-card-arrow {
+  .v2-card.is-active .v2-card-arrow {
     opacity: 1;
     transform: none;
     transition-delay: 80ms;
   }
 
-  .v2-card-reveal.is-active .v2-card-subtitle {
+  .v2-card.is-active .v2-card-subtitle {
     opacity: 1;
     transform: none;
     transition-delay: 100ms;
   }
 
-  .v2-card-reveal.is-active .v2-card-stats {
+  .v2-card.is-active .v2-card-stats {
     opacity: 1;
     transform: none;
     transition-delay: 200ms;
@@ -189,7 +187,7 @@ html.dark {
 
   .group:hover .v2-media-group,
   .group:focus-visible .v2-media-group {
-    transform: scale(1.025);
+    --v2-scale: 1.025;
   }
 
   .group:hover .v2-card-arrow,
@@ -211,6 +209,22 @@ html.dark {
     opacity: 1;
     transform: none;
     transition-delay: 200ms;
+  }
+}
+
+/* Hovering or focusing a case study dims the other cards' text. Dimming waits
+   100ms so the cursor passing over cards mid-scroll doesn't flicker them;
+   clearing starts immediately. Pointer devices only: a tap leaves hover stuck. */
+.v2-card-text {
+  transition: opacity 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+@media (hover: hover) and (min-width: 768px) {
+  .v2-work-grid:has(.v2-card:hover, .v2-card:focus-visible)
+    .v2-card:not(:hover, :focus-visible)
+    .v2-card-text {
+    opacity: 0.25;
+    transition-delay: 100ms;
   }
 }
 
@@ -290,12 +304,7 @@ html.dark {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .v2-card-reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
+  .v2-card-text,
   .v2-card-subtitle,
   .v2-card-stats,
   .v2-card-arrow,

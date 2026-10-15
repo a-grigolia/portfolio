@@ -1,0 +1,84 @@
+"use client";
+
+import { useState } from "react";
+import Lightbox from "./Lightbox";
+import Visual from "./Visual";
+import Placeholder from "./Placeholder";
+import type { MediaFit } from "@/content/case-studies";
+
+interface ImageBlockProps {
+  src: string;
+  srcDark?: string;
+  color?: string;
+  label?: string;
+  caption?: string;
+  ratio?: string;
+  fit?: MediaFit;
+  shadow?: boolean;
+  border?: boolean;
+  radius?: boolean;
+}
+
+export default function ImageBlock({
+  src,
+  srcDark,
+  color = "#d8d2c6",
+  label,
+  caption,
+  ratio = "16 / 10",
+  fit = "cover",
+  shadow = true,
+  border = true,
+  radius = true,
+}: ImageBlockProps) {
+  const [open, setOpen] = useState(false);
+  // Lightbox backdrop is dark — prefer the light-stroke variant when available.
+  const lightboxSrc = srcDark || src;
+
+  return (
+    <figure>
+      <div className="rounded-2xl bg-card p-4 sm:p-12">
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label={caption ? `Enlarge: ${caption}` : "Enlarge image"}
+          className={`group block w-full cursor-zoom-in overflow-hidden transition-transform duration-500 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
+            radius ? "rounded-xl" : ""
+          } ${
+            border ? "ring-1 ring-black/5 dark:ring-white/5" : ""
+          } ${
+            shadow ? "shadow-sm" : ""
+          }`}
+        >
+          <div style={{ aspectRatio: ratio }} className="w-full overflow-hidden">
+            <div className="h-full w-full">
+              <Visual src={src} srcDark={srcDark} color={color} label={label} fit={fit} />
+            </div>
+          </div>
+        </button>
+      </div>
+      {caption ? (
+        <figcaption className="mt-3 text-center text-[12px] leading-4 text-subtle">
+          {caption}
+        </figcaption>
+      ) : null}
+
+      <Lightbox open={open} onClose={() => setOpen(false)}>
+        {lightboxSrc ? (
+          <img
+            src={lightboxSrc}
+            alt={caption || label || ""}
+            className="mx-auto max-h-[85vh] w-auto rounded-xl object-contain"
+          />
+        ) : (
+          <div style={{ aspectRatio: ratio }} className="w-full">
+            <Placeholder color={color} label={label} className="h-full w-full" />
+          </div>
+        )}
+        {caption ? (
+          <p className="mt-4 text-center font-sans text-[16px] text-white/70">{caption}</p>
+        ) : null}
+      </Lightbox>
+    </figure>
+  );
+}
