@@ -37,7 +37,7 @@ export const work: WorkItem[] = [
     slug: "locale-3",
     title: "Locale 3.0",
     subtitle: "Final pivot & finding PMF",
-    stats: "$35M ARR • 70% M1 retention",
+    stats: "$40M ARR • 70% M1 retention",
     year: "2026",
     media: "https://media.tbsdesigngallery.com/avto-v3-hero-video.mp4",
     mediaFit: "cover",
