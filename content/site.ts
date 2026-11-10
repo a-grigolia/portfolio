@@ -20,6 +20,9 @@ export interface WorkItem {
   href?: string;
 }
 
+// Canonical origin; the bare domain redirects here.
+export const siteUrl = "https://www.avtogrigolia.com";
+
 export const profile: Profile = {
   name: "Avto Grigolia",
   about: [
@@ -28,7 +31,7 @@ export const profile: Profile = {
   email: "a.grigolia123@gmail.com",
   linkedin: "https://www.linkedin.com/in/avto-grigolia/",
   linkedinLabel: "LinkedIn",
-  resume: "https://drive.google.com/file/d/1ZjKnZtu8lTu3LETFbj3gkedrqcjuzSbt/view",
+  resume: "https://drive.google.com/file/d/1gA1gnHYVjSB0q9L-nvob2mEpWBFym2IN/view",
   resumeLabel: "Resume",
 };
 

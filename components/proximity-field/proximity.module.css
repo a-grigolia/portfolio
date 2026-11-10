@@ -1,0 +1,227 @@
+/* Styles for the corner note and tuner panel. The 3D field itself is styled in JS. */
+
+.root {
+  --pf-fg: #17181b;
+  --pf-muted: #6c7078;
+  --pf-line: rgba(23, 24, 27, 0.1);
+  --pf-line-strong: rgba(23, 24, 27, 0.28);
+  --pf-panel: rgba(255, 255, 255, 0.82);
+
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  color: var(--pf-fg);
+  font-family: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* dark: the portfolio's `dark` class on <html>; light is the default above */
+:global(html.dark) .root {
+  --pf-fg: #e5e6e9;
+  --pf-muted: #8a8e97;
+  --pf-line: rgba(229, 230, 233, 0.1);
+  --pf-line-strong: rgba(229, 230, 233, 0.3);
+  --pf-panel: rgba(12, 12, 14, 0.78);
+}
+
+/* ---------- corner note ---------- */
+
+.note {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  max-width: calc(100% - 36px);
+  display: grid;
+  gap: 2px;
+  font-size: 11px;
+  line-height: 1.6;
+  pointer-events: none;
+}
+.noteTitle {
+  margin-bottom: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.noteRow {
+  display: grid;
+  grid-template-columns: 56px auto;
+  gap: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.noteRow span:first-child,
+.noteHint {
+  color: var(--pf-muted);
+}
+.noteHint {
+  margin-top: 6px;
+}
+
+/* ---------- tuner panel ---------- */
+
+.panel {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  width: 252px;
+  max-width: calc(100% - 32px);
+  max-height: calc(100% - 32px);
+  overflow: auto;
+  font-size: 11px;
+  background: var(--pf-panel);
+  border: 1px solid var(--pf-line);
+  border-radius: 6px;
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+}
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  list-style: none;
+  cursor: pointer;
+}
+.summary::-webkit-details-marker {
+  display: none;
+}
+.summary:focus-visible {
+  outline: 1px solid var(--pf-fg);
+  outline-offset: -3px;
+}
+.chev::after {
+  content: '+';
+  font-weight: 400;
+}
+.panel[open] .chev::after {
+  content: '\2212';
+}
+
+.controls {
+  display: grid;
+  gap: 14px;
+  padding: 12px;
+  border-top: 1px solid var(--pf-line);
+}
+.group {
+  display: grid;
+  gap: 12px;
+}
+.group + .group {
+  padding-top: 14px;
+  border-top: 1px solid var(--pf-line);
+}
+
+.ctl label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.ctl output {
+  color: var(--pf-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* slider: 1px track, 10px square thumb */
+.panel input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 16px;
+  margin: 0;
+  background: transparent;
+}
+.panel input[type='range']::-webkit-slider-runnable-track {
+  height: 1px;
+  background: var(--pf-line-strong);
+}
+.panel input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  margin-top: -4.5px;
+  background: var(--pf-fg);
+  border: 0;
+  border-radius: 1px;
+}
+.panel input[type='range']::-moz-range-track {
+  height: 1px;
+  background: var(--pf-line-strong);
+}
+.panel input[type='range']::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: var(--pf-fg);
+  border: 0;
+  border-radius: 1px;
+}
+.panel input:focus-visible {
+  outline: 1px solid var(--pf-fg);
+  outline-offset: 3px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+}
+.end {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.toggle input[type='checkbox'] {
+  margin: 0;
+  accent-color: var(--pf-fg);
+}
+.panel input[type='color'] {
+  width: 22px;
+  height: 16px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--pf-line-strong);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.btns {
+  display: flex;
+  gap: 8px;
+}
+.btns button {
+  flex: 1;
+  padding: 7px 8px;
+  font: inherit;
+  font-size: 11px;
+  color: var(--pf-fg);
+  background: transparent;
+  border: 1px solid var(--pf-line-strong);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btns button:hover {
+  background: var(--pf-line);
+}
+.btns button:focus-visible {
+  outline: 1px solid var(--pf-fg);
+  outline-offset: 2px;
+}
+
+.copyOut {
+  box-sizing: border-box;
+  width: 100%;
+  height: 130px;
+  padding: 6px;
+  font: inherit;
+  font-size: 10px;
+  color: var(--pf-fg);
+  background: transparent;
+  border: 1px solid var(--pf-line-strong);
+  border-radius: 4px;
+  resize: vertical;
+}
