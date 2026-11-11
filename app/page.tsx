@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react";
-import Link from "next/link";
 import CopyEmail from "@/components/CopyEmail";
 import V2Chrome from "@/components/V2Chrome";
 import V2ScrollCue from "@/components/V2ScrollCue";
@@ -74,76 +73,67 @@ export default function HomePage() {
     <div className="flex min-h-svh flex-col">
       <V2Chrome />
 
-      {/* Hero: full viewport height, intro centered between hairline rails */}
+      {/* Hero: full viewport height, intro centered between the gutter rails */}
       <section className="v2-hero flex h-svh flex-col px-6 md:px-12">
-        <div className="relative flex min-h-0 flex-1 flex-col items-center border border-border">
-          <div aria-hidden="true" className="grid min-h-0 flex-1 grid-cols-2 self-stretch">
-            <div className="border-border min-[1100px]:border-r" />
-          </div>
-
-          <div className="flex w-full shrink-0 justify-center border-y border-border">
-            <div className="flex w-[576px] max-w-full flex-col gap-12 p-6 md:p-12 min-[1100px]:border-x min-[1100px]:border-border">
-              <div className="reveal flex flex-col gap-2">
-                <h1 className="text-sm font-semibold leading-6 text-foreground">
-                  {profile.name}
-                </h1>
-                <div className="flex flex-col gap-5 text-sm leading-5 text-foreground">
-                  <p>Product designer drawn to 0→1 problems.</p>
-                  <p>
-                    I&rsquo;ve been the solo founding designer at {" "}
-                    <a
-                      href="https://www.shoplocale.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline underline-offset-2 transition-colors hover:text-accent"
-                    >
-                      Locale
-                    </a>{" "}
-                    since 2020, owning design and front-end engineering through
-                    the company&rsquo;s evolution, building design systems and
-                    brand identities from scratch. Before that I was at{" "}
-                    <Link
-                      href="/work/d-ford"
-                      className="underline underline-offset-2 transition-colors hover:text-accent"
-                    >
-                      Ford&rsquo;s Greenfield Labs
-                    </Link>
-                    .
-                  </p>
-                  <p>
-                    Everything I make starts with the customer and ends with
-                    shipped code.
-                  </p>
-                </div>
-              </div>
-
-              <div
-                className="reveal flex flex-wrap items-center gap-x-4 gap-y-2 text-sm leading-5"
-                style={{ "--reveal-delay": "80ms" } as RevealStyle}
-              >
+        <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center border-x border-b border-border">
+          <div className="flex w-[627px] max-w-full flex-col gap-12 p-6 md:p-12">
+            <div className="reveal flex flex-col gap-[21.5px] text-sm leading-[21.5px] text-subtle">
+              <h1 className="font-normal">
+                Hi, I&rsquo;m{" "}
+                <span className="text-foreground">{profile.name}</span>, a
+                product designer who loves building things, especially 0→1.
+              </h1>
+              <p>
+                I&rsquo;ve been the solo founding designer at{" "}
                 <a
-                  href={profile.linkedin}
+                  href="https://www.shoplocale.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-foreground transition-colors hover:text-accent"
+                  className="text-foreground underline underline-offset-2 transition-colors hover:text-accent"
                 >
-                  {profile.linkedinLabel}
-                </a>
+                  Locale
+                </a>{" "}
+                since 2020, owning design and front-end engineering through the
+                company&rsquo;s evolution, building design systems and brand
+                identities from scratch. Before that I was at{" "}
                 <a
-                  href={profile.resume}
+                  href="https://www.ford.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-foreground transition-colors hover:text-accent"
+                  className="text-foreground underline underline-offset-2 transition-colors hover:text-accent"
                 >
-                  {profile.resumeLabel}
+                  Ford&rsquo;s Greenfield Labs
                 </a>
-                <CopyEmail email={profile.email} size="sm" />
-              </div>
+                <span className="text-foreground">.</span>
+              </p>
+              <p>
+                Everything I build starts with the customer and ends with
+                shipped code.
+              </p>
             </div>
-          </div>
 
-          <div aria-hidden="true" className="grid min-h-0 flex-1 grid-cols-2 self-stretch">
-            <div className="border-border min-[1100px]:border-r" />
+            <div
+              className="reveal flex flex-wrap items-center gap-x-4 gap-y-2 text-sm leading-[21.5px]"
+              style={{ "--reveal-delay": "80ms" } as RevealStyle}
+            >
+              <CopyEmail email={profile.email} size="sm" underline />
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground underline underline-offset-2 transition-colors hover:text-accent"
+              >
+                {profile.linkedinLabel}
+              </a>
+              <a
+                href={profile.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground underline underline-offset-2 transition-colors hover:text-accent"
+              >
+                {profile.resumeLabel}
+              </a>
+            </div>
           </div>
 
           {/* Scroll cue: the grid lives below the fold */}

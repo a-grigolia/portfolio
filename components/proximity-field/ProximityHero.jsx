@@ -12,18 +12,10 @@
  */
 
 import { useRef, useState } from 'react';
-import { IBM_Plex_Mono } from 'next/font/google';
 import ProximityField, { PROXIMITY_DEFAULTS } from './ProximityField';
 import ProximityTuner from './ProximityTuner';
 import ProximityNote from './ProximityNote';
 import styles from './proximity.module.css';
-
-const plexMono = IBM_Plex_Mono({
-  weight: ['400', '500'],
-  subsets: ['latin'],
-  variable: '--font-plex-mono',
-  display: 'swap',
-});
 
 export default function ProximityHero({ height = '80vh', showTuner = true, showNote = true, className = '' }) {
   const fieldRef = useRef(null);
@@ -31,7 +23,7 @@ export default function ProximityHero({ height = '80vh', showTuner = true, showN
   const [cell, setCell] = useState('drift');
 
   return (
-    <section className={`${plexMono.variable} ${styles.root} ${className}`} style={{ height }}>
+    <section className={`${styles.root} ${className}`} style={{ height }}>
       <ProximityField ref={fieldRef} {...settings} onCursor={setCell} />
       {showNote && <ProximityNote cols={settings.cols} rows={settings.rows} cell={cell} />}
       {showTuner && (

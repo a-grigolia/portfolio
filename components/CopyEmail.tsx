@@ -32,6 +32,7 @@ interface CopyEmailProps {
   email: string;
   small?: boolean;
   size?: CopyEmailSize;
+  underline?: boolean;
 }
 
 // Phases: idle → copied (slide up to the green row) → returning (keep sliding
@@ -39,7 +40,12 @@ interface CopyEmailProps {
 // is invisible because rows 0 and 2 are identical.
 // size: "base" (16px), "sm" (14px), or "xs" (12px). The legacy `small` prop
 // maps to "xs".
-export default function CopyEmail({ email, small = false, size }: CopyEmailProps) {
+export default function CopyEmail({
+  email,
+  small = false,
+  size,
+  underline = false,
+}: CopyEmailProps) {
   const variant = size ?? (small ? "xs" : "base");
   const [phase, setPhase] = useState<Phase>("idle");
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -91,6 +97,11 @@ export default function CopyEmail({ email, small = false, size }: CopyEmailProps
         ? `-${rowRem * 2}rem`
         : "0";
   const rowClass = `flex ${rowHeightClass} items-center gap-2`;
+  const emailText = underline ? (
+    <span className="underline underline-offset-2">{email}</span>
+  ) : (
+    email
+  );
 
   return (
     <button
@@ -111,7 +122,7 @@ export default function CopyEmail({ email, small = false, size }: CopyEmailProps
         }}
       >
         <span className={rowClass}>
-          {email}
+          {emailText}
           <ClipboardIcon />
         </span>
         <span className={rowClass} style={{ color: COPIED_COLOR }}>
@@ -119,7 +130,7 @@ export default function CopyEmail({ email, small = false, size }: CopyEmailProps
           <ClipboardIcon />
         </span>
         <span className={rowClass}>
-          {email}
+          {emailText}
           <ClipboardIcon />
         </span>
       </span>
