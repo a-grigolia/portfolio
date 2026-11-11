@@ -18,6 +18,7 @@ export interface GalleryItem {
 export type GalleryLayout =
   | "cols-2"
   | "cols-3"
+  | "cols-3-inline"
   | "cols-6"
   | "grid-2x2"
   | "stack"
@@ -513,7 +514,7 @@ export const caseStudies: Record<string, CaseStudy> = {
           },
           {
             type: "gallery",
-            layout: "cols-3",
+            layout: "cols-3-inline",
             caption: "Prototypes used during testing",
             items: [
               {

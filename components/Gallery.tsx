@@ -9,12 +9,14 @@ import type { GalleryItem, GalleryLayout } from "@/content/case-studies";
 const CONTAINERS: Partial<Record<GalleryLayout, string>> = {
   "cols-2": "flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6",
   "cols-3": "flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6",
+  "cols-3-inline": "flex flex-row items-start gap-2 sm:gap-6",
   "cols-6": "grid grid-cols-3 gap-3 sm:grid-cols-6 sm:gap-4",
   "grid-2x2": "grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6",
   stack: "flex flex-col gap-4 sm:gap-6",
 };
 
 const ROW_LAYOUTS = new Set<GalleryLayout>(["cols-2", "cols-3"]);
+const INLINE_LAYOUTS = new Set<GalleryLayout>(["cols-3-inline"]);
 
 interface TileProps {
   item: GalleryItem;
@@ -137,7 +139,13 @@ export default function Gallery({ items = [], caption, layout = "cols-3" }: Gall
                 key={i}
                 item={item}
                 onClick={() => setActiveIndex(i)}
-                className={isRow ? "w-full sm:flex-1 sm:basis-0 sm:min-w-0" : "w-full"}
+                className={
+                  INLINE_LAYOUTS.has(layout)
+                    ? "min-w-0 flex-1 basis-0"
+                    : isRow
+                      ? "w-full sm:flex-1 sm:basis-0 sm:min-w-0"
+                      : "w-full"
+                }
               />
             ))}
           </div>
