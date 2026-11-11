@@ -102,7 +102,7 @@ export default function V2Chrome() {
             onClick={() => setOpen((value) => !value)}
             aria-expanded={open}
             aria-haspopup="menu"
-            className="w-6 cursor-pointer p-0 text-[12px] leading-6 text-foreground transition-colors [writing-mode:vertical-rl] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+            className="w-6 cursor-pointer p-0 text-[11px] leading-6 text-foreground transition-colors [writing-mode:vertical-rl] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
           >
             Connect
           </button>
@@ -120,6 +120,7 @@ export default function V2Chrome() {
           }}
         >
           <div className="flex w-[175px] flex-col gap-1 text-sm leading-[22px]">
+            <CopyEmail email={profile.email} size="sm" />
             <a
               href={profile.linkedin}
               target="_blank"
@@ -138,7 +139,6 @@ export default function V2Chrome() {
             >
               {profile.resumeLabel}
             </a>
-            <CopyEmail email={profile.email} size="sm" />
           </div>
         </div>
       ) : null}
@@ -154,13 +154,13 @@ export default function V2Chrome() {
         }
       >
         <div className={dimClass}>
-          <LocalClock vertical />
+          <LocalClock vertical textClass="text-[11px]" />
         </div>
       </div>
 
       {/* Bottom right: vertical theme toggle */}
       <div
-        className="reveal fixed right-0 z-40 flex w-6 justify-center text-[12px] leading-6 md:right-3"
+        className="reveal fixed right-0 z-40 flex w-6 justify-center text-[11px] leading-6 md:right-3"
         style={
           {
             "--reveal-delay": "240ms",

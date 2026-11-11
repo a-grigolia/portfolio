@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const IDLE_MS = 3000;
+const IDLE_MS = 6000;
 
 export default function V2ScrollCue() {
   const [isAtTop, setIsAtTop] = useState(true);
@@ -57,18 +57,34 @@ export default function V2ScrollCue() {
       }`}
     >
       <span className="whitespace-nowrap">[ shipped work ]</span>
-      <span className="flex h-[5.625px] w-[10px] animate-bounce items-center justify-center motion-reduce:animate-none">
-        <span className="rotate-90">
-          <span className="relative block h-[10px] w-[5.625px]">
-            <img
-              src="/shipped-work-chevron.svg"
-              alt=""
-              width={6.8776}
-              height={11}
-              className="absolute inset-[-5%_-13.38%_-5%_-8.89%] block max-w-none dark:invert"
-            />
-          </span>
-        </span>
+      <span className="relative block h-[13.5px] w-2 shrink-0">
+        <svg
+          width="9.00001"
+          height="14.7526"
+          viewBox="0 0 9.00001 14.7526"
+          fill="none"
+          aria-hidden="true"
+          className="v2-cue-chevrons absolute inset-[-3.7%_-6.25%_-5.57%_-6.25%] block max-w-none"
+        >
+          <path
+            d="M8.50001 0.500006L4.50001 5.00001L0.500006 0.500005"
+            stroke="currentColor"
+            strokeLinecap="round"
+            opacity={0.2}
+          />
+          <path
+            d="M8.50001 5.00001L4.50001 9.50001L0.500006 5.00001"
+            stroke="currentColor"
+            strokeLinecap="round"
+            opacity={0.2}
+          />
+          <path
+            d="M8.50001 9.50001L4.50001 14L0.500006 9.50001"
+            stroke="currentColor"
+            strokeLinecap="round"
+            opacity={0.8}
+          />
+        </svg>
       </span>
     </a>
   );

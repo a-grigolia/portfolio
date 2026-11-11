@@ -17,11 +17,25 @@ export async function generateMetadata({
   const { slug } = await params;
   const study = getCaseStudy(slug);
   if (!study) return {};
+  const title = `${study.title} — Avto`;
+  const description =
+    study.metaDescription ??
+    (typeof study.subtitle === "string" ? study.subtitle : undefined);
   return {
-    title: `${study.title} — Avto`,
-    description:
-      study.metaDescription ??
-      (typeof study.subtitle === "string" ? study.subtitle : undefined),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/work/${slug}`,
+      images: "/opengraph-image",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: "/opengraph-image",
+    },
   };
 }
 

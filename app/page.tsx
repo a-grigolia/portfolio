@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import CopyEmail from "@/components/CopyEmail";
+import NamePhoto from "@/components/NamePhoto";
 import V2Chrome from "@/components/V2Chrome";
 import V2ScrollCue from "@/components/V2ScrollCue";
 import V2WorkGrid from "@/components/V2WorkGrid";
@@ -79,9 +80,8 @@ export default function HomePage() {
           <div className="flex w-[627px] max-w-full flex-col gap-12 p-6 md:p-12">
             <div className="reveal flex flex-col gap-[21.5px] text-sm leading-[21.5px] text-subtle">
               <h1 className="font-normal">
-                Hi, I&rsquo;m{" "}
-                <span className="text-foreground">{profile.name}</span>, a
-                product designer who loves building things, especially 0→1.
+                Hi, I&rsquo;m <NamePhoto name="Avto" />, a product designer
+                who loves building things, especially 0→1.
               </h1>
               <p>
                 I&rsquo;ve been the solo founding designer at{" "}

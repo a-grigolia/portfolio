@@ -4,11 +4,27 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { ThemeProvider } from "./theme-provider";
+import { siteUrl } from "@/content/site";
+
+const title = "Avto Grigolia, Product Designer";
+const description = "Product designer who codes. I build 0→1 products end to end.";
 
 export const metadata: Metadata = {
-  title: "Avto, Product Designer",
-  description:
-    "Product designer who codes. I build 0→1 products end to end.",
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: siteUrl,
+    siteName: "Avto Grigolia",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 interface RootLayoutProps {

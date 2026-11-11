@@ -16,9 +16,13 @@ const formatter = new Intl.DateTimeFormat("sv-SE", {
 
 interface LocalClockProps {
   vertical?: boolean;
+  textClass?: string;
 }
 
-export default function LocalClock({ vertical = false }: LocalClockProps) {
+export default function LocalClock({
+  vertical = false,
+  textClass = "text-[12px]",
+}: LocalClockProps) {
   // null until mounted so the server render never mismatches the client clock
   const [now, setNow] = useState<Date | null>(null);
 
@@ -30,7 +34,7 @@ export default function LocalClock({ vertical = false }: LocalClockProps) {
 
   return (
     <span
-      className={`whitespace-nowrap text-[12px] text-foreground tabular-nums${
+      className={`whitespace-nowrap ${textClass} text-foreground tabular-nums${
         vertical
           ? " block w-6 leading-6 [writing-mode:vertical-rl] rotate-180"
           : " leading-[20px]"
