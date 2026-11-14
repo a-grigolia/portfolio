@@ -56,7 +56,7 @@ content/
 
 ## Theme
 
-Defaults to light and can be toggled via the text-based `[light/dark]` control in the footer. Per the project constraints, the choice is kept in React state only — it is **not** persisted to `localStorage`/`sessionStorage`.
+Follows the system light/dark setting by default and can be toggled via the text-based `[light/dark]` control in the footer. Once toggled, the choice is saved to `localStorage` under `theme` and overrides the system setting on future visits.
 
 ## License
 

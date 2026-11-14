@@ -42,7 +42,7 @@ export const PROXIMITY_DEFAULTS = {
   tint: false,        // color the peaks with the accent
   accent: '#2ee05a',
   lightBg: '#ffffff',
-  darkBg: '#000000',
+  darkBg: '#0a0a0a',
   lightBlock: '#1d1e22',
   darkBlock: '#c4c7ce',
   orbitOnTouch: false, // on phones, drag-to-orbit would block page scrolling, so it's off by default
@@ -63,8 +63,8 @@ const smooth = (a, b, x) => {
 };
 const approach = (k, dt) => 1 - Math.pow(1 - k, dt * 60);
 
-// The portfolio theme is the `dark` class on <html>. With no class the page is
-// light, including when the operating system is set to dark.
+// The portfolio theme is the `dark` class on <html>, which follows the system
+// setting until the visitor picks a theme. The class is the source of truth.
 function isDark() {
   return document.documentElement.classList.contains('dark');
 }
