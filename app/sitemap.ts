@@ -6,6 +6,7 @@ import { siteUrl } from "@/content/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: siteUrl },
+    { url: `${siteUrl}/breakaway` },
     ...getCaseStudySlugs().map((slug) => ({ url: `${siteUrl}/work/${slug}` })),
   ];
 }
