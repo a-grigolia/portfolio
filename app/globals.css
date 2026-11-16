@@ -299,6 +299,18 @@ html.dark {
   }
 }
 
+/* The hovered or focused card's outline steps toward the ink color. */
+.v2-card {
+  transition: border-color 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+@media (hover: hover) and (min-width: 768px) {
+  .v2-card.group:hover,
+  .v2-card.group:focus-visible {
+    border-color: color-mix(in srgb, var(--foreground) 15%, var(--border));
+  }
+}
+
 .v2-carousel-tracker {
   position: fixed;
   top: 50svh;
@@ -338,8 +350,8 @@ html.dark {
 }
 
 .v2-carousel-dot span {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
   border-radius: 999px;
   background: currentColor;
   opacity: 0.22;
@@ -368,9 +380,30 @@ html.dark {
   }
 }
 
+/* Corner logo: 16px wide at rest, 24px on desktop. With .v2-logo-landing it
+   starts at 48px (72px on desktop), and V2Chrome scrubs --v2-logo-progress
+   from 0 to 1 as the page scrolls, shrinking it toward its top-left corner. */
+.v2-logo {
+  --v2-logo-rest: 16px;
+  --v2-logo-land: 48px;
+  width: var(--v2-logo-rest);
+}
+
+.v2-logo-landing {
+  width: calc(
+    var(--v2-logo-land) - (var(--v2-logo-land) - var(--v2-logo-rest)) *
+      var(--v2-logo-progress, 0)
+  );
+}
+
 @media (min-width: 768px) {
   .v2-connect-menu {
     right: calc(36px + env(safe-area-inset-right));
+  }
+
+  .v2-logo {
+    --v2-logo-rest: 24px;
+    --v2-logo-land: 72px;
   }
 }
 
@@ -384,6 +417,7 @@ html.dark {
     transition: none;
   }
 
+  .v2-card,
   .v2-carousel-tracker,
   .v2-carousel-dot,
   .v2-carousel-dot span {
@@ -406,23 +440,6 @@ html {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   background-color: var(--background);
-}
-
-/* Homepage gutter rails painted on the canvas so they keep running through
-   the overscroll bounce above and below the page. Offsets match the
-   px-6 / md:px-12 section padding. */
-html:has(.v2-hero) {
-  background-image: linear-gradient(var(--border), var(--border)),
-    linear-gradient(var(--border), var(--border));
-  background-size: 1px 100%;
-  background-repeat: repeat-y;
-  background-position: left 24px top 0, right 24px top 0;
-}
-
-@media (min-width: 768px) {
-  html:has(.v2-hero) {
-    background-position: left 48px top 0, right 48px top 0;
-  }
 }
 
 html.v2-hide-scrollbar,

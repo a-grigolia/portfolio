@@ -72,11 +72,13 @@ const items = [...work, ...sideProjects]
 export default function HomePage() {
   return (
     <div className="flex min-h-svh flex-col">
-      <V2Chrome />
+      {/* The logo lands large and shrinks as the first card scrolls up to its
+          resting position. */}
+      <V2Chrome logoShrinkTarget=".v2-card" />
 
-      {/* Hero: full viewport height, intro centered between the gutter rails */}
+      {/* Hero: full viewport height, intro centered inside the side gutters */}
       <section className="v2-hero flex h-svh flex-col px-6 md:px-12">
-        <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center border-x border-b border-border">
+        <div className="relative flex min-h-0 flex-1 flex-col items-center justify-center">
           <div className="flex w-[627px] max-w-full flex-col gap-12 p-6 md:p-12">
             <div className="reveal flex flex-col gap-[21.5px] text-sm leading-[21.5px] text-subtle">
               <h1 className="font-normal">
@@ -141,16 +143,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Case studies: square cells, half the rail width each on desktop. On
-          mobile the bottom space lets the last card reach its centered snap
-          point even with the browser toolbar collapsed. */}
+      {/* Case studies: outlined cards, two per row on desktop. On mobile the
+          bottom space lets the last card reach its centered snap point even
+          with the browser toolbar collapsed. */}
       <section
         id="work"
-        className="px-6 pb-[calc(100lvh-87.5svh)] md:px-12 md:pb-0"
+        className="px-6 pb-[calc(100lvh-87.5svh)] md:px-12 md:pb-12"
       >
-        <div className="border-x border-border">
-          <V2WorkGrid items={items} />
-        </div>
+        <V2WorkGrid items={items} />
       </section>
     </div>
   );

@@ -11,13 +11,60 @@ import { profile } from "@/content/site";
 // CSS custom properties like --reveal-delay.
 type CSSVars = CSSProperties & { [key: `--${string}`]: string | undefined };
 
+interface V2ChromeProps {
+  // Selector for the element the page scrolls to after the hero. When set,
+  // the logo lands large and shrinks to its resting size as that element
+  // scrolls up to its resting position.
+  logoShrinkTarget?: string;
+}
+
 // Fixed corner chrome for the v2 landing page. Each control occupies the
 // corresponding 24px outer gutter, with 12px vertical corner offsets.
-export default function V2Chrome() {
+export default function V2Chrome({ logoShrinkTarget }: V2ChromeProps) {
   const [open, setOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const logoRef = useRef<HTMLButtonElement | null>(null);
+
+  // Scrubs --v2-logo-progress from 0 at the top of the page to 1 once the
+  // target has scrolled to rest; globals.css turns it into the logo's width.
+  // Reduced motion skips the scrub: the logo steps to its resting size as
+  // soon as the page leaves the top.
+  useEffect(() => {
+    const logo = logoRef.current;
+    if (!logoShrinkTarget || !logo) return;
+    const target = document.querySelector<HTMLElement>(logoShrinkTarget);
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    function update() {
+      const scrollY = window.scrollY;
+      let progress: number;
+      if (reduceMotion.matches) {
+        progress = scrollY >= 1 ? 1 : 0;
+      } else {
+        // Scroll distance that brings the target to rest: its top at the top
+        // of the viewport, less its snap offset on mobile.
+        const range = target
+          ? target.getBoundingClientRect().top +
+            scrollY -
+            (parseFloat(getComputedStyle(target).scrollMarginTop) || 0)
+          : window.innerHeight;
+        progress = range > 0 ? Math.min(Math.max(scrollY / range, 0), 1) : 1;
+      }
+      logo?.style.setProperty("--v2-logo-progress", progress.toFixed(4));
+    }
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    reduceMotion.addEventListener("change", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      reduceMotion.removeEventListener("change", update);
+    };
+  }, [logoShrinkTarget]);
 
   // Corner labels sit at full strength at the top of the page and dim while
   // scrolled away from it.
@@ -64,23 +111,29 @@ export default function V2Chrome() {
 
   return (
     <>
-      {/* Top left: logo, scrolls back to top */}
+      {/* Top left: logo, scrolls back to top. Anchored by its top-left corner
+          (centered in the gutter at resting size) so it grows into the page
+          rather than off it. */}
       <div
-        className="reveal fixed left-0 z-40 flex w-6 justify-center md:left-3"
+        className="reveal fixed left-1 z-40 md:left-3"
         style={{
           top: "calc(12px + env(safe-area-inset-top))",
         }}
       >
         <button
+          ref={logoRef}
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Scroll to top"
-          className="cursor-pointer p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+          className={`v2-logo ${
+            logoShrinkTarget ? "v2-logo-landing" : ""
+          } block cursor-pointer p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60`}
         >
+          {/* The mark is 23.38 units wide in a 24-unit slot, as in the Figma. */}
           <img
             src="/a.svg"
             alt="Avto logo"
-            className="h-[17px] w-4 dark:invert md:h-[26px] md:w-6"
+            className="block w-[97.41%] dark:invert"
           />
         </button>
       </div>

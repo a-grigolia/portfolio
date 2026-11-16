@@ -223,7 +223,7 @@ function Card({
 
   const cellClass = `v2-card ${
     isActive ? "is-active" : ""
-  } flex h-[75svh] flex-col border-b border-border md:aspect-square md:h-auto`;
+  } flex h-[75svh] flex-col rounded-2xl border border-border md:aspect-[804/744] md:h-auto`;
   const inner = (
     <CardInner item={item} revealDelay={revealDelay} mediaRef={setMediaRef} />
   );
@@ -236,7 +236,7 @@ function Card({
     );
   }
 
-  // The whole square is the link.
+  // The whole card is the link.
   const linkClass = `${cellClass} group select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/60`;
   const tiltHandlers =
     item.mediaVariant === "plusGrid"
@@ -418,16 +418,8 @@ export default function V2WorkGrid({ items }: V2WorkGridProps) {
     <>
       <div
         ref={gridRef}
-        className="v2-work-grid relative grid md:grid-cols-2"
+        className="v2-work-grid grid gap-6 md:grid-cols-2"
       >
-        {/* Same two-track split as the hero bands so the center lines round
-            to the same pixel. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-10 hidden grid-cols-2 md:grid"
-        >
-          <div className="border-r border-border" />
-        </div>
         {items.map((item, index) => (
           <Card
             key={item.slug}
