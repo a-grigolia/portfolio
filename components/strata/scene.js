@@ -9,7 +9,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-import { DEFAULTS, LOOK } from './config.js';
+import { DEFAULTS, GLASS, LOOK } from './config.js';
 
 export function createStrata(canvas, initial = {}) {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -280,7 +280,7 @@ export function createStrata(canvas, initial = {}) {
     stoneMat.envMapIntensity = 0.12;
   }
 
-  // ---------- post: contact shading, tone mapping, a little grain ----------
+  // ---------- post: contact shading, tone mapping, a little grain, glass behind the panel ----------
   const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(4, 4, {
     type: THREE.HalfFloatType, samples: coarse ? 2 : 4,
   }));
@@ -291,20 +291,77 @@ export function createStrata(canvas, initial = {}) {
   gtao.updatePdMaterial({ lumaPhi: 10, depthPhi: 2, normalPhi: 3, radius: 6, rings: 2, samples: coarse ? 8 : 16 });
   composer.addPass(gtao);
   composer.addPass(new OutputPass());
+  // Glass: inside each rounded rect (drawing-buffer pixels, origin bottom-left) the edges pull in
+  // what lies just outside them, strongest at the edge and fading out `depth` pixels in, as
+  // Figma's Glass does. Red and blue bend by different amounts.
   const finish = new ShaderPass({
-    uniforms: { tDiffuse: { value: null }, time: { value: 0 }, grain: { value: 0.04 }, vignette: { value: 0.38 } },
+    uniforms: {
+      tDiffuse: { value: null }, time: { value: 0 }, grain: { value: 0.04 }, vignette: { value: 0.38 },
+      resolution: { value: new THREE.Vector2(1, 1) },
+      glassRect: { value: [new THREE.Vector4(), new THREE.Vector4()] },
+      glassRadius: { value: [0, 0] },
+      glassCount: { value: 0 },
+      refraction: { value: GLASS.refraction },
+      depth: { value: GLASS.depth * DPR },
+      dispersion: { value: GLASS.dispersion },
+    },
     vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
     fragmentShader: `
       uniform sampler2D tDiffuse; uniform float time, grain, vignette; varying vec2 vUv;
+      uniform vec2 resolution; uniform vec4 glassRect[2]; uniform float glassRadius[2]; uniform int glassCount;
+      uniform float refraction, depth, dispersion;
       float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+      float sdBox(vec2 p, vec2 b, float r){ vec2 q = abs(p) - b + r; return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r; }
       void main(){
-        vec4 c = texture2D(tDiffuse, vUv);
-        float r = length((vUv - 0.5) * vec2(1.15, 1.0));
+        vec2 bend = vec2(0.0);
+        for (int i = 0; i < 2; i++) {
+          if (i >= glassCount) break;
+          vec2 hs = glassRect[i].zw * 0.5;
+          vec2 p = gl_FragCoord.xy - glassRect[i].xy - hs;
+          float rad = glassRadius[i];
+          float d = sdBox(p, hs, rad);
+          if (d < 0.0) {
+            vec2 n = normalize(vec2(
+              sdBox(p + vec2(1.0, 0.0), hs, rad) - sdBox(p - vec2(1.0, 0.0), hs, rad),
+              sdBox(p + vec2(0.0, 1.0), hs, rad) - sdBox(p - vec2(0.0, 1.0), hs, rad)) + 1e-5);
+            float rim = 1.0 - clamp(-d / depth, 0.0, 1.0);
+            bend = n * rim * rim * refraction * depth;
+          }
+        }
+        vec2 px = 1.0 / resolution;
+        vec2 uv = vUv + bend * px;
+        vec4 c = texture2D(tDiffuse, uv);
+        if (bend != vec2(0.0)) {
+          float k = dispersion * 0.25;
+          c.r = texture2D(tDiffuse, vUv + bend * (1.0 + k) * px).r;
+          c.b = texture2D(tDiffuse, vUv + bend * (1.0 - k) * px).b;
+        }
+        float r = length((uv - 0.5) * vec2(1.15, 1.0));
         c.rgb *= 1.0 - vignette * smoothstep(0.3, 0.8, r);
         c.rgb += (hash(gl_FragCoord.xy + fract(time) * 61.0) - 0.5) * grain;
         gl_FragColor = c;
       }`,
   });
+
+  // DOM elements the scene draws glass behind, measured every frame so open/close,
+  // resizing and scrolling need no wiring.
+  let glassEls = [];
+  function updateGlass() {
+    const u = finish.uniforms;
+    let n = 0;
+    if (glassEls.length) {
+      const c = canvas.getBoundingClientRect();
+      for (const { el, radius } of glassEls) {
+        if (n === 2) break;
+        const r = el.getBoundingClientRect();
+        if (!r.width || !r.height) continue;
+        u.glassRect.value[n].set((r.left - c.left) * DPR, (c.bottom - r.bottom) * DPR, r.width * DPR, r.height * DPR);
+        u.glassRadius.value[n] = radius * DPR;
+        n++;
+      }
+    }
+    u.glassCount.value = n;
+  }
   composer.addPass(finish);
 
   placeLights();
@@ -331,6 +388,7 @@ export function createStrata(canvas, initial = {}) {
       m.rotation.z = amp * Math.sin(ph);
     }
     gtao.blendIntensity = P.ao;
+    updateGlass();
     composer.render();
     raf = requestAnimationFrame(frame);
   }
@@ -340,6 +398,7 @@ export function createStrata(canvas, initial = {}) {
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     composer.setSize(w, h);
+    finish.uniforms.resolution.value.set(w * DPR, h * DPR);
     camera.aspect = w / h;
     // keep the pedestal and the lit opening in frame on narrow screens
     const v = 32, minH = 36;
@@ -390,6 +449,13 @@ export function createStrata(canvas, initial = {}) {
       rebuildGeometry(); buildShells();
       shellMat.color.set(P.color); shellMat.metalness = P.metal; shellMat.roughness = P.rough;
       return this.params;
+    },
+    /**
+     * Draw glass (refraction and dispersion, see GLASS in config.js) behind up to two elements
+     * that sit over the canvas. They are measured every frame; hidden ones are skipped.
+     */
+    setGlass(elements) {
+      glassEls = [...elements].map((el) => ({ el, radius: parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0 }));
     },
     /** Stop rendering and free every GPU resource. Call on unmount. */
     dispose() {

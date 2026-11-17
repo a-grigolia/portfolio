@@ -40,7 +40,7 @@ export const PROXIMITY_DEFAULTS = {
   autoRotate: true,
   autoRotateSpeed: 0.6,
   tint: false,        // color the peaks with the accent
-  accent: '#2ee05a',
+  accent: '#f75437',
   lightBg: '#ffffff',
   darkBg: '#0a0a0a',
   lightBlock: '#d6d8dd',

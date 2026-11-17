@@ -14,6 +14,7 @@ import './strata.css';
  *   className  extra class on the wrapper, e.g. to set its height
  */
 export default function Strata({ panel = true, caption = true, className = '' }) {
+  const rootRef = useRef(null);
   const canvasRef = useRef(null);
   const apiRef = useRef(null);
   const [params, setParams] = useState(DEFAULTS);
@@ -27,6 +28,7 @@ export default function Strata({ panel = true, caption = true, className = '' })
       .then(({ createStrata }) => {
         if (cancelled || !canvasRef.current) return;
         apiRef.current = createStrata(canvasRef.current);
+        apiRef.current.setGlass(rootRef.current.querySelectorAll('[data-glass]'));
         setParams(apiRef.current.params);
       })
       .catch((err) => {
@@ -53,7 +55,7 @@ export default function Strata({ panel = true, caption = true, className = '' })
   }, []);
 
   return (
-    <div className={`strata ${className}`.trim()}>
+    <div ref={rootRef} className={`strata ${className}`.trim()}>
       <canvas
         ref={canvasRef}
         className="strata__canvas"

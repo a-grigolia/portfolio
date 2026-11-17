@@ -24,7 +24,7 @@ export default function ProximityNote({ cols = 48, rows = 32, cell }) {
         <span>Cursor</span>
         <span>{cursorText}</span>
       </div>
-      <div className={styles.noteHint}>Hover to raise. Drag to orbit.</div>
+      <div className={styles.noteHint}>Hover to interact, adjust to customize.</div>
     </div>
   );
 }

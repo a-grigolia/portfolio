@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import type { WorkItem } from "@/content/site";
+import { useTheme } from "@/app/theme-provider";
 import PlusGrid from "./PlusGrid";
 
 // React's CSSProperties is closed (no index signature); this widens it for
@@ -14,7 +15,7 @@ type CSSVars = CSSProperties & { [key: `--${string}`]: string | undefined };
 // "coming soon" cells carry only a subset of the WorkItem fields.
 export interface V2WorkGridItem
   extends Pick<WorkItem, "slug" | "title" | "year">,
-    Partial<Pick<WorkItem, "subtitle" | "stats" | "media" | "href">> {
+    Partial<Pick<WorkItem, "subtitle" | "stats" | "media" | "mediaDark" | "href">> {
   comingSoon?: boolean;
   // plusGrid replaces the media with a live grid; logo draws the media's alpha
   // as a bare silhouette in the theme's ink color.
@@ -46,6 +47,8 @@ interface CardInnerProps {
 function CardInner({ item, revealDelay, mediaRef }: CardInnerProps) {
   const comingSoon = Boolean(item.comingSoon);
   const revealed = revealDelay !== undefined;
+  const { theme } = useTheme();
+  const media = theme === "dark" && item.mediaDark ? item.mediaDark : item.media;
   return (
     <>
       {/* Header: title/subtitle have no gap; year stays opposite. */}
@@ -133,11 +136,13 @@ function CardInner({ item, revealDelay, mediaRef }: CardInnerProps) {
                 maskPosition: "center",
               }}
             />
-          ) : item.media ? (
+          ) : media ? (
             <div className="v2-media-image absolute inset-0 overflow-hidden rounded-2xl border border-white shadow-[0px_2px_3px_rgba(0,0,0,0.15)] dark:border-border">
-              {isVideo(item.media) ? (
+              {isVideo(media) ? (
                 <video
-                  src={item.media}
+                  // A new element per source, so switching theme starts the other video cleanly.
+                  key={media}
+                  src={media}
                   autoPlay
                   loop
                   muted
@@ -147,7 +152,7 @@ function CardInner({ item, revealDelay, mediaRef }: CardInnerProps) {
                 />
               ) : (
                 <img
-                  src={item.media}
+                  src={media}
                   alt=""
                   className="absolute inset-0 size-full object-cover"
                 />
@@ -213,7 +218,7 @@ function Card({
   // The whole card is the link.
   const linkClass = `${cellClass} group select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/60`;
 
-  if (item.href) {
+  if (item.href && !item.href.startsWith("/")) {
     return (
       <a
         ref={setRef}
@@ -231,7 +236,7 @@ function Card({
   return (
     <Link
       ref={setRef}
-      href={`/work/${item.slug}`}
+      href={item.href ?? `/work/${item.slug}`}
       draggable={false}
       className={linkClass}
     >

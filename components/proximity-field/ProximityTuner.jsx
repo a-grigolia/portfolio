@@ -2,12 +2,11 @@
 
 /**
  * ProximityTuner
- * The "Tune" panel: sliders, toggles and a reset for settings and view.
+ * The "Adjust" pill and panel: sliders, toggles and a reset for settings and view.
  * Controlled component: pass the current settings and an onChange that receives the next settings.
- * This is the piece to replace with your own Figma slider design.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './proximity.module.css';
 
 const deg = (v) => `${Math.round((v * 180) / Math.PI)}°`;
@@ -17,51 +16,54 @@ export const SLIDERS = [
   { key: 'tilt', label: 'Lean', min: 0, max: 1.2, step: 0.01, fmt: deg },
   { key: 'twist', label: 'Twist', min: 0, max: 2.5, step: 0.01, fmt: deg },
   { key: 'radius', label: 'Radius', min: 2, max: 14, step: 0.1, fmt: (v) => v.toFixed(1) },
-  { key: 'rise', label: 'Rise speed', min: 0.02, max: 0.4, step: 0.01, fmt: (v) => v.toFixed(2) },
-  { key: 'decay', label: 'Ease back', min: 0.005, max: 0.12, step: 0.005, fmt: (v) => v.toFixed(3) },
   { key: 'jitter', label: 'Jitter', min: 0, max: 1, step: 0.01, fmt: (v) => v.toFixed(2) },
   { key: 'gap', label: 'Gap', min: 0.05, max: 0.8, step: 0.01, fmt: (v) => v.toFixed(2) },
 ];
 
 export default function ProximityTuner({ settings, onChange, onReset }) {
-  const detailsRef = useRef(null);
+  const [open, setOpen] = useState(true);
 
   const set = (key, value) => onChange({ ...settings, [key]: value });
 
   // start collapsed on narrow screens
   useEffect(() => {
-    if (window.innerWidth < 640 && detailsRef.current) detailsRef.current.open = false;
+    if (window.innerWidth < 640) setOpen(false);
   }, []);
 
   return (
-    <details ref={detailsRef} className={styles.panel} open>
-      <summary className={styles.summary}>
-        Tune <span className={styles.chev} aria-hidden="true" />
-      </summary>
+    <div className={styles.panel}>
+      <button
+        type="button"
+        className={styles.pill}
+        aria-expanded={open}
+        aria-controls="pf-adjust"
+        onClick={() => setOpen((v) => !v)}
+      >
+        Adjust
+        <span className={styles.sign} aria-hidden="true" />
+      </button>
 
-      <div className={styles.controls}>
-        <div className={styles.group}>
-          {SLIDERS.map((s) => (
-            <div key={s.key} className={styles.ctl}>
-              <label htmlFor={`pf-${s.key}`}>
-                <span>{s.label}</span>
-                <output>{s.fmt(settings[s.key])}</output>
-              </label>
-              <input
-                id={`pf-${s.key}`}
-                type="range"
-                min={s.min}
-                max={s.max}
-                step={s.step}
-                value={settings[s.key]}
-                onChange={(e) => set(s.key, parseFloat(e.target.value))}
-              />
-            </div>
-          ))}
-        </div>
+      <div id="pf-adjust" className={styles.card} hidden={!open}>
+        {SLIDERS.map((s) => (
+          <div key={s.key} className={styles.row}>
+            <label htmlFor={`pf-${s.key}`} className={styles.line}>
+              <span>{s.label}</span>
+              <output>{s.fmt(settings[s.key])}</output>
+            </label>
+            <input
+              id={`pf-${s.key}`}
+              type="range"
+              min={s.min}
+              max={s.max}
+              step={s.step}
+              value={settings[s.key]}
+              onChange={(e) => set(s.key, parseFloat(e.target.value))}
+            />
+          </div>
+        ))}
 
-        <div className={styles.group}>
-          <label className={styles.toggle} htmlFor="pf-tint">
+        <div className={styles.row}>
+          <label className={styles.line} htmlFor="pf-tint">
             <span>Accent on peaks</span>
             <span className={styles.end}>
               <input
@@ -78,17 +80,11 @@ export default function ProximityTuner({ settings, onChange, onReset }) {
               />
             </span>
           </label>
-          <label className={styles.toggle} htmlFor="pf-drift">
-            <span>Idle drift</span>
-            <input
-              id="pf-drift"
-              type="checkbox"
-              checked={settings.drift}
-              onChange={(e) => set('drift', e.target.checked)}
-            />
-          </label>
-          <label className={styles.toggle} htmlFor="pf-auto">
-            <span>Auto-rotate</span>
+        </div>
+
+        <div className={styles.row}>
+          <label className={styles.line} htmlFor="pf-auto">
+            <span>Rotation</span>
             <input
               id="pf-auto"
               type="checkbox"
@@ -98,12 +94,12 @@ export default function ProximityTuner({ settings, onChange, onReset }) {
           </label>
         </div>
 
-        <div className={styles.group}>
-          <div className={styles.btns}>
-            <button type="button" onClick={onReset}>Reset</button>
-          </div>
+        <div className={styles.row}>
+          <button type="button" className={styles.reset} onClick={onReset}>
+            Reset
+          </button>
         </div>
       </div>
-    </details>
+    </div>
   );
 }

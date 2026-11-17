@@ -51,9 +51,9 @@ The component fills its parent's width and is `100svh` tall. To change the heigh
 
 ## Fitting it to the site
 
-- **Tokens.** Every color and font in the CSS comes from the `--strata-*` custom properties at the top of `strata.css`. The colors are fixed rather than pointed at the site tokens, because the site tokens flip with the theme and this piece does not. `--strata-mono` uses Geist Mono, which the root layout loads.
+- **Tokens.** Every color and font in the CSS comes from the `--strata-*` custom properties at the top of `strata.css`. The colors are fixed rather than pointed at the site tokens, because the site tokens flip with the theme and this piece does not. `--strata-sans` uses Geist Sans, which the root layout loads.
 - **JavaScript.** The files stay `.jsx` and `.js`, like `components/proximity-field`. The API returned by `createStrata` is small and documented with doc comments at the bottom of `scene.js`.
-- **Avto plans to design his own slider UI in Figma.** `StrataPanel.jsx` is the only file that would change. It gets `params`, `onChange(key, value)`, `onFinish({ color, metal, rough })` and `onReset()`.
+- **The panel follows Avto's Figma** (TBS Design Gallery, node 1418:543): Figma's Glass effect, no drop shadow, no group headings. CSS can't bend what's behind an element in every browser, so the scene draws the refraction and dispersion itself, behind any element marked `data-glass` (`setGlass` in `scene.js`, values in `GLASS` in `config.js`). Fill, frost, border and edge light stay in CSS. `StrataPanel.jsx` gets `params`, `onChange(key, value)`, `onFinish({ color, metal, rough })` and `onReset()`.
 
 ## How it works
 
@@ -62,7 +62,7 @@ The component fills its parent's width and is `100svh` tall. To change the heigh
 - **Light.** One soft key light overhead, made of seven small shadow-casting spotlights spread over a disc so shadow edges blur. A hemisphere light lifts the shadows. Two rim lights behind the piece pick out the edges.
 - **Reflections.** A small hand-built environment (overhead disc, tall softboxes at the sides, a floor glow) is what the glossy finishes reflect. This is why black reads as a shape at all. Changing it changes every finish.
 - **Finishes.** Black is a lacquer: a dark base under a clear coat. Every other finish is a true metal. Pale non-metal colors wash out in this room, which is why the free color picker also renders as a metal.
-- **Post.** Ambient occlusion for the creases, ACES tone mapping, a little film grain and a vignette.
+- **Post.** Ambient occlusion for the creases, ACES tone mapping, a little film grain and a vignette. The last pass also bends the image inside the Adjust button and panel rectangles for the glass; it measures those elements every frame.
 
 To change a default, edit `config.js`. `DEFAULTS` are the values a visitor can adjust. `LOOK` is the fixed lighting and wall thickness.
 
@@ -82,6 +82,7 @@ Be straight with Avto about these rather than assuming they work:
 
 - Frame rate on real devices (see above).
 - Touch. `scene.js` sets `touch-action: pan-y` on the canvas so vertical swipes scroll the page and sideways drags turn the piece. This was not tested on a phone.
+- The panel glass was only checked in headless Chrome with a software renderer, not in Safari or on a phone.
 - The Gunmetal, Copper and Midnight finishes were not checked visually. Black, Chrome, Gold, Bronze and Deep red were.
 - three.js versions. On 0.182 the default Black finish was checked as a still frame against the 0.160 prototype at 1440 x 900 and matches. The other finishes were not rechecked on 0.182.
 

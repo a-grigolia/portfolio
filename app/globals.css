@@ -455,3 +455,21 @@ body {
   color: var(--foreground);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* On the film roll, sideways trackpad swipes move the gallery, not browser back/forward. */
+html:has([data-film-roll]),
+html:has([data-film-roll]) body {
+  overscroll-behavior-x: none;
+}
+
+/* The film roll is a lightbox, so it stays light even when the site is dark. */
+html.dark:has([data-film-roll]) {
+  color-scheme: light;
+  --background: #fff;
+  --foreground: #121212;
+  --muted: #9c9ca3;
+  --subtle: #121212b3;
+  --faint: #b6b6b6;
+  --border: #EBEAE7;
+  --card: rgba(0, 0, 0, 0.03);
+}

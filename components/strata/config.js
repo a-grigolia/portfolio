@@ -24,6 +24,16 @@ export const LOOK = {
   ao: 0.85,       // contact shading in the creases
 };
 
+/**
+ * The panel's glass, from the Figma Glass effect. The scene bends itself behind the panel
+ * (refraction, dispersion); the fill, frost, border and light are CSS in strata.css.
+ */
+export const GLASS = {
+  refraction: 0.75, // 0 to 1: how hard the edges bend what's behind
+  depth: 70,        // CSS px: how far in from the edge the bending reaches
+  dispersion: 0.55, // 0 to 1: red and blue split apart at the edges
+};
+
 export const MAX_SHELLS = 28;
 
 /**

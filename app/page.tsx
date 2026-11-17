@@ -4,7 +4,7 @@ import NamePhoto from "@/components/NamePhoto";
 import V2Chrome from "@/components/V2Chrome";
 import V2ScrollCue from "@/components/V2ScrollCue";
 import V2WorkGrid from "@/components/V2WorkGrid";
-import { profile, work, sideProjects } from "@/content/site";
+import { profile, work, sideProjects, experiments } from "@/content/site";
 
 // CSSProperties is closed to custom properties, so extend it for the
 // `--reveal-delay` variable used by the reveal animation.
@@ -54,6 +54,26 @@ const presentation: Record<string, CardPresentation> = {
     mediaMaxWidth: "388px",
     aspect: "1280 / 676",
   },
+  strata: {
+    mediaWidth: "51.5%",
+    mediaMaxWidth: "420px",
+    aspect: "16 / 10",
+  },
+  breakaway: {
+    mediaWidth: "51.5%",
+    mediaMaxWidth: "420px",
+    aspect: "16 / 10",
+  },
+  proximity: {
+    mediaWidth: "51.5%",
+    mediaMaxWidth: "420px",
+    aspect: "16 / 10",
+  },
+  "film-roll": {
+    mediaWidth: "51.5%",
+    mediaMaxWidth: "420px",
+    aspect: "16 / 10",
+  },
 };
 
 const order = [
@@ -63,9 +83,13 @@ const order = [
   "tbs-design-gallery",
   "amya-agency",
   "d-ford",
+  "strata",
+  "proximity",
+  "breakaway",
+  "film-roll",
 ];
 
-const items = [...work, ...sideProjects]
+const items = [...work, ...sideProjects, ...experiments]
   .sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug))
   .map((item) => ({ ...item, ...presentation[item.slug] }));
 

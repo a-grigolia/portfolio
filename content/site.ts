@@ -15,8 +15,11 @@ export interface WorkItem {
   stats: string;
   year: string;
   media?: string;
+  // Shown instead of media when the site is in dark mode.
+  mediaDark?: string;
   mediaFit: "cover" | "contain";
-  // External URL; items without one link to their /work/[slug] case study.
+  // External URL, or a site path starting with "/"; items without one link to
+  // their /work/[slug] case study.
   href?: string;
 }
 
@@ -93,5 +96,50 @@ export const sideProjects: WorkItem[] = [
     year: "2026",
     media: "/work/amya-agency/cover.png",
     mediaFit: "cover",
+  },
+];
+
+export const experiments: WorkItem[] = [
+  {
+    slug: "strata",
+    title: "Strata",
+    subtitle: "Layered digital sculpture, rendered in real time",
+    stats: "Three.js • WebGL",
+    year: "2026",
+    media: "https://media.tbsdesigngallery.com/strata.mp4",
+    mediaFit: "cover",
+    href: "/strata",
+  },
+  {
+    slug: "breakaway",
+    title: "Breakaway",
+    subtitle: "Playable soccer arcade game",
+    stats: "Canvas • Game design",
+    year: "2026",
+    media: "https://media.tbsdesigngallery.com/breakaway-light.mp4",
+    mediaDark: "https://media.tbsdesigngallery.com/breakaway-dark.mp4",
+    mediaFit: "cover",
+    href: "/breakaway",
+  },
+  {
+    slug: "proximity",
+    title: "Proximity",
+    subtitle: "Kinetic digital sculpture",
+    stats: "Three.js • WebGL",
+    year: "2026",
+    media: "https://media.tbsdesigngallery.com/proximity-light.mp4",
+    mediaDark: "https://media.tbsdesigngallery.com/proximity-dark.mp4",
+    mediaFit: "cover",
+    href: "/proximity",
+  },
+  {
+    slug: "film-roll",
+    title: "Film roll",
+    subtitle: "Digital lightbox for 35mm film",
+    stats: "Three.js • 35mm",
+    year: "2026",
+    media: "https://media.tbsdesigngallery.com/film-roll-light.mp4",
+    mediaFit: "cover",
+    href: "/film-roll",
   },
 ];
