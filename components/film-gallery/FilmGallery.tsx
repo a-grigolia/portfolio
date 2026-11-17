@@ -723,6 +723,7 @@ export default function FilmGallery({
   /* -------------------------------- input -------------------------------- */
   useEffect(() => {
     const root = rootRef.current!;
+    const stage = stageRef.current!;
     const dial = dialRef.current!;
     const s = sim.current;
 
@@ -786,6 +787,40 @@ export default function FilmGallery({
       release();
     };
 
+    // Swipe the photos with a finger or pen: the row follows 1:1, then glides and settles on
+    // release. A mouse clicks frames instead. A tap is left to the scene's click-to-frame;
+    // if that didn't land on a frame, the row settles where the touch caught it.
+    let swiping: number | null = null; // pointer id
+    let swipeX = 0;
+    let swipeStart = 0;
+    let swipeTravel = 0;
+    const swipeDown = (e: PointerEvent) => {
+      if (e.pointerType === 'mouse' || swiping !== null) return;
+      swiping = e.pointerId;
+      swipeX = swipeStart = e.clientX;
+      swipeTravel = 0;
+      begin();
+      stage.setPointerCapture(e.pointerId);
+    };
+    const swipeMove = (e: PointerEvent) => {
+      if (e.pointerId !== swiping) return;
+      samples.push([performance.now(), drive(-(e.clientX - swipeX) / s.pxPerPhoto)]);
+      swipeX = e.clientX;
+      swipeTravel = Math.max(swipeTravel, Math.abs(e.clientX - swipeStart));
+    };
+    const swipeUp = (e: PointerEvent) => {
+      if (e.pointerId !== swiping) return;
+      swiping = null;
+      if (e.type === 'pointerup' && swipeTravel < 6) {
+        // After every pointerup listener, whatever order they were added in.
+        setTimeout(() => {
+          if (s.target === null && swiping === null) release();
+        });
+        return;
+      }
+      release();
+    };
+
     // Scroll: horizontal anywhere on the gallery; vertical too with verticalScroll, otherwise only
     // over the dial. Scrolling down or right goes to the next photo.
     // The row follows the fingers 1:1 and rides the trackpad's own coasting, then settles once the
@@ -845,6 +880,10 @@ export default function FilmGallery({
     dial.addEventListener('pointermove', move);
     dial.addEventListener('pointerup', up);
     dial.addEventListener('pointercancel', up);
+    stage.addEventListener('pointerdown', swipeDown);
+    stage.addEventListener('pointermove', swipeMove);
+    stage.addEventListener('pointerup', swipeUp);
+    stage.addEventListener('pointercancel', swipeUp);
     root.addEventListener('wheel', wheel, { passive: false });
     root.addEventListener('keydown', key);
     return () => {
@@ -853,6 +892,10 @@ export default function FilmGallery({
       dial.removeEventListener('pointermove', move);
       dial.removeEventListener('pointerup', up);
       dial.removeEventListener('pointercancel', up);
+      stage.removeEventListener('pointerdown', swipeDown);
+      stage.removeEventListener('pointermove', swipeMove);
+      stage.removeEventListener('pointerup', swipeUp);
+      stage.removeEventListener('pointercancel', swipeUp);
       root.removeEventListener('wheel', wheel);
       root.removeEventListener('keydown', key);
     };
@@ -887,7 +930,8 @@ export default function FilmGallery({
         ...style,
       }}
     >
-      <div ref={stageRef} style={{ position: 'absolute', inset: 0 }} />
+      {/* touch-action: none, or the browser takes the swipe to scroll or zoom the page. */}
+      <div ref={stageRef} style={{ position: 'absolute', inset: 0, touchAction: 'none' }} />
 
       <div
         style={{

@@ -45,7 +45,8 @@ export const PROXIMITY_DEFAULTS = {
   darkBg: '#0a0a0a',
   lightBlock: '#d6d8dd',
   darkBlock: '#c4c7ce',
-  orbitOnTouch: false, // on phones, drag-to-orbit would block page scrolling, so it's off by default
+  orbitOnTouch: false, // on phones, a drag turns the view instead of moving the blocks
+  touchScroll: false, // on phones, let vertical swipes over the field scroll the page. Turn on when the field sits in a longer page
   distance: 2.1,      // camera distance multiplier, read when the camera is placed or reset
 };
 
@@ -53,6 +54,7 @@ const SIZE = 1;
 const BASE_H = 0.32;
 const DRIFT_STRENGTH = 0.6;
 const IDLE_MS = 2200;
+const IDLE_MS_TOUCH = 600; // a lifted finger leaves nothing to follow, so drift resumes sooner
 const HOME = new THREE.Vector3(37, 44, 55);
 
 // slider 0.1 -> 5 units of rise, 5 -> 10 units, 10 -> ~15 units
@@ -125,8 +127,11 @@ const ProximityField = forwardRef(function ProximityField({ className, style, on
     controls.maxPolarAngle = Math.PI * 0.46;
     if (coarse && !P().orbitOnTouch) {
       controls.enableRotate = false;
-      canvas.style.touchAction = 'pan-y'; // let the page scroll over the canvas on phones
+      // 'none' gives every finger move to the field; with pan-y the browser claims vertical
+      // drags for scrolling and cancels the touch, which freezes the blocks
+      canvas.style.touchAction = P().touchScroll ? 'pan-y' : 'none';
     }
+    const idleMs = coarse ? IDLE_MS_TOUCH : IDLE_MS;
 
     // ---- lights ----
     const hemi = new THREE.HemisphereLight(0xffffff, 0x8a8d94, 1.1);
@@ -337,7 +342,7 @@ const ProximityField = forwardRef(function ProximityField({ className, style, on
       lastTint = p.tint;
 
       const drift = p.drift && !reduced;
-      const drifting = !pointerOn && drift && now - lastInteract > IDLE_MS;
+      const drifting = !pointerOn && drift && now - lastInteract > idleMs;
 
       if (pointerOn) {
         ray.setFromCamera(ndc, camera); // keeps tracking while the camera orbits under a still mouse

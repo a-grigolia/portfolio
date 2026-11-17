@@ -11,6 +11,16 @@
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* touch screens: a long press would select the note or panel text and open the callout menu */
+@media (pointer: coarse) {
+  .root {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
 /* dark: the portfolio's `dark` class on <html>; light is the default above */
 :global(html.dark) .root {
   --pf-fg: #e5e6e9;

@@ -102,8 +102,8 @@ function that paints the whole frame, photo included. No image assets are involv
   least `INTENT` but would land back where it started.
 - Click: a raycast on the stage finds the frame under the pointer.
 - The scene effect rebuilds from scratch when photos, theme, gap, loop or stock change.
-- Input: drag the dial, tap a tick, scroll horizontally anywhere on the gallery, click a frame,
-  or arrow keys. A press on the dial that moves under 5px before release is a tap and goes to
+- Input: drag the dial, tap a tick, swipe the photos with a finger, scroll horizontally anywhere
+  on the gallery, click a frame, or arrow keys. A mouse doesn't drag the photos; it clicks them. A press on the dial that moves under 5px before release is a tap and goes to
   that tick; anything more is a drag. Vertical scroll moves the row anywhere when `verticalScroll` is on (the film roll page
   turns it on), otherwise only over the dial, so a page around the gallery can still scroll.
   Scrolling down or right goes to the next photo.
