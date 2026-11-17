@@ -1,0 +1,137 @@
+/* Strata. Plain CSS, everything scoped under .strata.
+   The --strata-* tokens are the only colors and fonts used. Colors stay fixed here rather than
+   following the site theme: the piece is dark only. */
+.strata {
+  --strata-bg: #000000;                       /* must stay black: the scene fades to black at its edges */
+  --strata-fg: #f2f2f0;
+  --strata-muted: #8b8b88;
+  --strata-line: rgba(255, 255, 255, 0.16);
+  --strata-panel: rgba(12, 12, 12, 0.78);
+  --strata-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --strata-height: 100svh;
+
+  position: relative;
+  width: 100%;
+  height: var(--strata-height);
+  overflow: hidden;
+  background: var(--strata-bg);
+  color: var(--strata-fg);
+  color-scheme: dark;
+  font-family: var(--strata-mono);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.strata__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* vertical swipes still scroll the page on touch; horizontal drags turn the piece */
+  touch-action: pan-y;
+  cursor: grab;
+  outline: none;
+}
+.strata__canvas.is-dragging { cursor: grabbing; }
+.strata__canvas:focus-visible { outline: 1px solid var(--strata-fg); outline-offset: -1px; }
+
+.strata__note {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  max-width: calc(100% - 32px);
+  display: grid;
+  gap: 2px;
+  pointer-events: none;
+  letter-spacing: 0.02em;
+}
+.strata__note strong { font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; }
+.strata__note span { opacity: 0.72; }
+
+.strata__tuner {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: min(248px, calc(100% - 32px));
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
+.strata__tuner button {
+  font: inherit;
+  color: var(--strata-fg);
+  background: var(--strata-panel);
+  border: 1px solid var(--strata-line);
+  border-radius: 2px;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.strata__tuner button:hover { border-color: var(--strata-fg); }
+.strata__tuner button:focus-visible,
+.strata__tuner input:focus-visible { outline: 1px solid var(--strata-fg); outline-offset: 2px; }
+
+.strata__panel {
+  width: 100%;
+  max-height: calc(var(--strata-height) - 80px);
+  overflow-y: auto;
+  background: var(--strata-panel);
+  border: 1px solid var(--strata-line);
+  border-radius: 2px;
+  padding: 12px;
+  display: grid;
+  gap: 9px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.strata__panel[hidden] { display: none; }
+
+.strata__group { display: grid; gap: 9px; }
+.strata__group + .strata__group,
+.strata__actions { border-top: 1px solid var(--strata-line); padding-top: 9px; }
+.strata__group > p { margin: 0; text-transform: uppercase; letter-spacing: 0.1em; }
+
+.strata__row { display: grid; gap: 2px; }
+.strata__row label { display: flex; justify-content: space-between; gap: 8px; color: var(--strata-muted); }
+.strata__row output { color: var(--strata-fg); font-variant-numeric: tabular-nums; }
+.strata__row input[type="range"] {
+  width: 100%;
+  margin: 0;
+  height: 14px;
+  accent-color: var(--strata-fg);
+  background: transparent;
+}
+
+.strata__check { display: flex; align-items: center; gap: 8px; color: var(--strata-muted); cursor: pointer; }
+.strata__check input { accent-color: var(--strata-fg); margin: 0; }
+
+.strata__swatches { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.strata__swatches button,
+.strata__swatches input {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid var(--strata-line);
+  cursor: pointer;
+}
+.strata__swatches button { border-radius: 50%; }
+.strata__swatches input { border-radius: 2px; background: transparent; }
+.strata__swatches button[aria-pressed="true"] { outline: 1px solid var(--strata-fg); outline-offset: 2px; }
+
+.strata__actions { display: flex; }
+.strata__actions button { flex: 1 1 auto; }
+
+.strata__fallback {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+  color: var(--strata-muted);
+}

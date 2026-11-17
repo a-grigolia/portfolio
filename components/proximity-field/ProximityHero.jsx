@@ -30,7 +30,10 @@ export default function ProximityHero({ height = '80vh', showTuner = true, showN
         <ProximityTuner
           settings={settings}
           onChange={setSettings}
-          onReset={() => fieldRef.current?.resetView()}
+          onReset={() => {
+            setSettings(PROXIMITY_DEFAULTS);
+            fieldRef.current?.resetView();
+          }}
         />
       )}
     </section>

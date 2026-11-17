@@ -152,11 +152,8 @@ html.dark {
   max-width: var(--v2-media-max-width);
 }
 
-/* --v2-tilt-x/y are set on the card by V2WorkGrid while the cursor moves over
-   it; the transition smooths each update into a lagging follow. */
 .v2-media-group {
-  transform: perspective(1000px) rotateX(var(--v2-tilt-x, 0deg))
-    rotateY(var(--v2-tilt-y, 0deg)) scale(var(--v2-scale, 1));
+  transform: scale(var(--v2-scale, 1));
   transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
@@ -216,8 +213,6 @@ html.dark {
 
   .v2-card.is-active .v2-media-group {
     --v2-scale: 1.025;
-    --v2-tilt-x: 3deg;
-    --v2-tilt-y: -3deg;
   }
 
   .v2-card.is-active .v2-card-arrow {

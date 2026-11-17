@@ -1,9 +1,9 @@
 import ProximityHero from "./proximity-field/ProximityHero";
 
-// One screen inside the same side gutters as the homepage hero.
+// One full-width screen.
 export default function ProximityFieldSection() {
   return (
-    <section className="h-svh shrink-0 px-6 md:px-12">
+    <section className="h-svh w-full shrink-0">
       <ProximityHero height="100%" />
     </section>
   );

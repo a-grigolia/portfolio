@@ -43,7 +43,7 @@ export const PROXIMITY_DEFAULTS = {
   accent: '#2ee05a',
   lightBg: '#ffffff',
   darkBg: '#0a0a0a',
-  lightBlock: '#1d1e22',
+  lightBlock: '#d6d8dd',
   darkBlock: '#c4c7ce',
   orbitOnTouch: false, // on phones, drag-to-orbit would block page scrolling, so it's off by default
   distance: 2.1,      // camera distance multiplier, read when the camera is placed or reset

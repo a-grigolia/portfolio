@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: siteUrl },
     { url: `${siteUrl}/breakaway` },
+    { url: `${siteUrl}/strata` },
     ...getCaseStudySlugs().map((slug) => ({ url: `${siteUrl}/work/${slug}` })),
   ];
 }

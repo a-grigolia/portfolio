@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { CSSProperties, PointerEvent } from "react";
+import type { CSSProperties } from "react";
 import type { WorkItem } from "@/content/site";
 import PlusGrid from "./PlusGrid";
 
@@ -31,32 +31,6 @@ const REVEAL_STAGGER_MS = 150;
 // Just under 1 because subpixel layout can leave a fully visible image at a
 // ratio like 0.9999, which never reaches a threshold of exactly 1.
 const FULLY_VISIBLE = 0.99;
-
-// Maximum cover tilt on each axis when the cursor is at the card's edge.
-const MAX_TILT_DEG = 8;
-
-// Matches the desktop hover treatment in globals.css.
-let tiltQuery: MediaQueryList | undefined;
-const canTilt = () =>
-  (tiltQuery ??= window.matchMedia("(hover: hover) and (min-width: 768px)"))
-    .matches;
-
-// Tilts the cover toward the cursor: the side under the pointer lifts toward
-// the viewer, like a playing card.
-function handleTiltMove(event: PointerEvent<HTMLElement>) {
-  if (event.pointerType === "touch" || !canTilt()) return;
-  const card = event.currentTarget;
-  const rect = card.getBoundingClientRect();
-  const x = (event.clientX - rect.left) / rect.width - 0.5;
-  const y = (event.clientY - rect.top) / rect.height - 0.5;
-  card.style.setProperty("--v2-tilt-x", `${(y * 2 * MAX_TILT_DEG).toFixed(2)}deg`);
-  card.style.setProperty("--v2-tilt-y", `${(-x * 2 * MAX_TILT_DEG).toFixed(2)}deg`);
-}
-
-function handleTiltLeave(event: PointerEvent<HTMLElement>) {
-  event.currentTarget.style.removeProperty("--v2-tilt-x");
-  event.currentTarget.style.removeProperty("--v2-tilt-y");
-}
 
 function isVideo(src: string) {
   return /\.(mov|mp4|webm)$/i.test(src);
@@ -238,10 +212,6 @@ function Card({
 
   // The whole card is the link.
   const linkClass = `${cellClass} group select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/60`;
-  const tiltHandlers =
-    item.mediaVariant === "plusGrid"
-      ? {}
-      : { onPointerMove: handleTiltMove, onPointerLeave: handleTiltLeave };
 
   if (item.href) {
     return (
@@ -251,7 +221,6 @@ function Card({
         target="_blank"
         rel="noopener noreferrer"
         draggable={false}
-        {...tiltHandlers}
         className={linkClass}
       >
         {inner}
@@ -264,7 +233,6 @@ function Card({
       ref={setRef}
       href={`/work/${item.slug}`}
       draggable={false}
-      {...tiltHandlers}
       className={linkClass}
     >
       {inner}

@@ -2,12 +2,12 @@
 
 /**
  * ProximityTuner
- * The "Tune" panel: sliders, toggles, reset view and copy settings.
+ * The "Tune" panel: sliders, toggles and a reset for settings and view.
  * Controlled component: pass the current settings and an onChange that receives the next settings.
  * This is the piece to replace with your own Figma slider design.
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import styles from './proximity.module.css';
 
 const deg = (v) => `${Math.round((v * 180) / Math.PI)}°`;
@@ -25,8 +25,6 @@ export const SLIDERS = [
 
 export default function ProximityTuner({ settings, onChange, onReset }) {
   const detailsRef = useRef(null);
-  const [copyLabel, setCopyLabel] = useState('Copy settings');
-  const [copyText, setCopyText] = useState(null);
 
   const set = (key, value) => onChange({ ...settings, [key]: value });
 
@@ -34,28 +32,6 @@ export default function ProximityTuner({ settings, onChange, onReset }) {
   useEffect(() => {
     if (window.innerWidth < 640 && detailsRef.current) detailsRef.current.open = false;
   }, []);
-
-  function copySettings() {
-    const keys = [...SLIDERS.map((s) => s.key), 'tint', 'accent', 'drift', 'autoRotate'];
-    const snapshot = {};
-    for (const k of keys) {
-      const v = settings[k];
-      snapshot[k] = typeof v === 'number' ? +v.toFixed(3) : v;
-    }
-    const text = JSON.stringify(snapshot, null, 2);
-    const fallback = () => {
-      setCopyText(text);
-      setCopyLabel('Select & copy');
-    };
-    if (navigator.clipboard?.writeText) {
-      navigator.clipboard.writeText(text).then(() => {
-        setCopyLabel('Copied');
-        setTimeout(() => setCopyLabel('Copy settings'), 1400);
-      }, fallback);
-    } else {
-      fallback();
-    }
-  }
 
   return (
     <details ref={detailsRef} className={styles.panel} open>
@@ -124,19 +100,8 @@ export default function ProximityTuner({ settings, onChange, onReset }) {
 
         <div className={styles.group}>
           <div className={styles.btns}>
-            <button type="button" onClick={onReset}>Reset view</button>
-            <button type="button" onClick={copySettings}>{copyLabel}</button>
+            <button type="button" onClick={onReset}>Reset</button>
           </div>
-          {copyText && (
-            <textarea
-              className={styles.copyOut}
-              readOnly
-              value={copyText}
-              aria-label="Settings JSON"
-              onFocus={(e) => e.target.select()}
-              autoFocus
-            />
-          )}
         </div>
       </div>
     </details>

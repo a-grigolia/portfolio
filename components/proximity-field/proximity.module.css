@@ -211,17 +211,3 @@
   outline: 1px solid var(--pf-fg);
   outline-offset: 2px;
 }
-
-.copyOut {
-  box-sizing: border-box;
-  width: 100%;
-  height: 130px;
-  padding: 6px;
-  font: inherit;
-  font-size: 10px;
-  color: var(--pf-fg);
-  background: transparent;
-  border: 1px solid var(--pf-line-strong);
-  border-radius: 4px;
-  resize: vertical;
-}
