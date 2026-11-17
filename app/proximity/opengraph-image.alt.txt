@@ -1,0 +1,1 @@
+Proximity: a grid of pale blocks on black, rising into a mound where the cursor sits.

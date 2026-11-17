@@ -2,9 +2,25 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Strata from "@/components/strata/Strata";
 
+const title = "Strata";
+const description = "Nested half-sphere shells wobbling over a pedestal. Drag to turn the room.";
+
+// The share image is opengraph-image.png in this folder, a still of the scene.
 export const metadata: Metadata = {
-  title: "Strata, Avto",
-  description: "Nested half-sphere shells wobbling over a pedestal. Drag to turn the room.",
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: "/strata",
+    siteName: "Avto Grigolia",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 // The piece is dark only, so this page ignores the site theme.

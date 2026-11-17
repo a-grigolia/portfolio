@@ -2,14 +2,28 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ProximityFieldSection from "@/components/ProximityFieldSection";
 
-// Unlisted until the creative page is ready: nothing links here and search
-// engines are asked not to index or follow it.
+const title = "Proximity";
+const description = "Digital sculpture. A field of blocks that rises under your cursor.";
+
+// The share image is opengraph-image.png in this folder, a still of the field.
 export const metadata: Metadata = {
-  title: "Lab, Avto",
-  robots: { index: false, follow: false },
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: "/proximity",
+    siteName: "Avto Grigolia",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
-export default function LabPage() {
+export default function ProximityPage() {
   return (
     <div className="relative flex min-h-svh flex-col">
       <Link
