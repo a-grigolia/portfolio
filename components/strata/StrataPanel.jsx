@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useState } from 'react';
+import { useId, useState } from 'react';
 import { CONTROLS, CUSTOM_FINISH, FINISHES } from './config.js';
 
 const digits = (step) => (step < 0.01 ? 3 : step < 0.1 ? 2 : step < 1 ? 1 : 0);
@@ -11,8 +11,6 @@ const swatch = (hex) =>
 export default function StrataPanel({ params, onChange, onFinish, onReset }) {
   const id = useId();
   const [open, setOpen] = useState(false);
-  // open by default on wide screens only, decided after mount so server and client HTML match
-  useEffect(() => { setOpen(window.innerWidth > 720); }, []);
 
   return (
     <div className="strata__tuner">

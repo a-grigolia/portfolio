@@ -42,7 +42,9 @@ export function createStrata(canvas, initial = {}) {
   controls.enablePan = false;
   controls.enableZoom = false;
   controls.rotateSpeed = 0.5;
-  controls.minPolarAngle = THREE.MathUtils.degToRad(85);
+  // Any higher and the ceiling comes inside the camera's near plane, leaving a black bar at the top
+  // (from about 85 degrees on desktop, nearly 89 on tall phone screens, which get a taller view).
+  controls.minPolarAngle = THREE.MathUtils.degToRad(89);
   controls.maxPolarAngle = THREE.MathUtils.degToRad(97);
   controls.update();
   // OrbitControls turns off all touch gestures on the canvas. Give vertical swipes back to the

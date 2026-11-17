@@ -64,7 +64,7 @@ export default function Strata({ panel = true, caption = true, className = '' })
       {caption && (
         <div className="strata__note">
           <strong>Strata</strong>
-          <span>Drag to turn the room.</span>
+          <span>Digital sculpture. Adjust to suit your mood.</span>
         </div>
       )}
       {panel && !failed && (

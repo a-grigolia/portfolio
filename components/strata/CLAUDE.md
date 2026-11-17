@@ -45,7 +45,7 @@ The component fills its parent's width and is `100svh` tall. To change the heigh
 - **Black background.** The scene fades to pure black at its edges. `--strata-bg` has to stay `#000` or the edge of the canvas will show. The piece is dark only; there is no light mode and none is wanted.
 - **Plain CSS.** Avto uses plain CSS with tokens. Do not convert this to Tailwind or CSS Modules.
 - **`strata.css` is a global stylesheet** imported from the component.
-- **The panel stays minimal.** Avto cut the light and wall controls on purpose. Do not add controls, a "copy settings" button, or extra caption text.
+- **The panel stays minimal.** Avto cut the light and wall controls on purpose. Do not add controls, a "copy settings" button, or extra caption text. The panel starts closed on every screen size. The caption reads "Strata" over "Digital sculpture. Adjust to suit your mood."; Avto picked that line over one that kept a drag hint.
 - **Spelling is "color"**, in the UI and in code.
 - **One instance per page.** Each one creates its own WebGL context.
 
