@@ -1,1 +1,1 @@
-Breakaway: an isometric pixel-art soccer pitch with a striker, a keeper in goal and a scoreboard.
+Breakaway: an isometric pixel-art soccer pitch on dark green, with a striker, a keeper in goal, a scoreboard and the move and shoot controls.

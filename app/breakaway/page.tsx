@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SoccerBreakaway from "@/components/breakaway/SoccerBreakaway";
 
-const title = "Breakaway";
+const title = "Breakaway • Avto Grigolia";
 const description = "Soccer mini game, beat the keeper and keep the streak going.";
 
 // The share image is opengraph-image.png in this folder, a still of the game.
