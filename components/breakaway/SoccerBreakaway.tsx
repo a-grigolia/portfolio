@@ -698,10 +698,12 @@ const flightTime = (s: number, v: number): number => -Math.log(Math.max(0.05, 1 
 
 export type Mode = 'run' | 'fk';
 
+export type Control = 'move' | 'shoot';
+
 export interface Hud {
   head: string;
   sub: string;
-  hints: string[];
+  controls: Control[];
 }
 
 export interface Engine {
@@ -1447,23 +1449,19 @@ export function createEngine(
   function hud(touch: boolean): Hud {
     const tap = touch ? 'Tap' : 'Click';
     if (state === 'idle') {
-      const hints = touch
-        ? []
-        : mode === 'fk'
-          ? ['Hold click to charge, release to shoot', 'Drag sideways while holding to curl']
-          : ['WASD to move, cursor to aim', 'Hold click to charge, release to shoot', 'Drag sideways while holding to curl'];
-      return { head: '', sub: tap + ' to start', hints };
+      const controls: Control[] = touch ? [] : mode === 'fk' ? ['shoot'] : ['move', 'shoot'];
+      return { head: '', sub: tap + ' to start', controls };
     }
     if (state === 'fail')
       return {
         head: failMsg,
         sub: 'Streak ' + ended + (stateT > 0.5 ? ' / ' + tap.toLowerCase() + ' to retry' : ''),
-        hints: [],
+        controls: [],
       };
     if (state === 'play' && fk && stateT < 2.2 && !charging)
-      return { head: 'Free kick', sub: touch ? 'Stick to aim, hold shoot' : '', hints: [] };
+      return { head: 'Free kick', sub: touch ? 'Stick to aim, hold shoot' : '', controls: [] };
     // a goal has no text: the pixel GOAL lettering in the scene does that job
-    return { head: '', sub: '', hints: [] };
+    return { head: '', sub: '', controls: [] };
   }
 
   newRound();
@@ -1847,11 +1845,13 @@ export function mount(root: HTMLElement): () => void {
   /* ---- text: crisp, in the page's own mono font and colour ---- */
   let family = 'ui-monospace, monospace';
   let ink = '#111';
+  let paper = '#fff';
   let styleAge = 0;
   const readStyle = (): void => {
     const cs = window.getComputedStyle(root);
     family = cs.fontFamily || family;
     ink = cs.color || ink;
+    paper = window.getComputedStyle(document.body).backgroundColor || paper;
   };
   readStyle();
   try {
@@ -1860,15 +1860,72 @@ export function mount(root: HTMLElement): () => void {
     /* font loading API unavailable */
   }
 
+  /** Every bit of HUD text goes through here, so it all shares the page's mono font. `px` is css pixels. */
+  const setFont = (px: number, weight: number): void => {
+    ctx.font = weight + ' ' + Math.round(px * (canvas.width / cssW) * 10) / 10 + 'px ' + family;
+  };
+
+  /** Keycaps and a mouse, bottom left. Sizes are css pixels at full width and scale down a little below that. */
+  const drawControls = (controls: Control[], left: number, bottom: number): void => {
+    const r = canvas.width / cssW;
+    const u = clamp(cssW / LW / 3, 0.8, 1);
+    const lw = Math.max(1, Math.round(r));
+    const box = (x: number, y: number, w: number, h: number, radii: number[], lit: boolean): void => {
+      const X = Math.round(x * r);
+      const Y = Math.round(y * r);
+      ctx.beginPath();
+      ctx.roundRect(X + lw / 2, Y + lw / 2, Math.round(w * u * r) - lw, Math.round(h * u * r) - lw, radii.map((k) => k * u * r));
+      ctx.fillStyle = lit ? ink : paper;
+      ctx.fill();
+      ctx.globalAlpha = 0.33;
+      ctx.lineWidth = lw;
+      ctx.strokeStyle = ink;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    };
+    const label = (text: string, cx: number, cy: number, px: number): void => {
+      setFont(px * u, 500);
+      ctx.fillStyle = ink;
+      ctx.fillText(text, cx * r, cy * r);
+    };
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const labelY = bottom - 4.5 * u;
+    const top = labelY - 4.5 * u - 14 * u - 52 * u;
+    let x = left;
+    for (const c of controls) {
+      const cx = x + 40 * u;
+      if (c === 'move') {
+        const key = (k: string, kx: number, ky: number): void => {
+          box(x + kx * u, top + ky * u, 24, 24, [2, 2, 2, 2], false);
+          label(k, x + (kx + 12) * u, top + (ky + 12.5) * u, 10);
+        };
+        key('W', 28, 0);
+        key('A', 0, 28);
+        key('S', 28, 28);
+        key('D', 56, 28);
+        label('Move', cx, labelY, 14);
+      } else {
+        const mx = x + 23 * u;
+        box(mx, top, 16, 20, [20, 1, 1, 1], true);
+        box(mx + 18 * u, top, 16, 20, [1, 20, 1, 1], false);
+        box(mx, top + 22 * u, 34, 30, [1, 1, 20, 20], false);
+        box(mx + 15 * u, top + 6 * u, 4, 12, [2, 2, 2, 2], false);
+        label('Shoot', cx, labelY, 14);
+      }
+      x += 104 * u;
+    }
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+  };
+
   const drawHud = (): void => {
     const r = canvas.width / cssW; // backing pixels per css pixel
     const s = cssW / LW;
     const small = clamp(5.2 * s, 11, 16);
     const big = clamp(11 * s, 18, 34);
     const x0 = Math.max(4, 5 * s);
-    const font = (px: number, weight: number): void => {
-      ctx.font = weight + ' ' + px * r + 'px ' + family;
-    };
+    const font = setFont;
     ctx.fillStyle = ink;
     ctx.textBaseline = 'alphabetic';
     ctx.textAlign = 'left';
@@ -1924,17 +1981,7 @@ export function mount(root: HTMLElement): () => void {
       ctx.fillText(h.sub, x0 * r, ty * r);
       ctx.globalAlpha = 1;
     }
-    if (h.hints.length && cssW >= 620) {
-      font(small, 400);
-      ctx.globalAlpha = 0.6;
-      const cssH = (cssW * LH) / LW;
-      let hy = cssH - small * 0.6 - (h.hints.length - 1) * small * 1.5;
-      for (const line of h.hints) {
-        ctx.fillText(line, x0 * r, hy * r);
-        hy += small * 1.5;
-      }
-      ctx.globalAlpha = 1;
-    }
+    if (h.controls.length && cssW >= 620) drawControls(h.controls, x0, (cssW * LH) / LW - small * 0.6);
   };
 
   let raf = 0;

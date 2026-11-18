@@ -37,6 +37,7 @@ These came from him directly. Do not change them without asking.
 - Scoring shows no text. A chunky gold pixel GOAL bounces in over the middle of the pitch, letter by letter, with a shine sweep. The old "Goal" and "Sweet strike" text was removed on purpose.
 - The 5th goal sets the goal on fire, and it stays lit until a miss. Between goals it sits at low embers along the crossbar. Every goal while lit makes it flare up again: goals 6 to 9 get a normal burst of about 1.5 seconds, and every 5th goal gets a really big one (1.5x taller, flames down both posts, more sparks, about 2.4 seconds). Colours change on the 5th goals: orange (5), green (10), blue (15), purple (20), then back to orange (25). Four colours only.
 - Desktop: WASD (arrows also work) to move. The cursor only aims and is a small target icon. There is no space-to-shoot; he found it clunky in isometric.
+- Desktop controls hint (bottom left, start screen only): WASD keycaps labelled "Move" and a mouse with the left button lit labelled "Shoot". Free kicks mode shows only the mouse. Curl and aiming are left for players to discover; the old three lines of hint text were removed as overexplained.
 - Shooting: hold to charge one bar, release to shoot. The bar sets both pace and height. Too much power skies it over the bar. A dotted preview line shows the path before release.
 - Curl on desktop: dragging sideways while holding bends the ball that way (drag right, the ball bows left and finishes moving right). No vertical drag.
 - The curl also nudges the landing spot the way the ball finishes, by an eighth of the goal width at full drag. Half the goal was tried and rejected: it read as moving the target, not curving the ball. A grey ghost marker stays on the original aim so the bend reads as a bend.
@@ -79,7 +80,7 @@ Top to bottom in `SoccerBreakaway.tsx`:
 ### Rendering
 
 - Everything in the scene is written pixel by pixel into a `Uint32Array` (328 x 180), then scaled up with nearest neighbour onto the visible canvas at an integer multiple of the device resolution. Do not use canvas drawing calls for scene art; add pixels with `put` and `mix`.
-- HUD text (tabs, miss messages, hints) is the only thing drawn with `ctx.fillText`, on top, at full resolution.
+- HUD text (tabs, miss messages) and the desktop controls hint (`drawControls`) are the only things drawn with canvas calls, on top, at full resolution.
 - The gold GOAL lettering, the fire, the kick poses and the sparks are all pixel art in the buffer.
 - The power bar, preview line and aim marker are pixel art in the buffer.
 

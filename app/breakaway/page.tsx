@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function BreakawayPage() {
   return (
-    <div className="flex min-h-svh items-center justify-center md:px-12">
+    <div data-breakaway className="flex min-h-svh items-center justify-center md:px-12">
       <Link
         href="/"
         aria-label="Home"
@@ -35,7 +35,7 @@ export default function BreakawayPage() {
         <img
           src="/a.svg"
           alt="Avto logo"
-          className="h-[17px] w-4 dark:invert md:h-[26px] md:w-6"
+          className="h-[17px] w-4 invert md:h-[26px] md:w-6"
         />
       </Link>
 

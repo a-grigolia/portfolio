@@ -473,3 +473,15 @@ html.dark:has([data-film-roll]) {
   --border: #EBEAE7;
   --card: rgba(0, 0, 0, 0.03);
 }
+
+/* Breakaway sits on a dark pitch green whatever the site theme is. */
+html:has([data-breakaway]) {
+  color-scheme: dark;
+  --background: #0f2619;
+  --foreground: #e6eee4;
+  --muted: #7f9584;
+  --subtle: #e6eee4b3;
+  --faint: #3d5a45;
+  --border: #1f3d2a;
+  --card: rgba(255, 255, 255, 0.05);
+}
