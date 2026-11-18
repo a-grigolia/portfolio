@@ -4,7 +4,7 @@ import { list } from "@vercel/blob";
 import FilmRoll from "@/components/film-gallery/FilmRoll";
 import { FILM_FOLDER } from "./folder";
 
-const title = "Film roll";
+const title = "Film roll • Avto Grigolia";
 const description = "Personal photos shot on Kodak Gold 400.";
 
 export const metadata: Metadata = {

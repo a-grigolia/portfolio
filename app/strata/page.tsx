@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Strata from "@/components/strata/Strata";
 
-const title = "Strata";
+const title = "Strata • Avto Grigolia";
 const description = "Nested half-sphere shells wobbling over a pedestal. Drag to turn the room.";
 
 // The share image is opengraph-image.png in this folder, a still of the scene.

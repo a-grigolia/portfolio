@@ -7,7 +7,7 @@ import { ThemeProvider } from "./theme-provider";
 import { themeInitScript } from "./theme-script";
 import { siteUrl } from "@/content/site";
 
-const title = "Avto Grigolia, Product Designer";
+const title = "Avto Grigolia";
 const description = "Product designer who codes. I build 0→1 products end to end.";
 
 export const metadata: Metadata = {

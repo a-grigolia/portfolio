@@ -99,20 +99,25 @@ Top to bottom in `SoccerBreakaway.tsx`:
 
 ## Tuning
 
-Almost everything is in `params(streak)`. Values ramp over the first 12 goals, then hold.
+Almost everything is in `params(streak)`. One curve `L = 1 - (1 - s/9)^1.5` eases from 0 to 1 over the first 9 goals and then holds, so long streaks are a flat plateau to chase high scores on. Avto asked for it to level out around 8 to 9 and for the top end not to get harder. The plateau sits at what used to be goal 9 on the old 12-goal ramp.
 
-| Knob | Start | At 12+ | What it does |
+The keeper's positioning knobs (`shuffle`, `offLine`, `rushR`, `rushSp`, `stall`) start close to their plateau values on purpose. Avto wanted the keeper to come out and close the striker down from the first round instead of sitting on his line. His saving knobs (`react`, `diveSp`, `diveMax`) keep a gentle start.
+
+Streaks 0 and 1 have no defender, so the keeper does all the pressing: positioning is overridden to `shuffle` 44, `offLine` 20, `rushR` 60, `rushSp` 40, `stall` 2.5s. From streak 2, when the first defender arrives, he drops back to the curve values in the table. Avto asked for this: rushing hard while it is just the two of you, then easing off once the defender takes over the pressure.
+
+| Knob | Start | At 9+ | What it does |
 | --- | --- | --- | --- |
-| `react` | 0.28s | 0.10s | Keeper reaction time (randomised by 25% each shot) |
-| `diveSp` / `diveMax` | 85 / 11 | 130 / 19 | Dive speed and reach |
-| `offLine` | 5 | 17 | How far he comes out to narrow the angle |
-| `rushR` / `rushSp` | 26 / 31 | 40 / 41 | When and how fast he charges the ball |
-| `stall` | 8s | 5s | He charges anyway after this long |
-| `defN` | 0 | 3 | Defenders: one at streak 2, two at 6, three at 11 |
-| `defSp` | 52% | 70% | Defender speed as a share of the striker's |
-| `spread` | 8 | 62 | How wide the start spot can be |
-| `sweetW` | 0.13 | 0.075 | Width of the sweet spot on the bar |
-| `chargeT` | 1.15s | 0.9s | Time for the bar to fill |
+| `react` | 0.28s | 0.13s | Keeper reaction time (randomised by 25% each shot) |
+| `diveSp` / `diveMax` | 85 / 11 | 122 / 17.5 | Dive speed and reach |
+| `shuffle` | 32 | 36 | Keeper speed while narrowing the angle |
+| `offLine` | 10 | 15 | How far he comes out. He starts at half of this and steps out to all of it as the ball comes from 60 to 120 units out of goal (`playStep`) |
+| `rushR` / `rushSp` | 32 / 35 | 37.5 / 39 | When and how fast he charges the ball |
+| `stall` | 6s | 5.5s | He charges anyway after this long |
+| `defN` | 0 | 2 | Defenders: one at streak 2, two at 6. A third at 11 was dropped so nothing steps up after the plateau |
+| `defSp` | 52% | 67% | Defender speed as a share of the striker's |
+| `spread` | 8 | 52 | How wide the start spot can be |
+| `sweetW` | 0.13 | 0.085 | Width of the sweet spot on the bar |
+| `chargeT` | 1.15s | 0.95s | Time for the bar to fill |
 | `wallN` | 2 | 4 | Wall size: three at streak 3, four at 8 |
 
 Other knobs: `STRIKER_SPEED`, pace and height per zone in `shotFromPower`, the free kick cadence (`streak % 4 === 3` in `newRound`), curl strength (`curl * 0.6` in `makeArc`), how far the drag moves the landing spot (`AIM_SHIFT`), mouse drag distance for full curl (45 logical pixels in `onPointerMove`), thumb slide distance (70 CSS pixels in `btnDrag`), free kick marker speed (34 units per second in `playStep`).
@@ -122,6 +127,7 @@ Other knobs: `STRIKER_SPEED`, pace and height per zone in `shotFromPower`, the f
 - Typechecks under `tsc --strict`.
 - Ran in headless Chrome at desktop size and a 390px touch viewport with no console errors: start, move, charge, curl, score, switch tabs, joystick and shoot button.
 - Difficulty was tuned with scripted bots, not by a person playing. Expect to adjust it after real play.
+- The early keeper change and 9-goal plateau were checked with a keeper-only bot (random aim, distance and driven power, no defenders, free kicks skipped). Goal rate at streak 0 dropped from about 42% to 33%, mid levels stayed about the same, and the plateau came out a hair easier than the old 12+ values. With the streak 0 and 1 rush override it is about 19% at streaks 0 and 1 and 24% at streak 2 (keeper only; with the defender in, streak 2 is harder than that).
 - Known soft spot: a perfectly timed sweet strike to a corner scores at every level in bot runs. The only thing that gets harder for it is the timing window. If long streaks feel too easy, let the keeper reach some high shots at high streaks.
 - Geist Mono rendering was not verified. The test browser could not load the web font and showed the fallback.
 - The kick animation, GOAL lettering and fire were checked as still frames, not watched in motion at full speed.

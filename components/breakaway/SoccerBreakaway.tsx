@@ -616,24 +616,27 @@ function drawPostFire(buf: Buf, gx: number, level: number, tier: number, t: numb
 /* --------------------------- difficulty --------------------------- */
 
 function params(s: number) {
-  // ramps over the first 12 goals (steeper early), then holds
-  const L = Math.pow(Math.min(s, 12) / 12, 0.7);
+  // eases into a plateau at 9 goals, then holds so long streaks stay playable
+  const L = 1 - Math.pow(1 - Math.min(s, 9) / 9, 1.5);
   const lerp = (a: number, b: number): number => a + (b - a) * L;
+  // no defender until streak 2, so the keeper does all the pressing, then drops back once one arrives
+  const early = s < 2;
   return {
     L,
-    react: lerp(0.28, 0.1),
-    diveSp: lerp(85, 130),
-    diveMax: lerp(11, 19),
-    shuffle: lerp(26, 38),
-    offLine: lerp(5, 17),
-    rushR: lerp(26, 40),
-    rushSp: lerp(31, 41),
-    stall: lerp(8, 5),
-    defN: s >= 11 ? 3 : s >= 6 ? 2 : s >= 2 ? 1 : 0,
-    defSp: STRIKER_SPEED * lerp(0.52, 0.7),
-    spread: lerp(8, 62),
-    sweetW: lerp(0.13, 0.075),
-    chargeT: lerp(1.15, 0.9), // seconds for the bar to fill
+    react: lerp(0.28, 0.13),
+    diveSp: lerp(85, 122),
+    diveMax: lerp(11, 17.5),
+    // positioning starts near its plateau so he closes you down from the first round; saving does not
+    shuffle: early ? 44 : lerp(32, 36),
+    offLine: early ? 20 : lerp(10, 15),
+    rushR: early ? 60 : lerp(32, 37.5),
+    rushSp: early ? 40 : lerp(35, 39),
+    stall: early ? 2.5 : lerp(6, 5.5),
+    defN: s >= 6 ? 2 : s >= 2 ? 1 : 0,
+    defSp: STRIKER_SPEED * lerp(0.52, 0.67),
+    spread: lerp(8, 52),
+    sweetW: lerp(0.13, 0.085),
+    chargeT: lerp(1.15, 0.95), // seconds for the bar to fill
     wallN: s >= 8 ? 4 : s >= 3 ? 3 : 2,
   };
 }
@@ -820,7 +823,7 @@ export function createEngine(
     const P = params(streak);
     const side = Math.random() < 0.5 ? -1 : 1;
     ball.x = clamp(GCX + side * rnd(4, 12 + P.spread * 0.75), 22, FW - 22);
-    ball.y = rnd(58, 66 + P.L * 18);
+    ball.y = rnd(58, 66 + P.L * 15);
     const dg = Math.hypot(GCX - ball.x, ball.y);
     striker.fx = (GCX - ball.x) / dg;
     striker.fy = -ball.y / dg;
@@ -1231,7 +1234,8 @@ export function createEngine(
     if (d < P.rushR || playT > P.stall) {
       moveTo(keeper, ball.x, ball.y, P.rushSp, h);
     } else {
-      const off = Math.min(P.offLine, d * 0.4);
+      // half way out at the start, all the way out by the time you reach the top of the box
+      const off = Math.min(P.offLine * clamp((120 - d) / 60, 0.5, 1), d * 0.4);
       const tx = clamp(GCX + ((ball.x - GCX) / d) * off, GL + 2, GR - 2);
       const ty = Math.max(1.5, (ball.y / d) * off);
       moveTo(keeper, tx, ty, P.shuffle, h);

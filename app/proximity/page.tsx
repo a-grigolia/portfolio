@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ProximityFieldSection from "@/components/ProximityFieldSection";
 
-const title = "Proximity";
+const title = "Proximity • Avto Grigolia";
 const description = "Digital sculpture. A field of blocks that rises under your cursor.";
 
 // The share image is opengraph-image.png in this folder, a still of the field.
